@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Controllers\category;
+namespace App\Controllers\box;
 
 use App\Controllers\BaseController;
 
-class category extends BaseController
+class box extends BaseController
 {
-
     public function check_cookie($token)
     {
         $curl['url'] = [BASEURL];
@@ -37,7 +36,8 @@ class category extends BaseController
         }
     }
 
-    public function category()
+
+    public function box()
     {
         $token = $this->request->getCookie();
         if (empty($token['Token'])) {
@@ -49,7 +49,7 @@ class category extends BaseController
             $token = $token['Token'];
             if ($result == 200) {
                 $curl['url'] = [BASEURL];
-                $curl['endpoint'] = ['admin/category/list'];
+                $curl['endpoint'] = ['admin/box/list'];
                 $curl['method'] = ['GET'];
                 $curl['http_header'] = ['Token' => $token];
                 $curl['pagination'] = ['false'];
@@ -59,13 +59,12 @@ class category extends BaseController
                 $curl['return_transfer'] = true;
                 $data = curlSetOptGet($curl);
                 $data = json_decode($data, true);
-                // print_r($data);
-                // die;
+
 
                 return view(
-                    'admin_page/category/category',
+                    'admin_page/box/box',
                     [
-                        'title' => 'Category',
+                        'title' => 'Box',
                         'data_get' => $data
                     ]
 
@@ -74,7 +73,60 @@ class category extends BaseController
         }
     }
 
-    public function get_detail_update_category($id)
+    public function get_detail_add_box()
+    {
+
+        //check token/cookie exist
+        $token = $this->request->getCookie();
+        $token = $token['Token'];
+        $cookie_check = $this->check_cookie($token);
+
+
+        // check token + get detail product, category, type, value
+        if ($cookie_check == 200) {
+            return view('admin_page/box/add_data_box');
+        } else {
+            echo "token salah"; // invalid token
+        }
+    }
+
+
+    public function add_product_box()
+    {
+        //check token/cookie exist
+        $token = $this->request->getCookie();
+        $token = $token['Token'];
+        $cookie_check = $this->check_cookie($token);
+
+        // get data from view (POST)
+        $post = $this->request->getPost();
+        $value = $post['value'];
+        // print_r($harga); die;
+        // if cookie true & data post inputed
+        if ($cookie_check == 200) {
+
+            $endpoint = 'admin/box/insert';
+            $header = 'Token: ' . $token . '';
+            $post_field = [
+                'box' => $value
+            ];
+
+            $result = curlSetOptPost($endpoint, $header, '', $post_field);
+            // print_r($p);
+            return view(
+                'admin_page/box/add_data_box',
+                [
+                    'value' => $result
+                ]
+            );
+        } else {
+            echo "token not registered";
+        }
+
+        // return redirect()->to('/category');
+    }
+
+    public function get_detail_update_box($id)
     {
         //check token/cookie exist
         $token = $this->request->getCookie();
@@ -93,27 +145,27 @@ class category extends BaseController
         if ($cookie_check == 200) {
 
             // get list category
-            $category['url'] = [BASEURL];
-            $category['endpoint'] = ['admin/category/detail?id=' . $id . ''];
-            // $category['pagination'] = ['false'];
-            $category['http_header'] = ['Token' => $token];
-            $category = curlSetOptGet($category);
-            $category = json_decode($category, true);
-            // print_r($category);
+            $box['url'] = [BASEURL];
+            $box['endpoint'] = ['admin/box/detail?id=' . $id . ''];
+            // $box['pagination'] = ['false'];
+            $box['http_header'] = ['Token' => $token];
+            $box = curlSetOptGet($box);
+            $box = json_decode($box, true);
+            // print_r($box);
             // die;
         } else {
             echo "token salah"; // invalid token
         }
 
         return view(
-            'admin_page/category/edit_data_category',
+            'admin_page/box/edit_data_box',
             [
-                'data' => $category
+                'data' => $box
             ]
         );
     }
 
-    public function update_product_category()
+    public function update_product_box()
     {
         //check token/cookie exist
         $token = $this->request->getCookie();
@@ -124,15 +176,15 @@ class category extends BaseController
         $post = $this->request->getPost();
 
         $id = $post['id'];
-        $category = $post['category'];
-        // print_r($token); die;
+        $box = $post['box'];
+        // print_r($box); die;
         // if cookie true & data post inputed
         if ($cookie_check == 200) {
 
-            $endpoint = 'admin/category/update?id=' . $id . '';
+            $endpoint = 'admin/box/update?id=' . $id . '';
             $header = 'Token: ' . $token . '';
             $post_field = [
-                'category' => $category
+                'box' => $box
             ];
 
             curlSetOptPost($endpoint, $header, '', $post_field);
@@ -140,62 +192,10 @@ class category extends BaseController
             echo "token not registered";
         }
 
-        return redirect()->to('/category');
+        return redirect()->to('/box');
     }
 
-    public function get_detail_add_category()
-    {
-
-        //check token/cookie exist
-        $token = $this->request->getCookie();
-        $token = $token['Token'];
-        $cookie_check = $this->check_cookie($token);
-
-
-        // check token + get detail product, category, type, value
-        if ($cookie_check == 200) {
-            return view('admin_page/category/add_data_category');
-        } else {
-            echo "token salah"; // invalid token
-        }
-    }
-
-    public function add_product_category()
-    {
-        //check token/cookie exist
-        $token = $this->request->getCookie();
-        $token = $token['Token'];
-        $cookie_check = $this->check_cookie($token);
-
-        // get data from view (POST)
-        $post = $this->request->getPost();
-        $category = $post['category'];
-        // print_r($harga); die;
-        // if cookie true & data post inputed
-        if ($cookie_check == 200) {
-
-            $endpoint = 'admin/category/insert';
-            $header = 'Token: ' . $token . '';
-            $post_field = [
-                'category' => $category
-            ];
-
-            $result = curlSetOptPost($endpoint, $header, '', $post_field);
-            // print_r($p);
-            return view(
-                'admin_page/category/add_data_category',
-                [
-                    'category' => $result
-                ]
-            );
-        } else {
-            echo "token not registered";
-        }
-
-        // return redirect()->to('/category');
-    }
-
-    public function product_delete_category()
+    public function product_delete_box()
     {
 
         $id = $this->request->getPost();
@@ -209,12 +209,12 @@ class category extends BaseController
 
         if ($cookie_check == 200) {
 
-            $endpoint = 'admin/category/delete?id=' . $id . '';
+            $endpoint = 'admin/box/delete?id=' . $id . '';
             $header = 'Token: ' . $token . '';
 
             curlSetOptPost($endpoint, $header, '', []);
             // return $this->admin();
-            return redirect()->to('/category');
+            return redirect()->to('/box');
         }
     }
 }

@@ -9,8 +9,7 @@ class admin extends BaseController
 
     public function admin()
     {
-
-        //check token/cookie exist
+        // check token/cookie exist
         $token = $this->request->getCookie();
         if (empty($token['Token'])) {
             return redirect()->to('/login');
@@ -18,134 +17,27 @@ class admin extends BaseController
 
         if (!empty($token['Token'])) {
             $result = $this->check_cookie($token['Token']);
+            $token = $token['Token'];
             if ($result == 200) {
-                $curl['url'] = ['http://10.10.0.53/coba-coba-wir/public'];
-                $curl['endpoint'] = ['listpublic/product'];
+                $curl['url'] = [BASEURL];
+                $curl['endpoint'] = ['admin/product/list-product'];
                 $curl['pagination'] = ['false'];
+                $curl['http_header'] = ['Token' => $token];
                 $curl['max_redirect'] = 10;
                 $curl['timeout'] = [1];
                 $data = curlSetOptGet($curl);
                 $data = json_decode($data, true);
+                // print_r($data); die;
 
-                $default = [
-                    "status" => 200,
-                    "message" => "List Data Product",
-                    "error" => "",
-                    "result" => [
-                        [
-                            "product" => "Kacang Hijau",
-                            "value" => "15",
-                            "type" => "Griya Bakpia Premium",
-                            "category" => "Basah",
-                            "price" => "40000"
-                        ],
-                        [
-                            "product" => "Keju",
-                            "value" => "15",
-                            "type" => "Griya Bakpia Premium",
-                            "category" => "Basah",
-                            "price" => "40000"
-                        ],
-                        [
-                            "product" => "Coklat",
-                            "value" => "15",
-                            "type" => "Griya Bakpia Premium",
-                            "category" => "Basah",
-                            "price" => "40000"
-                        ],
-                        [
-                            "product" => "Durian",
-                            "value" => "15",
-                            "type" => "Griya Bakpia Premium",
-                            "category" => "Basah",
-                            "price" => "40000"
-                        ],
-                        [
-                            "product" => "Mix",
-                            "value" => "15",
-                            "type" => "Griya Bakpia Premium",
-                            "category" => "Basah",
-                            "price" => "42000"
-                        ],
-                        [
-                            "product" => "Kacang Hijau Originial",
-                            "value" => "20",
-                            "type" => "Bakpia 465",
-                            "category" => "Basah",
-                            "price" => "24000"
-                        ],
-                        [
-                            "product" => "Kacang Hijau Rasa Keju",
-                            "value" => "20",
-                            "type" => "Bakpia 465",
-                            "category" => "Basah",
-                            "price" => "26000"
-                        ],
-                        [
-                            "product" => "Kacang Hijau Rasa Coklat",
-                            "value" => "20",
-                            "type" => "Bakpia 465",
-                            "category" => "Basah",
-                            "price" => "26000"
-                        ],
-                        [
-                            "product" => "Telo Ungu",
-                            "value" => "15",
-                            "type" => "Bakpia 465",
-                            "category" => "Basah",
-                            "price" => "24000"
-                        ],
-                        [
-                            "product" => "Keju",
-                            "value" => "20",
-                            "type" => "Bakpia 465 Kering",
-                            "category" => "Kering",
 
-                            "price" => "24000"
-                        ],
-                        [
-                            "product" => "Coklat",
-                            "value" => "20",
-                            "type" => "Bakpia 465 Kering",
-                            "category" => "Kering",
-                            "price" => "24000"
-                        ],
-                        [
-                            "product" => "Aneka Rasa",
-                            "value" => "20",
-                            "type" => "Bakpia 465 Kering",
-                            "category" => "Kering",
-                            "price" => "24000"
-                        ],
-                        [
-                            "product" => "Mix Keju Coklat",
-                            "value" => "20",
-                            "type" => "Bakpia 465 Kering",
-                            "category" => "Kering",
-                            "price" => "24000"
-                        ]
+                return view(
+                    'admin_page/admin/admin',
+                    [
+                        'title' => 'Product',
+                        'data_get' => $data
                     ]
-                ];
 
-                if (empty($data)) {
-                    return view(
-                        'admin_page/admin/admin',
-                        [
-                            'title' => 'Griya Bakpia | Produk',
-                            'data_get' => $default
-                        ]
-
-                    );
-                } else {
-                    return view(
-                        'admin_page/admin/admin',
-                        [
-                            'title' => 'Griya Bakpia | Produk',
-                            'data_get' => $data
-                        ]
-
-                    );
-                }
+                );
             }
         }
     }
@@ -189,7 +81,7 @@ class admin extends BaseController
 
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://10.10.0.53/coba-coba-wir/public/login/login',
+            CURLOPT_URL => BASEURL . 'login/login',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
@@ -203,22 +95,34 @@ class admin extends BaseController
 
         curl_close($curl);
         $response = json_decode($response, true);
-        $token = $response['result']['token'];
+        // print_r($response); die;
+        // $token = $response['result']['data'];
         // Auth Token
+        $token = '';
+        if (!empty($response['result']['token'])) {
+            $token = $response['result']['token'];
+        }
+        // print_r($response); die;
         $result = $this->check_cookie($token);
 
         if ($result == 200) {
             $statusToken = $token;
             return $this->login_page($statusToken);
         } else {
-            echo "salah lol";
-            die;
+            $eror_data = $response['result']['data'];
+            return view(
+                'admin_page/login',
+                [
+                    'eror' => $eror_data
+                ]
+            );
+            // die;
         }
     }
 
     public function check_cookie($token)
     {
-        $curl['url'] = ['http://10.10.0.53/coba-coba-wir/public'];
+        $curl['url'] = [BASEURL];
         $curl['endpoint'] = ['admin/user/list-user'];
         $curl['pagination'] = ['false'];
         $curl['max_redirect'] = 10;
@@ -229,10 +133,6 @@ class admin extends BaseController
         ];
         $data = curlSetOptGet($curl);
         $data = json_decode($data, true);
-
-        // foreach ($data as $key => $value) {
-        //     $data = $value['Token'];
-        // }
 
         if (isset($data['code'])) {
             return 500;
@@ -257,87 +157,36 @@ class admin extends BaseController
         if ($cookie_check == 200) {
 
             // get list category
-            $category['url'] = ['http://10.10.0.53/coba-coba-wir/public'];
+            $category['url'] = [BASEURL];
             $category['endpoint'] = ['listpublic/category'];
             $category['pagination'] = ['false'];
             $category = curlSetOptGet($category);
             $category = json_decode($category, true);
 
             // get list type
-            $type['url'] = ['http://10.10.0.53/coba-coba-wir/public'];
-            $type['endpoint'] = ['listpublic/type'];
-            $type['pagination'] = ['false'];
-            $type = curlSetOptGet($type);
-            $type = json_decode($type, true);
+            $variant['url'] = [BASEURL];
+            $variant['endpoint'] = ['listpublic/variant'];
+            $variant['pagination'] = ['false'];
+            $variant = curlSetOptGet($variant);
+            $variant = json_decode($variant, true);
 
             // get list value
-            $value['url'] = ['http://10.10.0.53/coba-coba-wir/public'];
-            $value['endpoint'] = ['listpublic/value'];
-            $value['pagination'] = ['false'];
-            $value = curlSetOptGet($value);
-            $value = json_decode($value, true);
+            $box['url'] = [BASEURL];
+            $box['endpoint'] = ['listpublic/box'];
+            $box['pagination'] = ['false'];
+            $box = curlSetOptGet($box);
+            $box = json_decode($box, true);
         } else {
             echo "token salah"; // invalid token
         }
 
         $data = [
             'category' => $category,
-            'type' => $type,
-            'value' => $value
+            'variant' => $variant,
+            'box' => $box
         ];
         return view('admin_page/admin/add_data', $data);
     }
-
-    // public function add_product()
-    // {
-    //     //check token/cookie exist
-    //     $token = $this->request->getCookie();
-    //     $token = $token['Token'];
-    //     $cookie_check = $this->check_cookie($token);
-
-    //     // get data from view (POST)
-    //     $post = $this->request->getPost();
-
-    //     $product = $post['namaProduk'];
-    //     $category = $post['category'];
-    //     $type = $post['type'];
-    //     $value = $post['value'];
-    //     $harga = $post['harga'];
-    //     // print_r($harga); die;
-    //     // if cookie true & data post inputed
-    //     if ($cookie_check == 200) {
-
-    //         $curl = curl_init();
-
-    //         curl_setopt_array($curl, array(
-    //             CURLOPT_URL => 'http://10.10.0.53/coba-coba-wir/public/admin/product/insert',
-    //             CURLOPT_RETURNTRANSFER => true,
-    //             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    //             CURLOPT_CUSTOMREQUEST => 'POST',
-    //             CURLOPT_POSTFIELDS => array(
-    //                 'product' => $product,
-    //                 'category' => $category,
-    //                 'type' => $type,
-    //                 'value' => $value,
-    //                 'price' => $harga
-    //             ),
-    //             CURLOPT_HTTPHEADER => array(
-    //                 'Token: ' . $token . ''
-    //             ),
-    //         ));
-
-    //         $p = curl_exec($curl);
-    //         $p = json_decode($p);
-
-    //         curl_close($curl);
-
-    //         // print_r($p);
-    //     } else {
-    //         echo "token not registered";
-    //     }
-
-    //     return $this->admin();
-    // }
 
     public function add_product()
     {
@@ -350,39 +199,29 @@ class admin extends BaseController
         $post = $this->request->getPost();
 
         $product = $post['namaProduk'];
+        $variant = $post['variant'];
         $category = $post['category'];
-        $type = $post['type'];
-        $value = $post['value'];
+        $box = $post['box'];
+        $stock = $post['stock'];
         $harga = $post['harga'];
         // print_r($harga); die;
         // if cookie true & data post inputed
         if ($cookie_check == 200) {
 
-            $curl = curl_init();
+            $endpoint = 'admin/product/insert';
+            $header = 'Token: ' . $token . '';
+            $post_field = [
+                'name' => $product,
+                'variant' => $variant,
+                'category' => $category,
+                'price' => $harga,
+                'box' => $box,
+                'stock' => $stock
+            ];
 
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => 'http://10.10.0.53/coba-coba-wir/public/admin/product/insert',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => array(
-                    'product' => $product,
-                    'category' => $category,
-                    'type' => $type,
-                    'value' => $value,
-                    'price' => $harga
-                ),
-                CURLOPT_HTTPHEADER => array(
-                    'Token: ' . $token . ''
-                ),
-            ));
-
-            $p = curl_exec($curl);
-            $p = json_decode($p);
-
-            curl_close($curl);
-
+            curlSetOptPost($endpoint, $header, '', $post_field);
             // print_r($p);
+            return redirect()->to('/login');
         } else {
             echo "token not registered";
         }
@@ -409,7 +248,7 @@ class admin extends BaseController
         if ($cookie_check == 200) {
 
             // get detail product
-            $product['url'] = ['http://10.10.0.53/coba-coba-wir/public'];
+            $product['url'] = [BASEURL];
             $product['endpoint'] = ['admin/product/detail'];
             $product['params'] = ['id' => $id];
             $product['http_header'] = ['Token' => $token];
@@ -417,25 +256,29 @@ class admin extends BaseController
             $product_detail = json_decode($product_detail, true);
 
             // get list category
-            $category['url'] = ['http://10.10.0.53/coba-coba-wir/public'];
-            $category['endpoint'] = ['listpublic/category'];
-            $category['pagination'] = ['false'];
+            $category['url'] = [BASEURL];
+            $category['endpoint'] = ['admin/selected/category-selected?id=' . $id . ''];
+            // $category['pagination'] = ['false'];
+            $category['http_header'] = ['Token' => $token];
             $category = curlSetOptGet($category);
             $category = json_decode($category, true);
+            // print_r($category); die;
 
             // get list type
-            $type['url'] = ['http://10.10.0.53/coba-coba-wir/public'];
-            $type['endpoint'] = ['listpublic/type'];
-            $type['pagination'] = ['false'];
-            $type = curlSetOptGet($type);
-            $type = json_decode($type, true);
+            $variant['url'] = [BASEURL];
+            $variant['endpoint'] = ['admin/selected/variant-selected?id=' . $id . ''];
+            // $variant['pagination'] = ['false'];
+            $variant['http_header'] = ['Token' => $token];
+            $variant = curlSetOptGet($variant);
+            $variant = json_decode($variant, true);
 
             // get list value
-            $value['url'] = ['http://10.10.0.53/coba-coba-wir/public'];
-            $value['endpoint'] = ['listpublic/value'];
-            $value['pagination'] = ['false'];
-            $value = curlSetOptGet($value);
-            $value = json_decode($value, true);
+            $box['url'] = [BASEURL];
+            $box['endpoint'] = ['admin/selected/box-selected?id=' . $id . ''];
+            // $box['pagination'] = ['false'];
+            $box['http_header'] = ['Token' => $token];
+            $box = curlSetOptGet($box);
+            $box = json_decode($box, true);
         } else {
             echo "token salah"; // invalid token
         }
@@ -443,8 +286,8 @@ class admin extends BaseController
         $data = [
             'product_detail' => $product_detail,
             'category' => $category,
-            'type' => $type,
-            'value' => $value
+            'variant' => $variant,
+            'box' => $box
         ];
         return view('admin_page/admin/edit_data', $data);
     }
@@ -461,39 +304,32 @@ class admin extends BaseController
 
         $id = $post['id'];
         $product = $post['namaProduk'];
+        $variant = $post['variant'];
         $category = $post['category'];
-        $type = $post['type'];
-        $value = $post['value'];
+        $box = $post['box'];
+        $stock = $post['stock'];
         $harga = $post['harga'];
         // print_r($token); die;
         // if cookie true & data post inputed
         if ($cookie_check == 200) {
 
-            $curl = curl_init();
+            $endpoint = 'admin/product/update?id=' . $id . '';
+            $header = 'Token: ' . $token . '';
+            $post_field = [
+                // 'product' => $product,
+                // 'category' => $category,
+                // 'variant' => $variant,
+                // 'box' => $box,
+                // 'price' => $harga
+                'product' => $product,
+                'variant' => $variant,
+                'category' => $category,
+                'price' => $harga,
+                'box' => $box,
+                'stock' => $stock
+            ];
 
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => 'http://10.10.0.53/coba-coba-wir/public/admin/product/update?id=' . $id . '',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => array(
-                    'product' => $product,
-                    'category' => $category,
-                    'type' => $type,
-                    'value' => $value,
-                    'price' => $harga
-                ),
-                CURLOPT_HTTPHEADER => array(
-                    'Token: ' . $token . ''
-                ),
-            ));
-
-            $p = curl_exec($curl);
-            $p = json_decode($p);
-
-            curl_close($curl);
-
-            // print_r($p);
+            curlSetOptPost($endpoint, $header, '', $post_field);
         } else {
             echo "token not registered";
         }
@@ -501,101 +337,70 @@ class admin extends BaseController
         return $this->get_detail_update($id);
     }
 
-    public function product_delete(): string
+    public function product_delete()
     {
 
-        $id = $this->request->getGet();
+        $id = $this->request->getPost();
         $id = $id['id'];
 
         $token = $this->request->getCookie();
         $token = $token['Token'];
+        // print_r($id);
+        // die;    
 
 
-        $curl = curl_init();
+        $endpoint = 'admin/product/delete?id=' . $id . '';
+        $header = 'Token: ' . $token . '';
 
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://10.10.0.53/coba-coba-wir/public/admin/product/delete?id=' . $id . '',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'DELETE',
-            CURLOPT_HTTPHEADER => array(
-                'Token: ' . $token . ''
-            ),
-        ));
-
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-
-        return $this->admin();
+        curlSetOptPost($endpoint, $header, '', []);
+        // return $this->admin();
+        return redirect()->to('/login');
     }
 
-    // public function search()
-    // {
-    //     //check token/cookie exist
-    //     $token = $this->request->getCookie();
-    //     $token = $token['Token'];
-    //     $cookie_check = $this->check_cookie($token);
+    public function search()
+    {
+        //check token/cookie exist
+        $token = $this->request->getCookie();
+        $token = $token['Token'];
+        $cookie_check = $this->check_cookie($token);
 
-    //     if ($cookie_check == 200) {
-    //         $post = $this->request->getPost();
-    //         $input = $post['search'];
+        if ($cookie_check == 200) {
+            $post = $this->request->getPost();
+            $input = $post['search'];
 
-    //         // get list category
-    //         $search['url'] = ['http://10.10.0.53/coba-coba-wir/public'];
-    //         $search['endpoint'] = ['listpublic/product'];
-    //         $search['params'] = [
-    //             'search' => $input
-    //         ];
-    //         $search['pagination'] = ['false'];
-    //         $search = curlSetOptGet($search);
-    //         $search = json_decode($search, true);
+            // get list category
+            $search['url'] = [BASEURL];
+            $search['endpoint'] = ['admin/product/list-product'];
+            $search['params'] = [
+                'search' => $input
+            ];
+            $search['pagination'] = ['false'];
+            $search = curlSetOptGet($search);
+            $search = json_decode($search, true);
 
-    //         return view(
-    //             'admin_page/admin/admin',
-    //             [
-    //                 'title' => 'Griya Bakpia | Produk',
-    //                 'data_get' => $search
-    //             ]
+            return view(
+                'admin_page/admin/admin',
+                [
+                    'title' => 'Griya Bakpia | Produk',
+                    'data_get' => $search
+                ]
 
-    //         );
-    //     }
-    // }
+            );
+        }
+    }
 
+    public function logout()
+    {
+        $token = $this->request->getCookie();
+        $token = $token['Token'];
 
-    // public function tes()
-    // {
-    //     $token = $this->request->getCookie();
-    //     $token = $token['Token'];
-    //     $cookie_check = $this->check_cookie($token);
+        $endpoint = 'admin/user/logout';
+        $header = 'Token: ' . $token . '';
 
-    //     $post = $this->request->getPost();
-    //     $product = $post['namaProduk'];
-    //     $category = $post['category'];
-    //     $type = $post['type'];
-    //     $value = $post['value'];
-    //     $harga = $post['harga'];
+        curlSetOptPost($endpoint, $header, '', []);
 
-    //     $post = $this->request->getPost();
-
-    //     $endpoint = 'admin/product/';
-    //     $header = '';
-    //     $params = [
-    //         'id' => 12
-    //     ];
-    //     $post_field = [
-    //         'product' => $product,
-    //         'category' => $category,
-    //         'type' => $type,
-    //         'value' => $value,
-    //         'price' => $harga
-    //     ];
-
-    //     $data = curlSetOptPost($endpoint, $header, $params, $post_field);
-    // }
+        setCookie('Token', '', time() - (3600));
+        
+        return redirect()->to('/login');
+    }
 }

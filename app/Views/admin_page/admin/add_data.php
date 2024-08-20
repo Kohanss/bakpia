@@ -21,35 +21,41 @@
                         <label for="namaProduk" class="form-label">Nama Produk</label>
                         <input type="text" class="form-control" id="namaProduk" name="namaProduk" value="" required>
                     </div>
+                    <?php 
+                    // print_r($box); die; 
+                    ?>
                     <div class="mb-3">
-                            <label for="category" class="form-label">Kategori</label>
-                            <select class="form-select" id="category" name="category" aria-label="Default select example">
-                                <?php foreach ($category['result'] as $category) {  ?>
-                                    <option value="<?php echo $category['id']; ?>"><?php echo $category['category']; ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="type" class="form-label">Tipe</label>
-                            <select class="form-select" id="type" name="type" aria-label="Default select example">
-                                <?php foreach ($type['result'] as $type) {  ?>
-                                    <option value="<?php echo $type['id']; ?>"><?php echo $type['type']; ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="value" class="form-label">Box</label>
-                            <select class="form-select" id="value" name="value" aria-label="Default select example">
-                                <?php foreach ($value['result'] as $value) {  ?>
-                                    <option value="<?php echo $value['id']; ?>"><?php echo $value['value']; ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
+                        <label for="type" class="form-label">Variant</label>
+                        <select class="form-select" id="variant" name="variant" aria-label="Default select example">
+                            <?php foreach ($variant['result'] as $variant) {  ?>
+                                <option value="<?php echo $variant['id']; ?>"><?php echo $variant['name']; ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Kategori</label>
+                        <select class="form-select" id="category" name="category" aria-label="Default select example">
+                            <?php foreach ($category['result'] as $category) {  ?>
+                                <option value="<?php echo $category['id']; ?>"><?php echo $category['name']; ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="value" class="form-label">Box</label>
+                        <select class="form-select" id="box" name="box" aria-label="Default select example">
+                            <?php foreach ($box['result'] as $box) {  ?>
+                                <option value="<?php echo $box['id']; ?>"><?php echo $box['value']; ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="harga" class="form-label">stock</label>
+                        <input type="number" class="form-control" id="stock" name="stock" autocomplete="off" placeholder="25" required>
+                    </div>
                     <div class="mb-3">
                         <label for="harga" class="form-label">Harga</label>
                         <input type="number" class="form-control" id="harga" name="harga" autocomplete="off" placeholder="1.000.000" required>
                     </div>
-
                     <div class="mb-3 text-center ">
                         <button type="submit" class="btn btn-primary px-5 ">Simpan</button>
                         <button type="button" class="btn btn-danger px-5"><a href="/admin" class="text-light" style="text-decoration: none;">Kembali</a></button>

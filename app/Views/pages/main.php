@@ -61,12 +61,12 @@
             <button id="prev-slide" class="slide-button btn_left">
                 < </button>
                     <ul class="image-list">
-                        <?php foreach ($data_get['result'] as $value) {  ?>
+                        <?php //foreach ($data_get['result'] as $value) {  ?>
                             <div class="image-item">
                                 <img src="/img/logo.png" alt="img-1" />
-                                <h3><?= $value['product']; ?></h3>
+                                <h3><? //echo $value['product']; ?></h3>
                             </div>
-                        <?php } ?>
+                        <?php //} ?>
                     </ul>
                     <button id="next-slide" class="slide-button btn_right">
                         >

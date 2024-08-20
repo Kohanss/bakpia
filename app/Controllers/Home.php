@@ -60,26 +60,4 @@ class Home extends BaseController
 
         );
     }
-    public function login()
-    {
-        $curl['url'] = ['https://66723dcfe083e62ee43e707c.mockapi.io'];
-        $curl['endpoint'] = ['coba'];
-        $curl['method'] = ['POST'];
-        $curl['return_transfer'] = true;
-        $curl['max_redirect'] = 10;
-        $curl['timeout'] = 0;
-        $curl['follow_location'] = true;
-        $curl['http_header'] = ['ceritane token'];
-        $curl['post_field'] = ['name' => 'vfvsfgfas'];
-        $dd = curlSetOptPost($curl);
-        $decode = json_decode($dd, true);
-
-        return view(
-            'welcome_message',
-            [
-                'data' => $decode
-            ]
-
-        );
-    }
 }

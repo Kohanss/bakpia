@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Controllers\category;
+namespace App\Controllers\type;
 
 use App\Controllers\BaseController;
 
-class category extends BaseController
+class type extends BaseController
 {
-
     public function check_cookie($token)
     {
         $curl['url'] = [BASEURL];
@@ -21,10 +20,6 @@ class category extends BaseController
         $data = curlSetOptGet($curl);
         $data = json_decode($data, true);
 
-        // foreach ($data as $key => $value) {
-        //     $data = $value['Token'];
-        // }
-
         if (isset($data['code'])) {
             return 500;
         }
@@ -37,19 +32,20 @@ class category extends BaseController
         }
     }
 
-    public function category()
+    public function type()
     {
         $token = $this->request->getCookie();
         if (empty($token['Token'])) {
             return redirect()->to('/login');
         }
 
+
         if (!empty($token['Token'])) {
             $result = $this->check_cookie($token['Token']);
             $token = $token['Token'];
             if ($result == 200) {
                 $curl['url'] = [BASEURL];
-                $curl['endpoint'] = ['admin/category/list'];
+                $curl['endpoint'] = ['admin/variant/list-variant'];
                 $curl['method'] = ['GET'];
                 $curl['http_header'] = ['Token' => $token];
                 $curl['pagination'] = ['false'];
@@ -63,9 +59,9 @@ class category extends BaseController
                 // die;
 
                 return view(
-                    'admin_page/category/category',
+                    'admin_page/type/type',
                     [
-                        'title' => 'Category',
+                        'title' => 'Variant',
                         'data_get' => $data
                     ]
 
@@ -74,7 +70,60 @@ class category extends BaseController
         }
     }
 
-    public function get_detail_update_category($id)
+    public function get_detail_add_type()
+    {
+
+        //check token/cookie exist
+        $token = $this->request->getCookie();
+        $token = $token['Token'];
+        $cookie_check = $this->check_cookie($token);
+
+
+        // check token + get detail product, category, type, value
+        if ($cookie_check == 200) {
+            return view('admin_page/type/add_data_type');
+        } else {
+            echo "token salah"; // invalid token
+        }
+    }
+
+
+    public function add_product_type()
+    {
+        //check token/cookie exist
+        $token = $this->request->getCookie();
+        $token = $token['Token'];
+        $cookie_check = $this->check_cookie($token);
+
+        // get data from view (POST)
+        $post = $this->request->getPost();
+        $type = $post['type'];
+        // print_r($harga); die;
+        // if cookie true & data post inputed
+        if ($cookie_check == 200) {
+
+            $endpoint = 'admin/variant/insert';
+            $header = 'Token: ' . $token . '';
+            $post_field = [
+                'variant' => $type
+            ];
+
+            $result = curlSetOptPost($endpoint, $header, '', $post_field);
+            // print_r($p);
+            return view(
+                'admin_page/type/add_data_type',
+                [
+                    'type' => $result
+                ]
+            );
+        } else {
+            echo "token not registered";
+        }
+
+        // return redirect()->to('/category');
+    }
+
+    public function get_detail_update_type($id, $message = null)
     {
         //check token/cookie exist
         $token = $this->request->getCookie();
@@ -93,27 +142,28 @@ class category extends BaseController
         if ($cookie_check == 200) {
 
             // get list category
-            $category['url'] = [BASEURL];
-            $category['endpoint'] = ['admin/category/detail?id=' . $id . ''];
-            // $category['pagination'] = ['false'];
-            $category['http_header'] = ['Token' => $token];
-            $category = curlSetOptGet($category);
-            $category = json_decode($category, true);
-            // print_r($category);
+            $type['url'] = [BASEURL];
+            $type['endpoint'] = ['admin/variant/detail?id=' . $id . ''];
+            // $type['pagination'] = ['false'];
+            $type['http_header'] = ['Token' => $token];
+            $type = curlSetOptGet($type);
+            $type = json_decode($type, true);
+            // print_r($type);
             // die;
         } else {
             echo "token salah"; // invalid token
         }
 
         return view(
-            'admin_page/category/edit_data_category',
+            'admin_page/type/edit_data_type',
             [
-                'data' => $category
+                'data' => $type,
+                'message' => $message
             ]
         );
     }
 
-    public function update_product_category()
+    public function update_product_type()
     {
         //check token/cookie exist
         $token = $this->request->getCookie();
@@ -124,80 +174,29 @@ class category extends BaseController
         $post = $this->request->getPost();
 
         $id = $post['id'];
-        $category = $post['category'];
+        $type = $post['type'];
         // print_r($token); die;
         // if cookie true & data post inputed
         if ($cookie_check == 200) {
 
-            $endpoint = 'admin/category/update?id=' . $id . '';
+            $endpoint = 'admin/variant/update?id=' . $id . '';
             $header = 'Token: ' . $token . '';
             $post_field = [
-                'category' => $category
-            ];
-
-            curlSetOptPost($endpoint, $header, '', $post_field);
-        } else {
-            echo "token not registered";
-        }
-
-        return redirect()->to('/category');
-    }
-
-    public function get_detail_add_category()
-    {
-
-        //check token/cookie exist
-        $token = $this->request->getCookie();
-        $token = $token['Token'];
-        $cookie_check = $this->check_cookie($token);
-
-
-        // check token + get detail product, category, type, value
-        if ($cookie_check == 200) {
-            return view('admin_page/category/add_data_category');
-        } else {
-            echo "token salah"; // invalid token
-        }
-    }
-
-    public function add_product_category()
-    {
-        //check token/cookie exist
-        $token = $this->request->getCookie();
-        $token = $token['Token'];
-        $cookie_check = $this->check_cookie($token);
-
-        // get data from view (POST)
-        $post = $this->request->getPost();
-        $category = $post['category'];
-        // print_r($harga); die;
-        // if cookie true & data post inputed
-        if ($cookie_check == 200) {
-
-            $endpoint = 'admin/category/insert';
-            $header = 'Token: ' . $token . '';
-            $post_field = [
-                'category' => $category
+                'variant' => $type
             ];
 
             $result = curlSetOptPost($endpoint, $header, '', $post_field);
-            // print_r($p);
-            return view(
-                'admin_page/category/add_data_category',
-                [
-                    'category' => $result
-                ]
-            );
+            $message = $result['message'];
         } else {
             echo "token not registered";
         }
 
-        // return redirect()->to('/category');
+        return $this->get_detail_update_type($id, $message);
+        // return redirect()->to('/type');
     }
 
-    public function product_delete_category()
+    public function product_delete_type()
     {
-
         $id = $this->request->getPost();
         $id = $id['id'];
 
@@ -209,12 +208,12 @@ class category extends BaseController
 
         if ($cookie_check == 200) {
 
-            $endpoint = 'admin/category/delete?id=' . $id . '';
+            $endpoint = 'admin/variant/delete?id=' . $id . '';
             $header = 'Token: ' . $token . '';
 
             curlSetOptPost($endpoint, $header, '', []);
             // return $this->admin();
-            return redirect()->to('/category');
+            return redirect()->to('/type');
         }
     }
 }

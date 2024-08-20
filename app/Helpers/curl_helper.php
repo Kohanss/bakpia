@@ -1,73 +1,14 @@
 <?php
 
-// $base_url = "www.google.com/";
-// function api_curl($endpoint = "product/add", $method = 'POST', $header = [], $params = [])
-// {
-
-//   $curl = curl_init();
-
-//   if ($method === 'GET') {
-//     $url = $base_url . "" . $endpoint . "?" . http_build_query($params);
-//   } else {
-//     $url = $base_url . "" . $endpoint;
-//   }
-
-//   curl_setopt_array($curl, array(
-//     CURLOPT_URL => $url,
-//     CURLOPT_RETURNTRANSFER => true,
-//     CURLOPT_ENCODING => '',
-//     CURLOPT_MAXREDIRS => 10,
-//     CURLOPT_TIMEOUT => 0,
-//     CURLOPT_FOLLOWLOCATION => true,
-//     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-//     CURLOPT_CUSTOMREQUEST => $method,
-//     CURLOPT_POSTFIELDS => $method == 'POST' ? json_encode($params) : [],
-//     CURLOPT_SSL_VERIFYPEER => false,
-//     CURLOPT_SSL_VERIFYHOST => false,
-//     CURLOPT_HTTPHEADER => $header
-//   ));
-
-//   $response = curl_exec($curl);
-//   $response_json = json_decode($response);
-//   curl_close($curl);
-
-//   $response = [
-//     "status" => 412,
-//     "message" => "Name harus diisi.\nBonus poin harus angka.\nTanggal mulai tidak valid.\nTanggal berakhir tidak valid.",
-//     "error_code" => "error_validation",
-//     "results" => [
-//       "data" => [
-//         "name" => "Name harus diisi.",
-//         "full_track_point" => "Bonus poin harus angka.",
-//         "start_date" => "Tanggal mulai tidak valid.",
-//         "end_date" => "Tanggal berakhir tidak valid."
-//       ]
-//     ]
-//   ];
-
-//   if ($response->status === 200) {
-//     if (!empty($response->result)) {
-//       $data = $response->result->data;
-//       $message = $response->message;
-//     }
-//   }
-
-//   return [
-//     'data' => $data,
-//     'message' => $message
-//   ];
-// }
-
 // OPT POST
-
-
 function curlSetOptPost($endpoint, $header, $params, $post_field)
 {
-    $base_url = BASEURL . 'coba-coba-wir/public/' . $endpoint . '';
+    $base_url = BASEURL . $endpoint . '';
 
     if (!empty($params)) {
-        $base_url = BASEURL . 'coba-coba-wir/public/' . $endpoint . '?' . params($params) . '';
+        $base_url = BASEURL . $endpoint . '?' . params($params) . '';
     }
+    // print_r($post_field); die;
 
     $curl = curl_init();
     curl_setopt_array($curl, array(
@@ -82,16 +23,20 @@ function curlSetOptPost($endpoint, $header, $params, $post_field)
         CURLOPT_POSTFIELDS => postField($post_field),
         CURLOPT_SSL_VERIFYPEER => false,
         CURLOPT_SSL_VERIFYHOST => false,
-        CURLOPT_HTTPHEADER => $header
+        CURLOPT_HTTPHEADER => array(
+            "$header"
+        ),
     ));
 
     $response = curl_exec($curl);
     $decode = json_decode($response, true);
     curl_close($curl);
 
-    if ($decode->status === 200) {
-        $data = $decode->result->data;
-        $message = $decode->message;
+    // print_r($decode); die;   
+
+    if ($decode['status'] === 200) {
+        $data = $decode['result']['data'];
+        $message = $decode['message'];
     }
 
     return [
@@ -195,6 +140,7 @@ function curlSetOptGet($curl)
     $pagination = isset($curl['pagination']) ?  $curl['pagination'] : '';
     $params = isset($curl['params']) ? $curl['params'] : '';
 
+
     if (!empty($url)) {
         $url = BaseUrlCurl($url);
     }
@@ -250,6 +196,7 @@ function curlSetOptGet($curl)
 
     $response = curl_exec($curl);
     curl_close($curl);
+    // print_r($response); die;
     return $response;
 }
 

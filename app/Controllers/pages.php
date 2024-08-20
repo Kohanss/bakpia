@@ -6,27 +6,28 @@ class Pages extends BaseController
 {
     public function index()
     {
-        $curl['url'] = ['http://10.10.0.53/crud-structured/public/'];
-        $curl['endpoint'] = ['listpublic/listproduct'];
-        $curl['method'] = ['GET'];
-        $curl['return_transfer'] = true;
-        $curl['max_redirect'] = 10;
-        $curl['timeout'] = 0;
-        $curl['follow_location'] = true;
-        $curl['http_header'] = ['ceritane token'];
-        $curl['pagination'] = ['false'];
-        $dd = curlSetOptGet($curl);
-        $decode = json_decode($dd, true);
-        // print_r($decode);
-        // die;
-        return view(
-            'pages/main',
-            [
-                'title' => 'Griya Bakpia',
-                'data_get' => $decode
-            ]
+        // $curl['url'] = ['http://10.10.0.53/crud-structured/public/'];
+        // $curl['endpoint'] = ['listpublic/listproduct'];
+        // $curl['method'] = ['GET'];
+        // $curl['return_transfer'] = true;
+        // $curl['max_redirect'] = 10;
+        // $curl['timeout'] = 0;
+        // $curl['follow_location'] = true;
+        // $curl['http_header'] = ['ceritane token'];
+        // $curl['pagination'] = ['false'];
+        // $dd = curlSetOptGet($curl);
+        // $decode = json_decode($dd, true);
+        // // print_r($decode);
+        // // die;
+        // return view(
+        //     'pages/main',
+        //     [
+        //         'title' => 'Griya Bakpia',
+        //         'data_get' => $decode
+        //     ]
 
-        );
+        // );
+        return view('pages/main');
     }
 
     // public function produk()
