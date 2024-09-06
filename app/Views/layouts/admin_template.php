@@ -95,12 +95,6 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="/type" class="sidebar-link d-flex align-items-center">
-
-                            <span class="spin">Variant</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
                         <a href="/transaction" class="sidebar-link d-flex align-items-center">
                             <span class="material-symbols-outlined gambar">contract_edit</span>
                             <span class="spin">Transaction</span>
