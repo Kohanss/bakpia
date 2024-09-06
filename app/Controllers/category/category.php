@@ -37,7 +37,7 @@ class category extends BaseController
         }
     }
 
-    public function category()
+    public function category($success_add = null, $success_update = null)
     {
         $token = $this->request->getCookie();
         if (empty($token['Token'])) {
@@ -59,59 +59,33 @@ class category extends BaseController
                 $curl['return_transfer'] = true;
                 $data = curlSetOptGet($curl);
                 $data = json_decode($data, true);
-                // print_r($data);
-                // die;
 
-                return view(
-                    'admin_page/category/category',
-                    [
-                        'title' => 'Category',
-                        'data_get' => $data
-                    ]
 
-                );
+                if (empty($success_add OR $success_update)) {
+                    return view(
+                        'admin_page/category/category',
+                        [
+                            'title' => 'Category',
+                            'data_get' => $data
+                        ]
+
+                    );
+                } else {
+                    return view(
+                        'admin_page/category/category',
+                        [
+                            'title' => 'Category',
+                            'data_get' => $data,
+                            'success_add' => $success_add,
+                            'success_update' => $success_update
+                            
+                        ]
+                    );
+                }
             }
         }
     }
 
-    public function get_detail_update_category($id)
-    {
-        //check token/cookie exist
-        $token = $this->request->getCookie();
-        $token = $token['Token'];
-        $cookie_check = $this->check_cookie($token);
-
-        // get id from params
-        $get = $this->request->getGet();
-        if (empty($get['id'])) {
-            $id = $id;
-        } else {
-            $id = $get['id'];
-        }
-
-        // check token + get detail product, category, type, value
-        if ($cookie_check == 200) {
-
-            // get list category
-            $category['url'] = [BASEURL];
-            $category['endpoint'] = ['admin/category/detail?id=' . $id . ''];
-            // $category['pagination'] = ['false'];
-            $category['http_header'] = ['Token' => $token];
-            $category = curlSetOptGet($category);
-            $category = json_decode($category, true);
-            // print_r($category);
-            // die;
-        } else {
-            echo "token salah"; // invalid token
-        }
-
-        return view(
-            'admin_page/category/edit_data_category',
-            [
-                'data' => $category
-            ]
-        );
-    }
 
     public function update_product_category()
     {
@@ -135,29 +109,14 @@ class category extends BaseController
                 'category' => $category
             ];
 
-            curlSetOptPost($endpoint, $header, '', $post_field);
+            $result = curlSetOptPost($endpoint, $header, '', $post_field);
+            // print_r($result); die;
+            return $this->category(null, $result);
         } else {
             echo "token not registered";
+            return redirect()->to('/category');
         }
 
-        return redirect()->to('/category');
-    }
-
-    public function get_detail_add_category()
-    {
-
-        //check token/cookie exist
-        $token = $this->request->getCookie();
-        $token = $token['Token'];
-        $cookie_check = $this->check_cookie($token);
-
-
-        // check token + get detail product, category, type, value
-        if ($cookie_check == 200) {
-            return view('admin_page/category/add_data_category');
-        } else {
-            echo "token salah"; // invalid token
-        }
     }
 
     public function add_product_category()
@@ -181,18 +140,12 @@ class category extends BaseController
             ];
 
             $result = curlSetOptPost($endpoint, $header, '', $post_field);
-            // print_r($p);
-            return view(
-                'admin_page/category/add_data_category',
-                [
-                    'category' => $result
-                ]
-            );
+            return $this->category($result);
         } else {
             echo "token not registered";
+            return redirect()->to('/category');
         }
 
-        // return redirect()->to('/category');
     }
 
     public function product_delete_category()
@@ -217,4 +170,60 @@ class category extends BaseController
             return redirect()->to('/category');
         }
     }
+
+    // public function get_detail_update_category($id)
+    // {
+    //     //check token/cookie exist
+    //     $token = $this->request->getCookie();
+    //     $token = $token['Token'];
+    //     $cookie_check = $this->check_cookie($token);
+
+    //     // get id from params
+    //     $get = $this->request->getGet();
+    //     if (empty($get['id'])) {
+    //         $id = $id;
+    //     } else {
+    //         $id = $get['id'];
+    //     }
+
+    //     // check token + get detail product, category, type, value
+    //     if ($cookie_check == 200) {
+
+    //         // get list category
+    //         $category['url'] = [BASEURL];
+    //         $category['endpoint'] = ['admin/category/detail?id=' . $id . ''];
+    //         // $category['pagination'] = ['false'];
+    //         $category['http_header'] = ['Token' => $token];
+    //         $category = curlSetOptGet($category);
+    //         $category = json_decode($category, true);
+    //         // print_r($category);
+    //         // die;
+    //     } else {
+    //         echo "token salah"; // invalid token
+    //     }
+
+    //     return view(
+    //         'admin_page/category/edit_data_category',
+    //         [
+    //             'data' => $category
+    //         ]
+    //     );
+    // }
+
+    // public function get_detail_add_category()
+    // {
+
+    //     //check token/cookie exist
+    //     $token = $this->request->getCookie();
+    //     $token = $token['Token'];
+    //     $cookie_check = $this->check_cookie($token);
+
+
+    //     // check token + get detail product, category, type, value
+    //     if ($cookie_check == 200) {
+    //         return view('admin_page/category/add_data_category');
+    //     } else {
+    //         echo "token salah"; // invalid token
+    //     }
+    // }
 }

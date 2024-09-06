@@ -21,16 +21,12 @@
                         <label for="namaProduk" class="form-label">Nama Produk</label>
                         <input type="text" class="form-control" id="namaProduk" name="namaProduk" value="" required>
                     </div>
-                    <?php 
+                    <?php
                     // print_r($box); die; 
                     ?>
                     <div class="mb-3">
-                        <label for="type" class="form-label">Variant</label>
-                        <select class="form-select" id="variant" name="variant" aria-label="Default select example">
-                            <?php foreach ($variant['result'] as $variant) {  ?>
-                                <option value="<?php echo $variant['id']; ?>"><?php echo $variant['name']; ?></option>
-                            <?php } ?>
-                        </select>
+                        <label for="Variant" class="form-label">Variant</label>
+                        <input type="text" class="form-control" id="Variant" name="Variant" value="" required>
                     </div>
                     <div class="mb-3">
                         <label for="category" class="form-label">Kategori</label>
@@ -41,12 +37,8 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="value" class="form-label">Box</label>
-                        <select class="form-select" id="box" name="box" aria-label="Default select example">
-                            <?php foreach ($box['result'] as $box) {  ?>
-                                <option value="<?php echo $box['id']; ?>"><?php echo $box['value']; ?></option>
-                            <?php } ?>
-                        </select>
+                        <label for="exampleFormControlTextarea1" class="form-label">Deskripsi Produk</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3"></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="harga" class="form-label">stock</label>
@@ -56,9 +48,13 @@
                         <label for="harga" class="form-label">Harga</label>
                         <input type="number" class="form-control" id="harga" name="harga" autocomplete="off" placeholder="1.000.000" required>
                     </div>
-                    <div class="mb-3 text-center ">
-                        <button type="submit" class="btn btn-primary px-5 ">Simpan</button>
-                        <button type="button" class="btn btn-danger px-5"><a href="/admin" class="text-light" style="text-decoration: none;">Kembali</a></button>
+                    <div class="footer" style="height: 70px;">
+                        <footer class="footer py-3 bg-light" style="position: fixed; left: 0;bottom: 0;width: 100%; ">
+                            <div class="container text-center">
+                                <button type="submit" class="btn btn-primary px-5 ">Simpan</button>
+                                <button type="button" class="btn btn-danger px-5 "><a href="/admin" class="text-light" style="text-decoration: none;">Kembali</a></button>
+                            </div>
+                        </footer>
                     </div>
                 </form>
             </div>

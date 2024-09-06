@@ -39,10 +39,23 @@ function curlSetOptPost($endpoint, $header, $params, $post_field)
         $message = $decode['message'];
     }
 
-    return [
-        'data' => $data,
-        'message' => $message
-    ];
+    if ($decode['status'] === 412) {
+        $data = $decode['result']['data'];
+        $message = $decode['message'];
+        $error = $decode['error'];
+    }
+    if (empty($error)) {
+        return [
+            'data' => $data,
+            'message' => $message
+        ];
+    } else {
+        return [
+            'data' => $data,
+            'message' => $message,
+            'error' => $error
+        ];
+    }
 }
 
 

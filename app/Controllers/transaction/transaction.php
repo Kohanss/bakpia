@@ -108,7 +108,7 @@ class transaction extends BaseController
                 return view(
                     'admin_page/transaction/transaction_history',
                     [
-                        'title' => 'transaction_history',
+                        'title' => 'transaction history',
                         'data_get' => $data
                     ]
 

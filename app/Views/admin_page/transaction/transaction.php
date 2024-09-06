@@ -127,6 +127,13 @@
         width: 100%;
         /* margin-left: 10px; */
     }
+
+    .modal-container {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        z-index: 0;
+    }
 </style>
 <div class="content">
     <div class="">
@@ -145,7 +152,6 @@
                             <th>Number</th>
                             <th>Address</th>
                             <th>Date</th>
-                            <th>Payment</th>
                             <th>Order</th>
                         </tr>
                     </thead>
@@ -171,8 +177,7 @@
                                 <td><?php echo $value['customer_no_handphone']; ?></td>
                                 <td><?php echo $value['customer_address']; ?></td>
                                 <td><?php echo $value['date']; ?></td>
-                                <td><img style="width: 150px;" src="<?php $url = '' . BASEURL . '';
-                                                                    echo '' . $url . '' . $value['proof'] . ''; ?>"></td>
+
                                 <td>
                                     <span class="action-btn d-flex flex-column gap-2">
                                         <!-- <a href="/admin/type/update?id=<?php //echo $value['id']; 
@@ -211,117 +216,119 @@
                                                         <h1 class="modal-title fs-5" id="staticBackdropLabel">Accept</h1>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
-                                                    <div class="modal-body d-flex">
+                                                    <div class="modal-body modal-container" style="height: 600px;">
                                                         <?php
                                                         // print_r($data);
                                                         // $product = $data['product'];
                                                         ?>
-                                                        <div>
-                                                            <div class="mb-3 container">
-                                                                <p class="fontatas fs-4" style="font-weight: 500; ">Customer Data</p>
-                                                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                                                            </div>
-                                                            <div class="mb-3 container">
-                                                                <p class="fontatas fs-5" style="font-weight: 400; ">Name</p>
-                                                                <div class="bawah">
-                                                                    <p class="fontbawah"><?= $value['customer_name']; ?></p>
+                                                        <div style="width:300px;">
+                                                            <div class="container" style="width: 240px; position: fixed; height:65%; overflow:auto;">
+                                                                <div class="mb-3">
+                                                                    <p class="fontatas fs-5" style="font-weight: 500;">Customer Data</p>
                                                                 </div>
-                                                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                                                            </div>
-                                                            <div class="mb-3 container">
-                                                                <p class="fontatas fs-5" style="font-weight: 400; ">Address</p>
-                                                                <div class="bawah">
-                                                                    <p class="fontbawah"><?= $value['customer_address']; ?></p>
+                                                                <div class="mb-3">
+                                                                    <p class="fontatas" style="font-weight: 500; ">Name</p>
+                                                                    <div class="bawah">
+                                                                        <p class="fontbawah"><?= $value['customer_name']; ?></p>
+                                                                    </div>
                                                                 </div>
-                                                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                                                            </div>
-                                                            <div class="mb-3 container">
-                                                                <p class="fontatas fs-5" style="font-weight: 400; ">Number</p>
-                                                                <div class="bawah">
-                                                                    <p class="fontbawah"><?= $value['customer_no_handphone']; ?></p>
+                                                                <div class="mb-3">
+                                                                    <p class="fontatas" style="font-weight: 500; ">Address</p>
+                                                                    <div class="bawah">
+                                                                        <p class="fontbawah"><?= $value['customer_address']; ?></p>
+                                                                    </div>
                                                                 </div>
-                                                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                                                            </div>
-                                                            <div class="mb-3 container">
-                                                                <p class="fontatas fs-5" style="font-weight: 400; ">Status</p>
-                                                                <div class="bawah">
-                                                                    <p class="fontbawah"><?= $value['status']; ?></p>
+                                                                <div class="mb-3">
+                                                                    <p class="fontatas" style="font-weight: 500; ">Number</p>
+                                                                    <div class="bawah">
+                                                                        <p class="fontbawah"><?= $value['customer_no_handphone']; ?></p>
+                                                                    </div>
                                                                 </div>
-                                                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                                                            </div>
-                                                            <div class="mb-3 container">
-                                                                <p class="fontatas fs-5" style="font-weight: 400; ">Price</p>
-                                                                <div class="bawah">
-                                                                    <p class="fontbawah"><?= $value['price']; ?></p>
+                                                                <div class="mb-3">
+                                                                    <p class="fontatas" style="font-weight: 500; ">Status</p>
+                                                                    <div class="bawah">
+                                                                        <p class="fontbawah"><?= $value['status']; ?></p>
+                                                                    </div>
                                                                 </div>
-                                                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                                                            </div>
-                                                            <div class="mb-3 container">
-                                                                <p class="fontatas fs-5" style="font-weight: 400; ">Date</p>
-                                                                <div class="bawah">
-                                                                    <p class="fontbawah"><?= $value['date']; ?></p>
+                                                                <div class="mb-3">
+                                                                    <p class="fontatas" style="font-weight: 500; ">Price</p>
+                                                                    <div class="bawah">
+                                                                        <p class="fontbawah"><?= $value['price']; ?></p>
+                                                                    </div>
                                                                 </div>
-                                                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                                                                <div class="mb-3">
+                                                                    <p class="fontatas" style="font-weight: 500; ">Date</p>
+                                                                    <div class="bawah">
+                                                                        <p class="fontbawah"><?= $value['date']; ?></p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <p class="fontatas" style="font-weight: 500; ">Foto</p>
+                                                                    <div class="bawah">
+                                                                        <?php if ($value['proof'] == 'Belum di Bayar') { ?>
+                                                                            <p> <?php echo $value['proof']; ?></p>
+                                                                        <?php } else { ?><img style="width: 210px;" src="<?php echo '' . BASEURL . '' . $value['proof'] . ''; ?>">
+                                                                        <?php } ?>
+                                                                    </div>
+                                                                    <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                                                                </div>
                                                             </div>
-                                                            <hr>
-                                                            <hr>
                                                         </div>
 
                                                         <div class="mb-3 container">
                                                             <p class="fontatas fs-4" style="font-weight: 500; ">Product Order</p>
-                                                            <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+
+                                                            <?php $number_modal = 1; ?>
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th class="fontkecil">No</th>
+                                                                        <th class="fontkecil">Product</th>
+                                                                        <th class="fontkecil">Variant</th>
+                                                                        <th class="fontkecil">Category</th>
+                                                                        <th class="fontkecil">Harga (dus)</th>
+                                                                        <th class="fontkecil">Dus</th>
+                                                                        <th class="fontkecil">Total</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <?php foreach ($data['product'] as $key => $product) {?>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <th scope="row"><?php echo $number_modal; ?>.</th>
+                                                                            <td><?= $product['product_name']; ?></td>
+                                                                            <td><?= $product['product_variant']; ?></td>
+                                                                            <td><?= $product['product_category']; ?></td>
+                                                                            <td>Rp.<?= $product['price']; ?></td>
+                                                                            <td><?= $product['quantity']; ?></td>
+                                                                            <td>Rp.<?= $product['total_price']; ?></td>
+                                                                        </tr>
+                                                                    </tbody>
+
+                                                                    <?php $number_modal++; ?>
+                                                                <?php } ?>
+                                                                <tr>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td style="width: 120px;">Harga Total :</td>
+                                                                    <td>Rp.<?= $value['price']; ?></td>
+                                                                </tr>
+                                                            </table>
+                                                            <!-- <div class="mb-3 container d-flex align-items-center">
+                                                                <p class="fs-4" style="font-weight: 500;">Total Harga:</p>
+                                                                <p class="fs-5" style="margin-left: 5px;"><?= $value['price']; ?></p>
+                                                            </div> -->
                                                         </div>
-                                                        <?php foreach ($data['product'] as $key => $product) { ?>
-                                                            <div class="d-flex flex-column">
-                                                                <div class="mb-3 container">
-                                                                    <p class="fontatas fs-5" style="font-weight: 400; ">Product</p>
-                                                                    <div class="bawah">
-                                                                        <p class="fontbawah"><?= $product['product_name']; ?></p>
-                                                                    </div>
-                                                                    <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                                                                </div>
-                                                                <div class="mb-3 container">
-                                                                    <p class="fontatas fs-5" style="font-weight: 400; ">Variant</p>
-                                                                    <div class="bawah">
-                                                                        <p class="fontbawah"><?= $product['product_variant']; ?></p>
-                                                                    </div>
-                                                                    <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                                                                </div>
-                                                                <div class="mb-3 container">
-                                                                    <p class="fontatas fs-5" style="font-weight: 400; ">Category</p>
-                                                                    <div class="bawah">
-                                                                        <p class="fontbawah"><?= $product['product_category']; ?></p>
-                                                                    </div>
-                                                                    <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                                                                </div>
-                                                                <div class="mb-3 container">
-                                                                    <p class="fontatas fs-5" style="font-weight: 400; ">Isi Bakpia</p>
-                                                                    <div class="bawah">
-                                                                        <p class="fontbawah"><?= $product['product_box']; ?></p>
-                                                                    </div>
-                                                                    <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                                                                </div>
-                                                                <div class="mb-3 container">
-                                                                    <p class="fontatas fs-5" style="font-weight: 400; ">Banyaknya Dus</p>
-                                                                    <div class="bawah">
-                                                                        <p class="fontbawah"><?= $product['quantity']; ?></p>
-                                                                    </div>
-                                                                    <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                                                                </div>
-                                                                <div class="mb-3 container">
-                                                                    <p class="fontatas fs-5" style="font-weight: 400; ">Harga</p>
-                                                                    <div class="bawah">
-                                                                        <p class="fontbawah"><?= $product['price']; ?></p>
-                                                                    </div>
-                                                                    <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                                                                </div>
-                                                                <hr>
-                                                            </div>
-                                                        <?php } ?>
                                                     </div>
-                                                    <div class="modal-footer">
+                                                    <div class="modal-footer position-relative">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                                        <button type="submit" class="btn btn-success">Accept</button>
+                                                        <?php if ($value['status'] == 'pending') {  ?>
+                                                            <button type="submit" class="btn btn-success" disabled>Accept</button>
+                                                        <?php } else { ?>
+                                                            <button type="submit" class="btn btn-success">Accept</button>
+                                                        <?php } ?>
                                                     </div>
                                                 </div>
                                             </div>

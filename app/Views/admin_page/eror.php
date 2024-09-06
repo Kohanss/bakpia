@@ -26,8 +26,12 @@
 </head>
 
 <body>
-    <?php //print_r($data); die; 
+    <?php
+    // print_r($data_get);
+    // die;
     ?>
+    <h1>LOL MAX</h1>
+    <?php die; ?>
     <div class="container">
         <div class="sub-container">
             <?php $status = $data['status'] ?>

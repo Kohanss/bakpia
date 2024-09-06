@@ -34,21 +34,21 @@ $routes->post('/logout', 'Admin\admin::logout');
 $routes->post('/admin/search', 'Admin\admin::search');
 
 // ADD DATA
-$routes->get('/admin/produk/add-data', 'Admin\admin::get_detail_add');
+// $routes->get('/admin/produk/add-data', 'Admin\admin::get_detail_add');
 $routes->post('/admin/produk/add-data', 'Admin\admin::add_product');
 
 // DELETE PRODUCT
-$routes->post('/admin/product/delete', 'Admin\admin::product_delete');
 // $routes->get('/admin/product/delete(:any)', 'Admin\admin::product_delete/$1');
+$routes->post('/admin/product/delete', 'Admin\admin::product_delete');
 
 // UPDATE PRODUCT
-$routes->get('/admin/product/update(:any)', 'Admin\admin::get_detail_update/$1');
+// $routes->get('/admin/product/update(:any)', 'Admin\admin::get_detail_update/$1');
 $routes->post('/admin/product/update(:any)', 'Admin\admin::update_product/$1');
 
 // STOCK
 $routes->get('/stock', 'stok\stok::stock');
 // UPDATE PRODUCT STOCK
-$routes->get('/admin/stock/update(:any)', 'stok\stok::get_detail_update_stock/$1');
+// $routes->get('/admin/stock/update(:any)', 'stok\stok::get_detail_update_stock/$1');
 $routes->post('/admin/stock/update(:any)', 'stok\stok::update_product_stock/$1');
 
 // CATEGORY
@@ -61,17 +61,6 @@ $routes->get('/admin/category/add_data', 'category\category::get_detail_add_cate
 $routes->post('/admin/category/add_data', 'category\category::add_product_category');
 // DELETE CATEGORY
 $routes->post('/admin/category/delete', 'category\category::product_delete_category');
-
-// BOX
-$routes->get('/box', 'box\box::box');
-// ADD DATA BOX
-$routes->get('/admin/box/add_data', 'box\box::get_detail_add_box');
-$routes->post('/admin/box/add_data', 'box\box::add_product_box');
-// UPDATE PRODUCT BOX
-$routes->get('/admin/box/update(:any)', 'box\box::get_detail_update_box/$1');
-$routes->post('/admin/box/update(:any)', 'box\box::update_product_box/$1');
-// DELETE BOX
-$routes->post('/admin/box/delete', 'box\box::product_delete_box');
 
 // TYPE
 $routes->get('/type', 'type\type::type');
@@ -89,3 +78,17 @@ $routes->get('/transaction', 'transaction\transaction::transaction');
 $routes->get('/transaction_history', 'transaction\transaction::transaction_history');
 $routes->post('/admin/transaction/accept(:any)', 'transaction\transaction::accept_product_transaction/$1');
 $routes->post('/admin/transaction/delete', 'transaction\transaction::product_delete_transaction');
+
+// ACCOUNT
+$routes->get('/account', 'Admin\admin::account');
+$routes->post('/admin/account/update', 'Admin\admin::update_account'); 
+
+// EDIT ACCOUNT
+$routes->get('/edit-account', 'Admin\admin::edit_account');
+$routes->post('/admin/account/regist', 'Admin\admin::regist_account');
+$routes->post('/admin/account/update2', 'Admin\admin::update2_account'); 
+$routes->post('/admin/account/delete', 'Admin\admin::delete_account'); 
+
+// REGIST ACCOUNT
+$routes->post('/admin/account/regist', 'Admin\admin::regist_account');
+

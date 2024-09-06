@@ -12,6 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
@@ -21,7 +22,7 @@
 <body>
     <div class="wrapper">
         <div class="main1">
-            <nav class="navbar navbar-expand px-4 py-3 position-fixed w-100">
+            <nav class="navbar navbar-expand px-4 py-3 position-fixed w-100 z-3">
                 <!-- <form action="<?php echo base_url('/admin/search'); ?>" method="post" class="d-none d-sm-inline-block">
                     <div class="input-grup input-group-navbar d-flex">
                         <input type="text" class="form-control rounded-0 border-0" placeholder="cari">
@@ -37,19 +38,16 @@
                     <ul class=" navbar-nav ms-auto">
                         <li class="nav-item dropdown">
                             <a href="" class=" nav-icon pe-md-0" data-bs-toggle="dropdown">
-                                <span class="material-symbols-outlined avatar img-fluid">
+                                <span class="material-symbols-outlined avatar img-fluid" style="color: black;">
                                     account_circle
                                 </span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end rounded">
-                                <a href="" class=" dropdown-item text-center">
+                                <a href="/account" class=" dropdown-item text-center">
                                     <span>account</span>
                                 </a>
-                                <a href="" class=" dropdown-item text-center">
-                                    <span>settings</span>
-                                </a>
                                 <form class="dropdown-item text-center link-danger logout" action="<?= base_url('/logout'); ?>" method="post">
-                                    <button  type="submit" style="border: none; width:100%; background-color:transparent"><span>logout</span></button>
+                                    <button type="submit" style="border: none; width:150px; background-color:transparent"><span>logout</span></button>
                                 </form>
                             </div>
                         </li>
@@ -57,6 +55,7 @@
                 </div>
             </nav>
         </div>
+
         <div class="side-bar">
             <aside class="sidebar position-fixed">
                 <div class="d-flex justify-content-left mt-3 logo">
@@ -91,19 +90,13 @@
                     </li>
                     <li class="sidebar-item">
                         <a href="/category" class="sidebar-link d-flex align-items-center">
-                            <span class="material-symbols-outlined gambar">category</span>
+                            <span class="material-symbols-outlined gambar">format_list_bulleted</span>
                             <span class="spin">Category</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="/box" class="sidebar-link d-flex align-items-center">
-                            <span class="material-symbols-outlined gambar">Orders</span>
-                            <span class="spin">Box</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
                         <a href="/type" class="sidebar-link d-flex align-items-center">
-                            <span class="material-symbols-outlined gambar">format_list_bulleted</span>
+
                             <span class="spin">Variant</span>
                         </a>
                     </li>
@@ -111,6 +104,12 @@
                         <a href="/transaction" class="sidebar-link d-flex align-items-center">
                             <span class="material-symbols-outlined gambar">contract_edit</span>
                             <span class="spin">Transaction</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="/edit-account" class="sidebar-link d-flex align-items-center">
+                            <span class="material-symbols-outlined gambar">group</span>
+                            <span class="spin">Account Edit</span>
                         </a>
                     </li>
                 </ul>

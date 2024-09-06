@@ -127,6 +127,13 @@
         width: 100%;
         /* margin-left: 10px; */
     }
+
+    .modal-container {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        z-index: 0;
+    }
 </style>
 <div class="content">
     <div class="">
@@ -145,7 +152,7 @@
                             <th>Number</th>
                             <th>Address</th>
                             <th>Date</th>
-                            <th>Payment</th>
+                            <th>Detail</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -156,7 +163,7 @@
                         <?php foreach ($data_get['result']['data'] as $key => $data) { ?>
                             <?php
                             // print_r($data); die; 
-                            $value = $data;
+                            $value = $data['order'];
                             ?>
                             <tr>
                                 <td><?php echo $number ?></td>
@@ -170,8 +177,143 @@
                                 <td><?php echo $value['customer_no_handphone']; ?></td>
                                 <td><?php echo $value['customer_address']; ?></td>
                                 <td><?php echo $value['date']; ?></td>
-                                <td><img style="width: 150px;" src="<?php $url = '' . BASEURL . '';echo '' . $url . '' . $value['proof'] . ''; ?>"></td>
+                                <td>
+                                    <span class="action-btn d-flex flex-column gap-2">
+                                        <!-- <a href="/admin/type/update?id=<?php //echo $value['id']; 
+                                                                            ?>" style="padding: 3px 10px;" class="btn btn-primary" type="button">Accept</a> -->
+                                        <a class="btn btn-success" style="padding: 3px 10px;" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdropaccept<?php echo $value['id']; ?>">Detail</a>
+                                    </span>
+                                    <form action="<?= base_url('/admin/transaction/accept'); ?>" method="post">
+                                        <input type="hidden" name="id" id="id" value="<?php echo $value['id']; ?>">
+                                        <div class="modal fade" id="staticBackdropaccept<?php echo $value['id']; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-scrollable modal-xl">
+
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Accept</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body modal-container" style="height: 600px;">
+                                                        <?php
+                                                        // print_r($data);
+                                                        // $product = $data['product'];
+                                                        ?>
+                                                        <div style="width:300px;">
+                                                            <div class="container" style="width: 240px; position: fixed; height:75%; overflow:auto;">
+                                                                <div class="mb-3">
+                                                                    <p class="fontatas fs-5" style="font-weight: 500;">Customer Data</p>
+                                                                    <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <p class="fontatas" style="font-weight: 500; ">Name</p>
+                                                                    <div class="bawah">
+                                                                        <p class="fontbawah"><?= $value['customer_name']; ?></p>
+                                                                    </div>
+                                                                    <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <p class="fontatas" style="font-weight: 500; ">Address</p>
+                                                                    <div class="bawah">
+                                                                        <p class="fontbawah"><?= $value['customer_address']; ?></p>
+                                                                    </div>
+                                                                    <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <p class="fontatas" style="font-weight: 500; ">Number</p>
+                                                                    <div class="bawah">
+                                                                        <p class="fontbawah"><?= $value['customer_no_handphone']; ?></p>
+                                                                    </div>
+                                                                    <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <p class="fontatas" style="font-weight: 500; ">Status</p>
+                                                                    <div class="bawah">
+                                                                        <p class="fontbawah"><?= $value['status']; ?></p>
+                                                                    </div>
+                                                                    <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <p class="fontatas" style="font-weight: 500; ">Price</p>
+                                                                    <div class="bawah">
+                                                                        <p class="fontbawah"><?= $value['price']; ?></p>
+                                                                    </div>
+                                                                    <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <p class="fontatas" style="font-weight: 500; ">Date</p>
+                                                                    <div class="bawah">
+                                                                        <p class="fontbawah"><?= $value['date']; ?></p>
+                                                                    </div>
+                                                                    <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <p class="fontatas" style="font-weight: 500; ">Foto</p>
+                                                                    <div class="bawah">
+                                                                        <?php if ($value['proof'] == 'Belum di Bayar') { ?>
+                                                                            <p> <?php echo $value['proof']; ?></p>
+                                                                        <?php } else { ?><img style="width: 210px;" src="<?php echo '' . BASEURL . '' . $value['proof'] . ''; ?>">
+                                                                        <?php } ?>
+                                                                    </div>
+                                                                    <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="mb-3 container">
+                                                            <p class="fontatas fs-4" style="font-weight: 500; ">Product Order</p>
+
+                                                            <?php $number_modal = 1; ?>
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th class="fontkecil">No</th>
+                                                                        <th class="fontkecil">Product</th>
+                                                                        <th class="fontkecil">Variant</th>
+                                                                        <th class="fontkecil">Category</th>
+                                                                        <th class="fontkecil">Harga (dus)</th>
+                                                                        <th class="fontkecil">Dus</th>
+                                                                        <th class="fontkecil">Total</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <?php foreach ($data['product'] as $key => $product) {
+                                                                ?>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <th scope="row"><?php echo $number_modal; ?>.</th>
+                                                                            <td><?= $product['product_name']; ?></td>
+                                                                            <td><?= $product['product_variant']; ?></td>
+                                                                            <td><?= $product['product_category']; ?></td>
+                                                                            <td>Rp.<?= $product['price']; ?></td>
+                                                                            <td><?= $product['quantity']; ?></td>
+                                                                            <td>Rp.<?= $product['total_price']; ?></td>
+                                                                        </tr>
+                                                                    </tbody>
+
+                                                                    <?php $number_modal++; ?>
+                                                                <?php } ?>
+                                                                <tr>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td style="width: 120px;">Harga Total :</td>
+                                                                    <td>Rp.<?= $value['price']; ?></td>
+                                                                </tr>
+                                                            </table>
+                                                            <!-- <div class="mb-3 container d-flex align-items-center">
+                                                                <p class="fs-4" style="font-weight: 500;">Total Harga:</p>
+                                                                <p class="fs-5" style="margin-left: 5px;"><?= $value['price']; ?></p>
+                                                            </div> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </td>
                             </tr>
+
                             <?php $number++; ?>
                         <?php } ?>
                     </tbody>
