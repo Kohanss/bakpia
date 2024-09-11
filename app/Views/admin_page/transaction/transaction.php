@@ -136,10 +136,8 @@
     }
 </style>
 <div class="content">
-    <div class="">
-        <form action="">
-            <a href="/transaction_history" style="padding: 3px 10px;" class="btn btn-primary" type="button">History</a>
-        </form>
+    <div>
+        <a href="/transaction_history" style="padding: 3px 10px;" class="btn btn-primary mb-1" type="button">History</a>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered">
@@ -187,7 +185,7 @@
                                     </span>
                                     <form action="<?= base_url('/admin/transaction/delete'); ?>" method="post">
                                         <input type="hidden" name="id" id="id" value="<?php echo $value['id']; ?>">
-                                        <div class="modal fade" id="staticBackdropcancel<?php echo $value['id']; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal fade" id="staticBackdropcancel<?php echo $value['id']; ?>" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -291,7 +289,7 @@
                                                                         <th class="fontkecil">Total</th>
                                                                     </tr>
                                                                 </thead>
-                                                                <?php foreach ($data['product'] as $key => $product) {?>
+                                                                <?php foreach ($data['product'] as $key => $product) { ?>
                                                                     <tbody>
                                                                         <tr>
                                                                             <th scope="row"><?php echo $number_modal; ?>.</th>

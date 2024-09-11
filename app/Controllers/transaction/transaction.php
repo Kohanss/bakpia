@@ -10,7 +10,7 @@ class transaction extends BaseController
     public function check_cookie($token)
     {
         $curl['url'] = [BASEURL];
-        $curl['endpoint'] = ['admin/user/list-user'];
+        $curl['endpoint'] = ['admin/product/list-product'];
         $curl['pagination'] = ['false'];
         $curl['max_redirect'] = 10;
         $curl['timeout'] = [1];

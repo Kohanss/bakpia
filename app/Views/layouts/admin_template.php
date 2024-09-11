@@ -1,3 +1,30 @@
+<?php
+$token  = $_COOKIE['Token'];
+
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+    CURLOPT_URL => 'http://10.10.0.9/e-commerce/public/admin/user/user-logged-in',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'GET',
+    CURLOPT_HTTPHEADER => array(
+        "Token: $token"
+    ),
+));
+
+$response = curl_exec($curl);
+$response = json_decode($response, true);
+
+curl_close($curl);
+$role = $response['result']['data']['user'][0]['role'];
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,6 +44,14 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <title>Document</title>
+
+    <style>
+        .disable {
+            pointer-events: none;
+            cursor: default;
+            opacity: 0.5;
+        }
+    </style>
 </head>
 
 <body>
@@ -43,9 +78,15 @@
                                 </span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end rounded">
-                                <a href="/account" class=" dropdown-item text-center">
-                                    <span>account</span>
-                                </a>
+                                <?php if (empty($role == 'super_user')) { ?>
+                                    <a href="/account" class="dropdown-item text-center disabled">
+                                        <span>account</span>
+                                    </a>
+                                <?php } else { ?>
+                                    <a href="/account" class="dropdown-item text-center">
+                                        <span>account</span>
+                                    </a>
+                                <?php } ?>
                                 <form class="dropdown-item text-center link-danger logout" action="<?= base_url('/logout'); ?>" method="post">
                                     <button type="submit" style="border: none; width:150px; background-color:transparent"><span>logout</span></button>
                                 </form>
@@ -71,15 +112,15 @@
                 </div>
                 <ul class="sidebar-nav">
                     <li class="sidebar-item">
-                        <a href="" class="sidebar-link d-flex align-items-center">
-                            <span class="material-symbols-outlined gambar">dashboard</span>
-                            <span class="spin">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
                         <a href="/login" class="sidebar-link d-flex align-items-center">
                             <span class="material-symbols-outlined gambar">inventory_2</span>
                             <span class="spin">Product</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="" class="sidebar-link d-flex align-items-center">
+                            <span class="material-symbols-outlined gambar">storefront</span>
+                            <span class="spin">Outlet</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
@@ -100,12 +141,21 @@
                             <span class="spin">Transaction</span>
                         </a>
                     </li>
-                    <li class="sidebar-item">
-                        <a href="/edit-account" class="sidebar-link d-flex align-items-center">
-                            <span class="material-symbols-outlined gambar">group</span>
-                            <span class="spin">Account Edit</span>
-                        </a>
-                    </li>
+                    <?php if (empty($role == 'super_user')) { ?>
+                        <li class="sidebar-item disable">
+                            <a href="/edit-account" class="sidebar-link d-flex align-items-center">
+                                <span class="material-symbols-outlined gambar">group</span>
+                                <span class="spin">Account Edit</span>
+                            </a>
+                        </li>
+                    <?php } else { ?>
+                        <li class="sidebar-item">
+                            <a href="/edit-account" class="sidebar-link d-flex align-items-center">
+                                <span class="material-symbols-outlined gambar">group</span>
+                                <span class="spin">Account Edit</span>
+                            </a>
+                        </li>
+                    <?php } ?>
                 </ul>
             </aside>
             <aside class="sidebar_transparent">

@@ -7,7 +7,7 @@
     <img src="/img/hero.svg" alt="">
     <div class="container">
         <div class="transparent_hero"></div>
-        <div class="sub_hero">
+        <!-- <div class="sub_hero">
             <div class="wrapper_hero">
                 <div class="title_hero">
                     <h2>Lezatnya Terasa di Setiap Lapisan</h2>
@@ -16,7 +16,7 @@
                     <p>Bakpia kami terbuat dari bahan berkualitas terbaik. Dengan isian yang lembut dan kulit yang renyah, setiap bakpia menawarkan pengalaman rasa yang akan membuat Anda jatuh cinta pada gigitan pertama.</p>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 <!-- <div class="curve_hero"><h2>Signature Taste</h2></div> -->

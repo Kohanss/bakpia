@@ -9,7 +9,7 @@ class stok extends BaseController
     public function check_cookie($token)
     {
         $curl['url'] = [BASEURL];
-        $curl['endpoint'] = ['admin/user/list-user'];
+        $curl['endpoint'] = ['admin/product/list-product'];
         $curl['pagination'] = ['false'];
         $curl['max_redirect'] = 10;
         $curl['timeout'] = [1];
@@ -19,7 +19,7 @@ class stok extends BaseController
         ];
         $data = curlSetOptGet($curl);
         $data = json_decode($data, true);
-
+        // print_r($data); die; 
         // foreach ($data as $key => $value) {
         //     $data = $value['Token'];
         // }
@@ -43,12 +43,12 @@ class stok extends BaseController
         if (empty($token['Token'])) {
             return redirect()->to('/login');
         }
-
+        
+        
         if (!empty($token['Token'])) {
             $result = $this->check_cookie($token['Token']);
             $token = $token['Token'];
             if ($result == 200) {
-
                 $curl['url'] = [BASEURL];
                 $curl['endpoint'] = ['admin/stock/list-stock'];
                 $curl['method'] = ['GET'];
@@ -60,8 +60,8 @@ class stok extends BaseController
                 $curl['return_transfer'] = true;
                 $data = curlSetOptGet($curl);
                 $data = json_decode($data, true);
-                // print_r($pesan);
-                // die; 
+                    // print_r($data);
+                    // die; 
                 {
                     if (empty($pesan)) {
                         return view(

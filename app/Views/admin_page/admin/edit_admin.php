@@ -79,7 +79,7 @@
 
                                     <form action="<?= base_url('/admin/account/update2'); ?>" method="post">
                                         <input type="hidden" name="id" id="id" value="<?php echo $data['id']; ?>">
-                                        <div class="modal fade" id="staticBackdropedit<?php echo $data['id']; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal fade" id="staticBackdropedit<?php echo $data['id']; ?>" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-scrollable">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -99,54 +99,56 @@
                                                         // print_r($error_update);
                                                         // die; 
                                                         ?>
-                                                        <?php if(!empty($error_update) && ($id == $data['id'])) { ?>
-                                                            <?php // if ($id == $data['id']) { ?>
-                                                                <div data-mdb-input-init class="form-outline mb-3">
-                                                                    <div class="d-flex flex-column">
-                                                                        <label class="form-label" for="email">Nama</label>
-                                                                        <?php if (!empty($error_update['name'])) { ?>
-                                                                            <label class="text-danger" style="margin-top: -10px;"> <?php echo $error_update['name'] ?> *</label>
-                                                                        <?php } ?>
-                                                                    </div>
-                                                                    <input type="text" name="fullname" id="nama" class="form-control" value="<?= $data['name']; ?>" />
+                                                        <?php if (!empty($error_update) && ($id == $data['id'])) { ?>
+                                                            <?php // if ($id == $data['id']) { 
+                                                            ?>
+                                                            <div data-mdb-input-init class="form-outline mb-3">
+                                                                <div class="d-flex flex-column">
+                                                                    <label class="form-label" for="email">Nama</label>
+                                                                    <?php if (!empty($error_update['name'])) { ?>
+                                                                        <label class="text-danger" style="margin-top: -10px;"> <?php echo $error_update['name'] ?> *</label>
+                                                                    <?php } ?>
                                                                 </div>
-                                                                <div data-mdb-input-init class="form-outline mb-3">
-                                                                    <div class="d-flex flex-column">
-                                                                        <label class="form-label" for="email">Email</label>
-                                                                        <?php if (!empty($error_update['email'])) { ?>
-                                                                            <label class="text-danger" style="margin-top: -10px;"> <?php echo $error_update['email'] ?> *</label>
-                                                                        <?php } ?>
-                                                                    </div>
-                                                                    <input type="text" name="email" id="email" class="form-control" value="<?= $data['email']; ?>" />
+                                                                <input type="text" name="fullname" id="nama" class="form-control" value="<?= $data['name']; ?>" />
+                                                            </div>
+                                                            <div data-mdb-input-init class="form-outline mb-3">
+                                                                <div class="d-flex flex-column">
+                                                                    <label class="form-label" for="email">Email</label>
+                                                                    <?php if (!empty($error_update['email'])) { ?>
+                                                                        <label class="text-danger" style="margin-top: -10px;"> <?php echo $error_update['email'] ?> *</label>
+                                                                    <?php } ?>
                                                                 </div>
-                                                                <div data-mdb-input-init class="form-outline mb-3">
-                                                                    <div class="d-flex flex-column">
-                                                                        <label class="form-label" for="Nomer">Nomer</label>
-                                                                        <?php if (!empty($error_update['no_handphone'])) { ?>
-                                                                            <label class="text-danger" style="margin-top: -10px;"> <?php echo $error_update['no_handphone'] ?> *</label>
-                                                                        <?php } ?>
-                                                                    </div>
-                                                                    <input type="number" name="phoneNumber" id="Nomer" class="form-control" value="<?= $data['no_handphone']; ?>" />
+                                                                <input type="text" name="email" id="email" class="form-control" value="<?= $data['email']; ?>" />
+                                                            </div>
+                                                            <div data-mdb-input-init class="form-outline mb-3">
+                                                                <div class="d-flex flex-column">
+                                                                    <label class="form-label" for="Nomer">Nomer</label>
+                                                                    <?php if (!empty($error_update['no_handphone'])) { ?>
+                                                                        <label class="text-danger" style="margin-top: -10px;"> <?php echo $error_update['no_handphone'] ?> *</label>
+                                                                    <?php } ?>
                                                                 </div>
-                                                                <div data-mdb-input-init class="form-outline mb-3">
-                                                                    <div class="d-flex flex-column">
-                                                                        <label class="form-label" for="username">Username</label>
-                                                                        <?php if (!empty($error_update['username'])) { ?>
-                                                                            <label class="text-danger" style="margin-top: -10px;"> <?php echo $error_update['username'] ?> *</label>
-                                                                        <?php } ?>
-                                                                    </div>
-                                                                    <input type="username" name="username" id="username" class="form-control" value="<?= $data['username']; ?>" />
+                                                                <input type="number" name="phoneNumber" id="Nomer" class="form-control" value="<?= $data['no_handphone']; ?>" />
+                                                            </div>
+                                                            <div data-mdb-input-init class="form-outline mb-3">
+                                                                <div class="d-flex flex-column">
+                                                                    <label class="form-label" for="username">Username</label>
+                                                                    <?php if (!empty($error_update['username'])) { ?>
+                                                                        <label class="text-danger" style="margin-top: -10px;"> <?php echo $error_update['username'] ?> *</label>
+                                                                    <?php } ?>
                                                                 </div>
-                                                                <div data-mdb-input-init class="form-outline mb-3">
-                                                                    <div class="d-flex flex-column">
-                                                                        <label class="form-label" for="password">Password</label>
-                                                                        <?php if (!empty($error_update['password'])) { ?>
-                                                                            <label class="text-danger" style="margin-top: -10px;"> <?php echo $error_update['password'] ?> *</label>
-                                                                        <?php } ?>
-                                                                    </div>
-                                                                    <input type="password" name="password" id="password" class="form-control" value="<?= $data['password']; ?>" />
+                                                                <input type="username" name="username" id="username" class="form-control" value="<?= $data['username']; ?>" />
+                                                            </div>
+                                                            <div data-mdb-input-init class="form-outline mb-3">
+                                                                <div class="d-flex flex-column">
+                                                                    <label class="form-label" for="password">Password</label>
+                                                                    <?php if (!empty($error_update['password'])) { ?>
+                                                                        <label class="text-danger" style="margin-top: -10px;"> <?php echo $error_update['password'] ?> *</label>
+                                                                    <?php } ?>
                                                                 </div>
-                                                            <?php // } ?>
+                                                                <input type="text" name="password" id="password" class="form-control" value="<?= $data['password']; ?>" />
+                                                            </div>
+                                                            <?php // } 
+                                                            ?>
                                                         <?php } else { ?>
                                                             <div data-mdb-input-init class="form-outline mb-3">
                                                                 <label class="form-label" for="nama">Nama</label>
@@ -166,7 +168,7 @@
                                                             </div>
                                                             <div data-mdb-input-init class="form-outline mb-3">
                                                                 <label class="form-label" for="password">Password</label>
-                                                                <input type="password" name="password" id="password" class="form-control" value="<?= $data['password']; ?>" />
+                                                                <input type="text" name="password" id="password" class="form-control" value="<?= $data['password']; ?>" />
                                                             </div>
                                                         <?php } ?>
                                                     </div>
@@ -243,7 +245,7 @@
                                                                             <label class="text-danger" style="margin-top: -10px;"> <?php echo $error['password'] ?> *</label>
                                                                         <?php } ?>
                                                                     </div>
-                                                                    <input type="password" name="password" id="password" class="form-control" value="" />
+                                                                    <input type="text" name="password" id="password" class="form-control" value="" />
                                                                 </div>
                                                                 <div data-mdb-input-init class="form-outline mb-3">
                                                                     <div class="d-flex flex-column">
@@ -252,7 +254,7 @@
                                                                             <label class="text-danger" style="margin-top: -10px;"> <?php echo $error['confirm'] ?> *</label>
                                                                         <?php } ?>
                                                                     </div>
-                                                                    <input type="password" name="confirm" id="confirm" class="form-control" value="" />
+                                                                    <input type="text" name="confirm" id="confirm" class="form-control" value="" />
                                                                 </div>
                                                             <?php } else { ?>
                                                                 <div data-mdb-input-init class="form-outline mb-3">
@@ -273,11 +275,11 @@
                                                                 </div>
                                                                 <div data-mdb-input-init class="form-outline mb-3">
                                                                     <label class="form-label" for="password">Password</label>
-                                                                    <input type="password" name="password" id="password" class="form-control" />
+                                                                    <input type="text" name="password" id="password" class="form-control" />
                                                                 </div>
                                                                 <div data-mdb-input-init class="form-outline mb-3">
                                                                     <label class="form-label" for="confirm">Confirm</label>
-                                                                    <input type="password" name="confirm" id="confirm" class="form-control" />
+                                                                    <input type="text" name="confirm" id="confirm" class="form-control" />
                                                                 </div>
                                                             <?php } ?>
                                                         </div>
@@ -290,6 +292,56 @@
                                             </div>
                                         </div>
                                     </form>
+
+                                    <?php if (!empty($message_regist)) { ?>
+                                        <?php
+                                        // print_r($success_add['message']);
+                                        // die;
+                                        ?>
+                                        <div class="modal fade" id="staticBackdropsuccess" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-md">
+                                                <div class="modal-content text-center">
+                                                    <div class="modal-header bg-success text-white d-flex justify-content-center">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Success</h5>
+                                                        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <i class="fa-solid fa-circle-check fa-4x text-success"></i>
+                                                        <p class="mt-3"><?php echo $message_regist ?></p>
+                                                    </div>
+                                                    <div class="modal-footer d-flex justify-content-center">
+                                                        <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                                                        <a href=""><button type="submit" class="btn btn-outline-danger">Hapus</button></a> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+
+                                    <?php if (!empty($message_update)) { ?>
+                                        <?php
+                                        // print_r($success_add['message']);
+                                        // die;
+                                        ?>
+                                        <div class="modal fade" id="staticBackdropsuccessupdate" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-md">
+                                                <div class="modal-content text-center">
+                                                    <div class="modal-header bg-success text-white d-flex justify-content-center">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Success</h5>
+                                                        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <i class="fa-solid fa-circle-check fa-4x text-success"></i>
+                                                        <p class="mt-3"><?php echo $message_update ?></p>
+                                                    </div>
+                                                    <div class="modal-footer d-flex justify-content-center">
+                                                        <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                                                        <a href=""><button type="submit" class="btn btn-outline-danger">Hapus</button></a> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
                                 </td>
                             </tr>
                             <?php $number++; ?>
@@ -316,8 +368,6 @@ if (!empty($id)) {
 ?>
 <?php
 if (!empty($error)) {
-    // print_r($id);
-    // die;
 ?>
     <script>
         $(document).ready(function() {
@@ -327,4 +377,44 @@ if (!empty($error)) {
 <?php
 }
 ?>
+<?php
+if (!empty($message_regist)) {
+?>
+    <script>
+        $(document).ready(function() {
+            $("#staticBackdropsuccess").modal('show')
+        })
+    </script>
+<?php
+}
+?>
+<?php
+if (!empty($message_update)) {
+?>
+    <script>
+        $(document).ready(function() {
+            $("#staticBackdropsuccessupdate").modal('show')
+        })
+    </script>
+<?php
+}
+?>
+
+<script>
+    var form = new FormData();
+    var settings = {
+        "url": "http://10.10.0.9/e-commerce/public/listpublic/product",
+        "method": "GET",
+        "timeout": 0,
+        "processData": false,
+        "mimeType": "multipart/form-data",
+        "contentType": false,
+        "data": form
+    };
+
+    $.ajax(settings).done(function(response) {
+        console.log(response);
+    });
+</script>
+
 <?= $this->endSection(); ?>

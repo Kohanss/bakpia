@@ -5,6 +5,7 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use CURLFile;
 
+
 class admin extends BaseController
 {
     public function check_cookie($token)
@@ -199,7 +200,7 @@ class admin extends BaseController
             } else {
                 // $this->session->set_flashdata('message', 'Product Added Successfully');
                 return $this->admin(null, null, $result);
-                return redirect()->to('/admin');
+                // return redirect()->to('/admin');
             }
         }
     }
@@ -410,7 +411,7 @@ class admin extends BaseController
     public function login_page($token = null)
     {
         if (!empty($token)) {
-            setCookie('Token', $token, time() + (3600));
+            setCookie('Token', $token, time() + (86400));
             return $this->admin();
         }
         // check cookie 
@@ -461,15 +462,25 @@ class admin extends BaseController
         curl_close($curl);
         $response = json_decode($response, true);
         // print_r($response); die;
+
+        // print_r($response); die;
         // $token = $response['result']['data'];
         // Auth Token
         $token = '';
         if (!empty($response['result']['token'])) {
             $token = $response['result']['token'];
         }
-        // print_r($response); die;
         $result = $this->check_cookie($token);
         // print_r($result); die;
+        // if ($response['message'] == 'Login Success') {
+        //     return view(
+        //         'layouts/admin_template',
+        //         [
+        //             'role' => $response
+        //         ]
+        //     );
+        // }
+
 
         if ($result == 200) {
             $statusToken = $token;
@@ -528,7 +539,7 @@ class admin extends BaseController
 
         curlSetOptPost($endpoint, $header, '', []);
 
-        setCookie('Token', '', time() - (3600));
+        setCookie('Token', '', time() - (86400));
 
         return redirect()->to('/login');
     }
@@ -573,7 +584,7 @@ class admin extends BaseController
         }
     }
 
-    public function edit_account($error_regist_account = null, $error_update_account = null)
+    public function edit_account($error_regist_account = null, $message_regist = null, $error_update_account = null, $message_update = null)
     {
         // print_r($error_regist_account); die;
         $token = $this->request->getCookie();
@@ -592,7 +603,7 @@ class admin extends BaseController
                 $curl['pagination'] = ['false'];
                 $curl = curlSetOptGet($curl);
                 $curl = json_decode($curl, true);
-                // print_r($error_update_account);
+                // print_r($message_regist);
                 // die;
                 if (empty($error_regist_account or $error_update_account)) {
                     // echo 'jadi'; die;
@@ -600,7 +611,9 @@ class admin extends BaseController
                         'admin_page/admin/edit_admin',
                         [
                             'title' => 'Edit Akun',
-                            'data_get' => $curl
+                            'data_get' => $curl,
+                            'message_regist' => $message_regist,
+                            'message_update' => $message_update
                         ]
                     );
                 }
@@ -661,7 +674,7 @@ class admin extends BaseController
             $result = curlSetOptPost($endpoint, $header, '', $post_field);
             // print_r($result); die;
             $token_updated = $result['data'][0]['token'];
-            setCookie('Token', "$token_updated", time() + (3600), '/');
+            setCookie('Token', "$token_updated", time() + (86400), '/');
         } else {
             echo "token not registered";
         }
@@ -684,8 +697,10 @@ class admin extends BaseController
         $no_handphone = $post['phoneNumber'];
         $username = $post['username'];
         $password = $post['password'];
-        // print_r($cookie_check); die;
+        $no_handphone = (integer) $no_handphone;
+        // print_r($no_handphone); die;
         // if cookie true & data post inputed
+        // print_r($cookie_check); die;
         if ($cookie_check == 200) {
             $endpoint = 'admin/user/update-admin?id=' . $id . '';
             $header = 'Token: ' . "$token" . '';
@@ -694,7 +709,7 @@ class admin extends BaseController
                 'password' => $password,
                 'name' => $name,
                 'email' => $email,
-                'no_handphone' => $no_handphone,
+                'no_handphone' => $no_handphone
             ];
 
             $result = curlSetOptPost($endpoint, $header, '', $post_field);
@@ -704,7 +719,10 @@ class admin extends BaseController
         }
         if (!empty($result['error'])) {
             $error_update_account = $result['data'];
-            return $this->edit_account(null, $error_update_account);
+            return $this->edit_account(null, null, $error_update_account, null);
+        } else {
+            $message_update = $result['message'];
+            return $this->edit_account(null, null, null, $message_update);
         }
         return redirect()->to('/edit-account');
     }
@@ -746,7 +764,10 @@ class admin extends BaseController
         }
         if (!empty($result['error'])) {
             $error_regist_account = $result['data'];
-            return $this->edit_account($error_regist_account);
+            return $this->edit_account($error_regist_account, null);
+        } else {
+            $message_regist = $result['message'];
+            return $this->edit_account(null, $message_regist);
         }
         return redirect()->to('/edit-account');
     }
