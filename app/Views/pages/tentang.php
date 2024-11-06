@@ -3,61 +3,98 @@
 
 <?= $this->section('content'); ?>
 <link rel="stylesheet" href="/css/tentang.css">
-<div class="container">
-    <div class="about">
-        <div class="about_title">
-            <h2>Bakpia dengan rasa Terbaik</h2>
-        </div>
-        <div class="about_content">
-            <img src="/img/halamanRumah.jpg" alt="">
-            <div class="about_text">
-                <p>
-                    Bakpia merupakan makanan khas dari Yogyakarta yang terkenal dengan kelezatannya. Kue tradisional ini terbuat dari tepung terigu, kacang hijau, dan gula, yang kemudian dipanggang hingga matang. Bakpia memiliki tekstur yang renyah di luar dan lembut di dalam, dengan rasa manis yang legit dari kacang hijau.
-                </p>
-                <p>
-                    Bakpia memiliki sejarah panjang di Yogyakarta. Konon, bakpia pertama kali dibuat oleh masyarakat Tionghoa yang tinggal di Yogyakarta sekitar tahun 1940-an. Seiring waktu, bakpia menjadi semakin populer dan disukai banyak orang, sehingga menjadi salah satu oleh-oleh khas Yogyakarta yang wajib dicoba.
-                </p>
-                <p>
-                    Saat ini, terdapat berbagai macam varian rasa bakpia yang tersedia, mulai dari rasa kacang hijau klasik, hingga rasa kekinian seperti cokelat, keju, durian, dan masih banyak lagi. Hal ini membuat bakpia semakin digemari oleh berbagai kalangan, baik tua maupun muda.
-                </p>
+<!-- hero -->
+<section class="hero">
+    <div class="container_local hero-content">
+            <div class="sub-hero-content">
+                <h1>Tentang</h1>
+                <p>Griya Bakpia</p>
             </div>
+    </div>
+</section>
+<!-- hero -->
+
+<!-- desc griya -->
+<div class="container_local">
+    <div class="description">
+        <div class="sub_description">
+            <div class="img_description">
+                <div class="long_img">
+                    <img src="/img/contohtoko.jpg" alt="">
+                </div>
+            </div>
+            <div class="description_desc">
+                <div class="description_title">
+                    <p>Griya Bakpia</p>
+                </div>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore officiis soluta enim doloribus dolores explicabo architecto possimus suscipit, aperiam laboriosam voluptatibus sit exercitationem ipsum praesentium asperiores unde ipsa commodi.</p>
+                <p>
+                    Sed quo qui impedit explicabo optio sapiente, sit soluta itaque a tempore ipsa magnam asperiores. Totam, quis porro eligendi magni, pariatur molestiae nemo rerum saepe temporibus sit officia ipsa quasi.
+                </p>
+                <p>Animi blanditiis pariatur ducimus quam, unde aut voluptatum inventore corporis id voluptate deserunt et. Totam molestiae sapiente ipsa, voluptate modi officia dicta natus, facilis, soluta deleniti provident harum nobis similique.</p>
+            </div>  
         </div>
     </div>
 </div>
+<!-- desc griya -->
 
 
-<div class="card_container container">
-    <?php foreach ($data_page['result']['data'] as $p) : ?>
-        <div class="card_produk">
-            <div class="card">
-                <img src="/img/pitek.jpg" alt="" />
-                <div class="card_text">
-                    <p><?php echo $p['product']; ?></p>
+<!-- foto premium -->
+<section class="premium">
+    <div class="premium-content container_local">
+        <div class="sub-premium-content">
+            <h1>Bakpia Premium</h1>
+        </div>
+    </div>
+</section>
+<!-- foto premium -->
+
+
+<!-- desc griya -->
+<div class="container_local">
+    <div class="description_premium">
+        <div class="sub_description_premium">
+            <div class="img_description_premium">
+                <div class="long_img long_img_atas">
+                    <img src="/img/contohtoko.jpg" alt="">
                 </div>
             </div>
+            <div class="description_premium_desc">
+                <div class="description_premium_title">
+                    <p>Griya Bakpia</p>
+                </div>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore officiis soluta enim doloribus dolores explicabo architecto possimus suscipit, aperiam laboriosam voluptatibus sit exercitationem ipsum praesentium asperiores unde ipsa commodi.</p>
+                <p>
+                    Sed quo qui impedit explicabo optio sapiente, sit soluta itaque a tempore ipsa magnam asperiores. Totam, quis porro eligendi magni, pariatur molestiae nemo rerum saepe temporibus sit officia ipsa quasi.
+                </p>
+                <p>Animi blanditiis pariatur ducimus quam, unde aut voluptatum inventore corporis id voluptate deserunt et. Totam molestiae sapiente ipsa, voluptate modi officia dicta natus, facilis, soluta deleniti provident harum nobis similique.</p>
+            </div>
+            <div class="long_img long_img_kanan ">
+                    <img src="/img/contohtoko.jpg" alt="">
+                </div>
         </div>
-    <?php endforeach; ?>
+    </div>
 </div>
+<!-- desc griya -->
 
-
-
-<div class="container pagination">
-    <?php if (!empty($data_page['result']['pagination']['prev'])) {
-        $num = $data_page['result']['pagination']['prev']; ?>
-        <a href="/pages/produk?page=<?= $num; ?>">&laquo;</a>
-    <?php }  ?>
-    <?php for ($i = 1; $i <= $data_page['result']['pagination']['jumlah_page']; $i++) { ?>
-        <a class="paginat" href="/pages/produk?page=<?= $i; ?>"><?php echo $i ?></a>
-    <?php } ?>
-    <?php if (!empty($data_page['result']['pagination']['next'])) {
-        $num = $data_page['result']['pagination']['next']; ?>
-        <a href="/pages/produk?page=<?= $num; ?>">&raquo;</a>
-    <?php }  ?>
+<!-- gallery -->
+<div class="gallery">
+    <div class="sub_gallery">
+        <div class="gallery_title">
+            <p>Galeri Kami</p>
+        </div>
+        <div class="gallery_wrapper">
+            <img src="/img/images/img-22.jpg" alt="">
+            <img src="/img/images/img-22.jpg" alt="">
+            <img src="/img/images/img-22.jpg" alt="">
+            <img src="/img/images/img-22.jpg" alt="">
+            <img src="/img/images/img-22.jpg" alt="">
+            <img src="/img/images/img-22.jpg" alt="">
+            <img src="/img/images/img-22.jpg" alt="">
+            <img src="/img/images/img-22.jpg" alt="">
+        </div>
+    </div>
 </div>
-
-<div class="galeri">
-    <h1></h1>
-</div>
-
+<!-- gallery -->
 
 <?= $this->endSection(); ?>

@@ -93,4 +93,4 @@ define('EVENT_PRIORITY_NORMAL', 100);
  */
 define('EVENT_PRIORITY_HIGH', 10);
 
-define('BASEURL', 'http://10.10.0.9/e-commerce/public/');
+define('BASEURL', 'http://10.10.0.85/e-commerce/public/');

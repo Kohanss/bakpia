@@ -4,7 +4,7 @@ $token  = $_COOKIE['Token'];
 $curl = curl_init();
 
 curl_setopt_array($curl, array(
-    CURLOPT_URL => 'http://10.10.0.9/e-commerce/public/admin/user/user-logged-in',
+    CURLOPT_URL => BASEURL . 'admin/user/user-logged-in',
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => '',
     CURLOPT_MAXREDIRS => 10,
@@ -21,13 +21,12 @@ $response = curl_exec($curl);
 $response = json_decode($response, true);
 
 curl_close($curl);
-$role = $response['result']['data']['user'][0]['role'];
+$role = $response['result']['data']['user']['role'];
 ?>
 
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -41,6 +40,7 @@ $role = $response['result']['data']['user'][0]['role'];
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <title>Document</title>
@@ -67,7 +67,7 @@ $role = $response['result']['data']['user'][0]['role'];
                     </div>
                 </form> -->
                 <div class="nav-bar">
-                    <h3 class="font-weight-bold fs-5">admin <?= $title; ?></h3>
+                    <h3 class="font-weight-bold fs-5">Admin <?= $title; ?></h3>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class=" navbar-nav ms-auto">
@@ -118,6 +118,24 @@ $role = $response['result']['data']['user'][0]['role'];
                         </a>
                     </li>
                     <li class="sidebar-item">
+                        <a href="/category" class="sidebar-link d-flex align-items-center">
+                            <span class="material-symbols-outlined gambar">format_list_bulleted</span>
+                            <span class="spin">Category</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="/" class="sidebar-link d-flex align-items-center">
+                            <span class="material-symbols-outlined gambar">format_list_bulleted</span>
+                            <span class="spin">Variant</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="/" class="sidebar-link d-flex align-items-center">
+                            <span class="material-symbols-outlined gambar">account_balance</span>
+                            <span class="spin">Bank</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
                         <a href="" class="sidebar-link d-flex align-items-center">
                             <span class="material-symbols-outlined gambar">storefront</span>
                             <span class="spin">Outlet</span>
@@ -127,12 +145,6 @@ $role = $response['result']['data']['user'][0]['role'];
                         <a href="/stock" class="sidebar-link d-flex align-items-center">
                             <span class="material-symbols-outlined">inventory</span>
                             <span class="spin">Stock</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="/category" class="sidebar-link d-flex align-items-center">
-                            <span class="material-symbols-outlined gambar">format_list_bulleted</span>
-                            <span class="spin">Category</span>
                         </a>
                     </li>
                     <li class="sidebar-item">

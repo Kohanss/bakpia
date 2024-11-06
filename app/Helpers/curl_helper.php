@@ -33,6 +33,10 @@ function curlSetOptPost($endpoint, $header, $params, $post_field)
     curl_close($curl);
 
     // print_r($decode); die;   
+    
+    $data = $decode['result']['data'];
+    $message = $decode['message'];
+    $error = $decode['error'];
 
     if ($decode['status'] === 200) {
         $data = $decode['result']['data'];

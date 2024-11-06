@@ -14,157 +14,298 @@
 // die;
 ?>
 <link rel="stylesheet" href="/css/produk.css">
-<div class="slideshow_container container">
-    <div class="mySlides">
-        <div class="wrapper wrap1">
-            <div class="produk_img">
-                <div class="pitek1"><img src="/img/pitek.jpg" alt="" /></div>
-            </div>
+<!-- swiper js -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<div class="container_local slider">
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide slide_photo"><img src="/img/bakpia-keju.jpg" alt=""></div>
+            <div class="swiper-slide slide_photo"><img src="/img/bakpia-keju.jpg" alt=""></div>
+            <div class="swiper-slide slide_photo"><img src="/img/bakpia-keju.jpg" alt=""></div>
+            <div class="swiper-slide slide_photo"><img src="/img/bakpia-keju.jpg" alt=""></div>
         </div>
     </div>
-
-    <!-- switch 2 -->
-    <div class="mySlides">
-        <div class="wrapper wrap2">
-            <div class="produk_img">
-                <div class="pitek2"><img src="" alt="" /></div>
-            </div>
-        </div>
-    </div>
-    <!-- switch 3 -->
-    <div class="mySlides">
-        <div class="wrapper wrap1">
-            <div class="produk_img">
-                <div class="pitek3"><img src="" alt="" /></div>
-            </div>
-        </div>
-    </div>
-    <div class="prev_next">
-        <a class="prev" onclick="plusSlides(-1)">❮</a>
-        <a class="next" onclick="plusSlides(1)">❯</a>
-    </div>
-    <div class="dot_wrap">
-        <span class="dot" onclick="currentSlide(1)"></span>
-        <span class="dot" onclick="currentSlide(2)"></span>
-        <span class="dot" onclick="currentSlide(3)"></span>
+</div>
+<div class="container_local">
+    <div class="search">
+        <form action=" ">
+            <input type="text" placeholder="Search" name="search">
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
     </div>
 </div>
 
-<div class="search-container">
-    <input type="text" placeholder="kacang hijau" name="search" id="search_input">
-    <button id="search_btn"><span class="material-symbols-outlined">search</span></button>
-</div>
 
-
-<div class="card_container container" id="search_results"></div>
-
-<!-- card -->
-<div class="card_container container">
-    <?php foreach ($data_page['result']['data'] as $p) : ?>
-        <div class="card_produk">
-            <div class="card">
-                <img src="/img/pitek.jpg" alt="" />
-                <div class="card_text">
-                    <p><?php echo $p['product']; ?></p>
+<div class="container_local produk_section">
+    <div class="produk_filter">
+        <form action="">
+            <div class="produk_filter_wrapper">
+                <div class="filter">
+                    <div class="title_filter">
+                        <p>Filter</p>
+                    </div>
+                    <div class="title_filter_varian">
+                        <p>Filter dari Nama</p>
+                    </div>
+                    <div class="fiter_item">
+                        <input type="checkbox">
+                        <label for="kategori">Griya Bakpia</label>
+                    </div>
+                    <div class="fiter_item">
+                        <input type="checkbox">
+                        <label for="kategori">Bakpia 465</label>
+                    </div>
+                    <div class="fiter_item">
+                        <input type="checkbox">
+                        <label for="kategori">Bakpia 465 Kering</label>
+                    </div>
+                    <div class="fiter_item">
+                        <input type="checkbox">
+                        <label for="kategori">Paketan</label>
+                    </div>
+                </div>
+                <div class="filter_harga">
+                    <div class="sub_filter_harga">
+                        <div class="filter_harga_title">
+                            <h2>Filter dari Harga</h2>
+                        </div>
+                        <div class="harga_minimum">
+                            <label for="">Rp. </label>
+                            <input type="number" placeholder="Harga Minimum">
+                        </div>
+                        <div class="harga_maksimal">
+                            <label for="">Rp. </label>
+                            <input type="number" placeholder="Harga Maksimal">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="filter_btn">
+                <button>Terapkan</button>
+            </div>
+        </form>
+    </div>
+    <div class="scroll_griya">
+        <div class="product_scroll_wrapper">
+            <div class="sub_product_scroll_card">
+                <div class="sub_product_scroll_img">
+                    <img src="https://via.placeholder.com/200x200" alt="">
+                </div>
+                <div class="sub_product_scroll_title_wrapper">
+                    <div class="sub_product_scroll_title">
+                        <p>Bakpia 4652 Isi 20</p>
+                    </div>
+                    <div class="sub_product_scroll_name">
+                        <p>Mix Keju Coklat</p>
+                    </div>
+                    <div class="sub_product_scroll_category">
+                        <p>Kering</p>
+                    </div>
+                    <div class="sub_product_scroll_price">
+                        <p>Rp 50.000</p>
+                    </div>
+                    <div class="sub_product_scroll_btn">
+                        <a href=""><button class="btn btn-primary">Tambah ke Keranjang</button></a>
+                    </div>
+                </div>
+            </div>
+            <div class="sub_product_scroll_card">
+                <div class="sub_product_scroll_img">
+                    <img src="https://via.placeholder.com/200x200" alt="">
+                </div>
+                <div class="sub_product_scroll_title_wrapper">
+                    <div class="sub_product_scroll_title">
+                        <p>Bakpia 465 Isi 20</p>
+                    </div>
+                    <div class="sub_product_scroll_name">
+                        <p>Mix Keju Coklat</p>
+                    </div>
+                    <div class="sub_product_scroll_category">
+                        <p>Kering</p>
+                    </div>
+                    <div class="sub_product_scroll_price">
+                        <p>Rp 50.000</p>
+                    </div>
+                    <div class="sub_product_scroll_btn">
+                        <a href=""><button class="btn btn-primary">Tambah ke Keranjang</button></a>
+                    </div>
+                </div>
+            </div>
+            <div class="sub_product_scroll_card">
+                <div class="sub_product_scroll_img">
+                    <img src="https://via.placeholder.com/200x200" alt="">
+                </div>
+                <div class="sub_product_scroll_title_wrapper">
+                    <div class="sub_product_scroll_title">
+                        <p>Bakpia 465 Isi 20</p>
+                    </div>
+                    <div class="sub_product_scroll_name">
+                        <p>Mix Keju Coklat</p>
+                    </div>
+                    <div class="sub_product_scroll_category">
+                        <p>Kering</p>
+                    </div>
+                    <div class="sub_product_scroll_price">
+                        <p>Rp 50.000</p>
+                    </div>
+                    <div class="sub_product_scroll_btn">
+                        <a href=""><button class="btn btn-primary">Tambah ke Keranjang</button></a>
+                    </div>
+                </div>
+            </div>
+            <div class="sub_product_scroll_card">
+                <div class="sub_product_scroll_img">
+                    <img src="https://via.placeholder.com/200x200" alt="">
+                </div>
+                <div class="sub_product_scroll_title_wrapper">
+                    <div class="sub_product_scroll_title">
+                        <p>Bakpia 465 Isi 20</p>
+                    </div>
+                    <div class="sub_product_scroll_name">
+                        <p>Mix Keju Coklat</p>
+                    </div>
+                    <div class="sub_product_scroll_category">
+                        <p>Kering</p>
+                    </div>
+                    <div class="sub_product_scroll_price">
+                        <p>Rp 50.000</p>
+                    </div>
+                    <div class="sub_product_scroll_btn">
+                        <a href=""><button class="btn btn-primary">Tambah ke Keranjang</button></a>
+                    </div>
+                </div>
+            </div>
+            <div class="sub_product_scroll_card">
+                <div class="sub_product_scroll_img">
+                    <img src="https://via.placeholder.com/200x200" alt="">
+                </div>
+                <div class="sub_product_scroll_title_wrapper">
+                    <div class="sub_product_scroll_title">
+                        <p>Bakpia 465 Isi 20</p>
+                    </div>
+                    <div class="sub_product_scroll_name">
+                        <p>Mix Keju Coklat</p>
+                    </div>
+                    <div class="sub_product_scroll_category">
+                        <p>Kering</p>
+                    </div>
+                    <div class="sub_product_scroll_price">
+                        <p>Rp 50.000</p>
+                    </div>
+                    <div class="sub_product_scroll_btn">
+                        <a href=""><button class="btn btn-primary">Tambah ke Keranjang</button></a>
+                    </div>
+                </div>
+            </div>
+            <div class="sub_product_scroll_card">
+                <div class="sub_product_scroll_img">
+                    <img src="https://via.placeholder.com/200x200" alt="">
+                </div>
+                <div class="sub_product_scroll_title_wrapper">
+                    <div class="sub_product_scroll_title">
+                        <p>Bakpia 465 Isi 20</p>
+                    </div>
+                    <div class="sub_product_scroll_name">
+                        <p>Mix Keju Coklat</p>
+                    </div>
+                    <div class="sub_product_scroll_category">
+                        <p>Kering</p>
+                    </div>
+                    <div class="sub_product_scroll_price">
+                        <p>Rp 50.000</p>
+                    </div>
+                    <div class="sub_product_scroll_btn">
+                        <a href=""><button class="btn btn-primary">Tambah ke Keranjang</button></a>
+                    </div>
+                </div>
+            </div>
+            <div class="sub_product_scroll_card">
+                <div class="sub_product_scroll_img">
+                    <img src="https://via.placeholder.com/200x200" alt="">
+                </div>
+                <div class="sub_product_scroll_title_wrapper">
+                    <div class="sub_product_scroll_title">
+                        <p>Bakpia 465 Isi 20</p>
+                    </div>
+                    <div class="sub_product_scroll_name">
+                        <p>Mix Keju Coklat</p>
+                    </div>
+                    <div class="sub_product_scroll_category">
+                        <p>Kering</p>
+                    </div>
+                    <div class="sub_product_scroll_price">
+                        <p>Rp 50.000</p>
+                    </div>
+                    <div class="sub_product_scroll_btn">
+                        <a href=""><button class="btn btn-primary">Tambah ke Keranjang</button></a>
+                    </div>
+                </div>
+            </div>
+            <div class="sub_product_scroll_card">
+                <div class="sub_product_scroll_img">
+                    <img src="https://via.placeholder.com/200x200" alt="">
+                </div>
+                <div class="sub_product_scroll_title_wrapper">
+                    <div class="sub_product_scroll_title">
+                        <p>Bakpia 465 Isi 20</p>
+                    </div>
+                    <div class="sub_product_scroll_name">
+                        <p>Mix Keju Coklat</p>
+                    </div>
+                    <div class="sub_product_scroll_category">
+                        <p>Kering</p>
+                    </div>
+                    <div class="sub_product_scroll_price">
+                        <p>Rp 50.000</p>
+                    </div>
+                    <div class="sub_product_scroll_btn">
+                        <a href=""><button class="btn btn-primary">Tambah ke Keranjang</button></a>
+                    </div>
+                </div>
+            </div>
+            <div class="sub_product_scroll_card">
+                <div class="sub_product_scroll_img">
+                    <img src="https://via.placeholder.com/200x200" alt="">
+                </div>
+                <div class="sub_product_scroll_title_wrapper">
+                    <div class="sub_product_scroll_title">
+                        <p>Bakpia 465 Isi 20</p>
+                    </div>
+                    <div class="sub_product_scroll_name">
+                        <p>Mix Keju Coklat</p>
+                    </div>
+                    <div class="sub_product_scroll_category">
+                        <p>Kering</p>
+                    </div>
+                    <div class="sub_product_scroll_price">
+                        <p>Rp 50.000</p>
+                    </div>
+                    <div class="sub_product_scroll_btn">
+                        <a href=""><button class="btn btn-primary">Tambah ke Keranjang</button></a>
+                    </div>
                 </div>
             </div>
         </div>
-    <?php endforeach; ?>
+    </div>
 </div>
 
-<!-- pagination -->
-<div class="container pagination">
-    <?php if (!empty($data_page['result']['pagination']['prev'])) {
-        $num = $data_page['result']['pagination']['prev']; ?>
-        <a href="/pages/produk?page=<?= $num; ?>">&laquo;</a>
-    <?php }  ?>
-    <?php for ($i = 1; $i <= $data_page['result']['pagination']['jumlah_page']; $i++) { ?>
-        <a class="paginat" href="/pages/produk?page=<?= $i; ?>"><?php echo $i ?></a>
-    <?php } ?>
-    <?php if (!empty($data_page['result']['pagination']['next'])) {
-        $num = $data_page['result']['pagination']['next']; ?>
-        <a href="/pages/produk?page=<?= $num; ?>">&raquo;</a>
-    <?php }  ?>
+<div class="pagination">
+    <a href="#" class="prev"><span class="material-symbols-outlined">
+            arrow_back
+        </span>
+    </a>
+    <div class="pagi_number">
+        <a class="active" href="">1</a>
+        <a href="">2</a>
+        <a href="">3</a>
+    </div>
+    <a href="#" class="next"><span class="material-symbols-outlined">
+            arrow_forward
+        </span>
+    </a>
 </div>
 
-
-
-
-<script>
-    var slideIndex = 1;
-    timer = null;
-    showSlides(slideIndex);
-
-    function plusSlides(n) {
-        showSlides((slideIndex += n));
-        clearTimeout(timer);
-    }
-
-    function showSlides(n) {
-        var i;
-        var slides = document.getElementsByClassName("mySlides");
-        var dots = document.getElementsByClassName("dot");
-
-        if (n == undefined) {
-            n = ++slideIndex;
-        }
-        if (n > slides.length) {
-            slideIndex = 1;
-        }
-        if (n < 1) {
-            slideIndex = slides.length;
-        }
-        for (i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
-        }
-        for (i = 0; i < slides.length; i++) {
-            dots[i].className = dots[i].className.replace(" active", "");
-        }
-        slides[slideIndex - 1].style.display = "block";
-        dots[slideIndex - 1].className += " active";
-        timer = setTimeout(showSlides, 4000);
-
-    }
-    // $(document).ready(function() {
-    //     $(".paginat").click(function() {
-    //         $(".paginat").removeClass("paginat_active");
-    //         $(this).addClass("paginat_active");
-    //     })
-    // })
-
-
-
-    // function search() {
-    //     var keyword = $('#search_input').val();
-    //     if (keyword.length >= 3) {
-    //         $.ajax({
-    //             url: "<?php //echo base_url('pages/search'); 
-                            ?>",
-    //             type: "POST",
-    //             data: {
-    //                 keyword: keyword
-    //             },
-    //             success: function(data) {
-    //                 $("#search_results").html(data);
-    //             },
-    //         });
-    //     } else {
-    //         $("#search_results").html("");
-    //     }
-    // }
-
-    // $(document).ready(function() {
-    //     $("#search_btn").on("click", function() {
-    //         search();
-    //     });
-
-    //     $('#search_input').on('keyup', function(e) {
-    //         if (e.keyCode === 13) {
-    //             search();
-    //         }
-    //     });
-    // });
-
-</script>
+<script src="/js/produk.js"></script>
 
 <?= $this->endSection(); ?>

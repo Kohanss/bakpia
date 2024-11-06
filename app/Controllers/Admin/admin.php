@@ -79,7 +79,6 @@ class admin extends BaseController
                     );
                 }
                 if (!empty($error_add_product)) {
-                    // echo 'lol'; die;
                     return view(
                         'admin_page/admin/admin',
                         [
@@ -159,6 +158,8 @@ class admin extends BaseController
                 ));
 
                 $result = curl_exec($curl);
+                print_r($result);
+                die;
                 $result = (array) json_decode($result);
                 curl_close($curl);
             } else {
@@ -262,6 +263,7 @@ class admin extends BaseController
                 ));
 
                 $result = curl_exec($curl);
+                // print_r($result); die;
                 $result = (array) json_decode($result);
                 curl_close($curl);
             } else {
@@ -306,86 +308,6 @@ class admin extends BaseController
         }
     }
 
-    // public function get_detail_add()
-    // {
-    //     //check token/cookie exist
-    //     $token = $this->request->getCookie();
-    //     $token = $token['Token'];
-    //     $cookie_check = $this->check_cookie($token);
-
-    //     // check token + get detail product, category, type, value
-    //     if ($cookie_check == 200) {
-
-    //         // get list category
-
-
-    //         // // get list type
-    //         // $variant['url'] = [BASEURL];
-    //         // $variant['endpoint'] = ['listpublic/variant'];
-    //         // $variant['pagination'] = ['false'];
-    //         // $variant = curlSetOptGet($variant);
-    //         // $variant = json_decode($variant, true);
-
-    //         // // get list value
-    //         // $box['url'] = [BASEURL];
-    //         // $box['endpoint'] = ['listpublic/box'];
-    //         // $box['pagination'] = ['false'];
-    //         // $box = curlSetOptGet($box);
-    //         // $box = json_decode($box, true);
-    //     } else {
-    //         echo "token salah"; // invalid token
-    //     }
-
-    //     $data = [
-    //         'category' => $category
-    //     ];
-    //     return view('admin_page/admin/add_data', $data);
-    // }
-
-    // public function get_detail_update($id)
-    // {
-    //     //check token/cookie exist
-    //     $token = $this->request->getCookie();
-    //     $token = $token['Token'];
-    //     $cookie_check = $this->check_cookie($token);
-
-    //     // get id from params
-    //     $get = $this->request->getGet();
-    //     if (empty($get['id'])) {
-    //         $id = $id;
-    //     } else {
-    //         $id = $get['id'];
-    //     }
-
-    //     // check token + get detail product, category, type, value
-    //     if ($cookie_check == 200) {
-
-    //         // get detail product
-    //         $product['url'] = [BASEURL];
-    //         $product['endpoint'] = ['admin/product/detail'];
-    //         $product['params'] = ['id' => $id];
-    //         $product['http_header'] = ['Token' => $token];
-    //         $product_detail = curlSetOptGet($product);
-    //         $product_detail = json_decode($product_detail, true);
-
-    //         // get list type
-    //         // $variant['url'] = [BASEURL];
-    //         // $variant['endpoint'] = ['admin/selected/variant-selected?id=' . $id . ''];
-    //         // // $variant['pagination'] = ['false'];
-    //         // $variant['http_header'] = ['Token' => $token];
-    //         // $variant = curlSetOptGet($variant);
-    //         // $variant = json_decode($variant, true);
-
-    //     } else {
-    //         echo "token salah"; // invalid token
-    //     }
-
-    //     $data = [
-    //         'product_detail' => $product_detail
-    //     ];
-    //     return view('admin_page/admin/edit_data', $data);
-    // }
-
     public function product_delete()
     {
 
@@ -410,6 +332,7 @@ class admin extends BaseController
 
     public function login_page($token = null)
     {
+        session()->destroy();
         if (!empty($token)) {
             setCookie('Token', $token, time() + (86400));
             return $this->admin();
@@ -457,7 +380,10 @@ class admin extends BaseController
             ),
         ));
 
+
+
         $response = curl_exec($curl);
+
 
         curl_close($curl);
         $response = json_decode($response, true);
@@ -471,15 +397,6 @@ class admin extends BaseController
             $token = $response['result']['token'];
         }
         $result = $this->check_cookie($token);
-        // print_r($result); die;
-        // if ($response['message'] == 'Login Success') {
-        //     return view(
-        //         'layouts/admin_template',
-        //         [
-        //             'role' => $response
-        //         ]
-        //     );
-        // }
 
 
         if ($result == 200) {
@@ -544,6 +461,153 @@ class admin extends BaseController
         return redirect()->to('/login');
     }
 
+    public function nomer_hp_get($msg = null, $data = null)
+    {
+        session()->destroy();
+        if (!empty($msg) && $msg == "Pesan terkirim") {
+            return redirect()->to('/login/lupa-password/otp');
+        } else {
+            return view('admin_page/forget_pass/number', [
+                'message' => $msg
+            ]);
+        }
+    }
+
+    public function nomer_hp_post()
+    {
+        // get data from view (POST)
+        $post = $this->request->getPost();
+        $no_handphone = $post['no_handphone'];
+        // print_r($no_handphone); die; 
+        // if cookie true & data post inputed
+        $endpoint = 'reset/send-otp-reset-password';
+        $post_field = [
+            'no_handphone' => $no_handphone,
+        ];
+
+        $result = curlSetOptPost($endpoint, '', '', $post_field);
+        // print_r($result); die;
+        if ($result['message'] == "Pesan terkirim") {
+            setCookie('expired', $result['data']['expired'], time() + (90));
+            return redirect()->to('/login/lupa-password/otp');
+        } else {
+            // print_r($result); die;
+            return view(
+                'admin_page/forget_pass/number',
+                [
+                    'message' => $result['message'],
+                ]
+            );
+        }
+    }
+
+    public function otp_get()
+    {
+        if (!empty($_COOKIE['expired'])) {
+            $expired = $_COOKIE['expired'];
+            return view('admin_page/forget_pass/otp', [
+                'expired' => $expired
+            ]);
+        } else {
+            return redirect()->to('/login/lupa-password');
+        }
+    }
+
+    public function otp_post()
+    {
+        // get data from view (POST)
+        $post = $this->request->getPost();
+        $otp = $post['otp'];
+        // if cookie true & data post inputed
+        $endpoint = 'reset/check-otp';
+        $post_field = [
+            'otp' => $otp,
+        ];
+
+        $result = curlSetOptPost($endpoint, '', '', $post_field);
+        // print_r($result); die;
+        if (!empty($result['data'])) {
+            session()->set('otp', $result['data']['otp']);
+            session()->set('id_otp', $result['data']['id']);
+            return redirect()->to('/login/lupa-password/otp/reset-pass');
+        } elseif(!empty($_COOKIE['expired'])) {
+            return view(
+                'admin_page/forget_pass/otp',
+                [
+                    'error' => $result['error'],
+                    'expired' => $_COOKIE['expired']
+                ]
+            );
+        } else {
+            return redirect()->to('/login/lupa-password');
+        }
+
+        // return $this->response->setJSON($result);
+    }
+
+    public function reset_pass_get()
+    {
+
+        $otp = session()->get('otp');
+        $id_otp = session()->get('id_otp');
+        if (!empty($otp && $id_otp)) {
+            return view('admin_page/forget_pass/reset_pass', [
+                'otp' => $otp,
+                'id_otp' => $id_otp
+            ]);
+        } else {
+            return redirect()->to('/login/lupa-password');
+        }
+    }
+
+    public function reset_pass_post()
+    {
+        // get data from view (POST)
+        $post = $this->request->getPost();
+        $id = $post['id'];
+        $otp = $post['otp'];
+        $password = $post['password'];
+        $confirm = $post['confirm'];
+        // print_r($otp); die;
+        // if cookie true & data post inputed
+        $endpoint = 'reset/reset-password';
+        $post_field = [
+            'id' => $id,
+            'otp' => $otp,
+            'password' => $password,
+            'confirm' => $confirm
+        ];
+
+        $result = curlSetOptPost($endpoint, '', '', $post_field);
+
+        if (!empty($result['error'])) {
+            if (!empty($result['data']['password'])) {
+                return view('admin_page/forget_pass/reset_pass', [
+                    'msg_error' => $result['data']['password'],
+                    'otp' => $otp,
+                    'id_otp' => $id
+                ]);
+            }
+            if (!empty($result['data']['confirm'])) {
+                return view('admin_page/forget_pass/reset_pass', [
+                    'msg_error' => $result['data']['confirm'],
+                    'otp' => $otp,
+                    'id_otp' => $id
+                ]);
+            }
+        }
+        return redirect()->to('/login');
+
+        // elseif ($result['message'] == "Reset password berhasil") {
+        //     session()->destroy();
+        //     return redirect()->to('/login');
+        // } elseif ($result['error'] == "OTP tidak valid") {
+        //     session()->destroy();
+        //     return redirect()->to('/login');
+        // }
+        // print_r($result); die;
+    }
+
     public function account()
     {
         $token = $this->request->getCookie();
@@ -563,15 +627,6 @@ class admin extends BaseController
                 $curl = json_decode($curl, true);
                 // print_r($curl);
                 // die;
-                // if(empty($curl['eror'])){
-                //     return view(
-                //         'admin_page/eror',
-                //         [
-                //             'title' => 'Akun',
-                //             'data_get' => $curl
-                //         ]
-                //     );
-                // }
 
                 return view(
                     'admin_page/admin/account',
@@ -697,7 +752,7 @@ class admin extends BaseController
         $no_handphone = $post['phoneNumber'];
         $username = $post['username'];
         $password = $post['password'];
-        $no_handphone = (integer) $no_handphone;
+        $no_handphone = (int) $no_handphone;
         // print_r($no_handphone); die;
         // if cookie true & data post inputed
         // print_r($cookie_check); die;

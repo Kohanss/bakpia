@@ -1,0 +1,39 @@
+.bgimg {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.63), rgba(0, 0, 0, 0.623)), url("/img/pemandangan.webp");
+  position: fixed;
+  z-index: -1;
+  background-attachment: scroll;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  filter: blur(5px);
+  margin: -10px; 
+}
+
+.form{
+    z-index: 1;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form_wrapper{
+    width: 500px;
+    height: 260px;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: white ;
+}
+
+form button{
+    width: 100%;
+}

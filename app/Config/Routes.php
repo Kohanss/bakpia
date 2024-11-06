@@ -5,14 +5,11 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-// $routes->get('/', 'Home::index');
 $routes->get('/', 'Pages::index');
 $routes->get('/produk', 'Pages::produk');
 $routes->get('/pages/search', 'Pages::search');
 $routes->get('/tentang', 'Pages::tentang');
 $routes->get('/toko', 'Pages::toko');
-// $routes->post('pages/search', 'Pages::search', ['post']);
-// $routes->get('/loginUser', 'Pages::loginUser');
 
 
 
@@ -25,10 +22,18 @@ $routes->get('/admin', 'Admin\admin::admin');
 
 // LOGIN
 $routes->get('/login', 'Admin\admin::login_page');
-$routes->post('/login', 'Admin\admin::login_post');
+$routes->post('/login_post', 'Admin\admin::login_post');
 
 // LOGOUT
 $routes->post('/logout', 'Admin\admin::logout');
+
+// LUPA PASS
+$routes->get('/login/lupa-password', 'Admin\admin::nomer_hp_get');
+$routes->post('/no-hp', 'Admin\admin::nomer_hp_post');
+$routes->get('/login/lupa-password/otp', 'Admin\admin::otp_get');
+$routes->post('/otp', 'Admin\admin::otp_post'); 
+$routes->get('/login/lupa-password/otp/reset-pass', 'Admin\admin::reset_pass_get');
+$routes->post('/reset-pass', 'Admin\admin::reset_pass_post'); 
 
 // SEARCH DATA
 $routes->post('/admin/search', 'Admin\admin::search');
