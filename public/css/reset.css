@@ -368,8 +368,8 @@ table {
   color: rgb(116, 81, 15);
 }
 
-.navbar_link_icon {
-  cursor: pointer;
+.navbar_link_icon li a {
+  color: rgb(116, 81, 15);
 }
 
 /* nav bawah -------------------------------*/

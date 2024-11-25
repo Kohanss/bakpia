@@ -31,10 +31,10 @@
                         <?php
                         // print_r($data_get); die;
                         ?>
-                        <?php $number = 1; ?>
-                        <?php foreach ($data_get['result'] as $key => $data) { ?>
+                        <?php $number = 1;
+                        ?>
+                        <?php foreach ($data_get['result']['data'] as $key => $data) { ?>
                             <?php
-                            // print_r($data); die;
                             ?>
                             <tr>
                                 <td><?php echo $number ?></td>

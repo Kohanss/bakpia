@@ -86,7 +86,7 @@ if (!empty($expired)) {
         //             contentType: false,
         //             data: formData,
         //             success: function(response) {
-        //                 console.log(response)
+        //                 console.log(response) 
         //                 $('#response').html(`
         //                     <p>${response.error}</p>
         //                 `);

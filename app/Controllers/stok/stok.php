@@ -8,22 +8,20 @@ class stok extends BaseController
 {
     public function check_cookie($token)
     {
+        $token = (string) $token;
+        // print_r($token); die;
         $curl['url'] = [BASEURL];
-        $curl['endpoint'] = ['admin/product/list-product'];
+        $curl['endpoint'] = ['admin/product/list-product-sesuai'];
         $curl['pagination'] = ['false'];
         $curl['max_redirect'] = 10;
         $curl['timeout'] = [1];
         $curl['return_transfer'] = true;
         $curl['http_header'] = [
-            'Token' => $token,
+            'Token' => "$token",
         ];
         $data = curlSetOptGet($curl);
         $data = json_decode($data, true);
-        // print_r($data); die; 
-        // foreach ($data as $key => $value) {
-        //     $data = $value['Token'];
-        // }
-
+        // print_r($data); die;
         if (isset($data['code'])) {
             return 500;
         }
@@ -36,149 +34,149 @@ class stok extends BaseController
         }
     }
 
-    //stock
-    public function stock($pesan = null)
+    public function stock()
     {
         $token = $this->request->getCookie();
         if (empty($token['Token'])) {
             return redirect()->to('/login');
         }
-        
-        
+
         if (!empty($token['Token'])) {
             $result = $this->check_cookie($token['Token']);
             $token = $token['Token'];
-            if ($result == 200) {
-                $curl['url'] = [BASEURL];
-                $curl['endpoint'] = ['admin/stock/list-stock'];
-                $curl['method'] = ['GET'];
-                $curl['http_header'] = ['Token' => $token];
-                $curl['pagination'] = ['false'];
-                $curl['max_redirect'] = 10;
-                $curl['timeout'] = [1];
-                $curl['follow_location'] = true;
-                $curl['return_transfer'] = true;
-                $data = curlSetOptGet($curl);
-                $data = json_decode($data, true);
-                    // print_r($data);
-                    // die; 
-                {
-                    if (empty($pesan)) {
-                        return view(
-                            'admin_page/stok/stok',
-                            [
-                                'title' => 'Stock',
-                                'data_get' => $data
-                            ]
+            if ($result == 200) { {
+                    return view(
+                        'admin_page/stok/stok',
+                        [
+                            'title' => 'Stock'
+                        ]
 
-                        );
-                    } else {
-                        return view(
-                            'admin_page/stok/stok',
-                            [
-                                'title' => 'Stock',
-                                'data_get' => $data,
-                                'messege' => $pesan
-                            ]
-
-                        );
-                    }
+                    );
                 }
             }
         }
     }
 
-    // public function get_detail_update_stock($id, $message = null)
-    // {
-    //     //check token/cookie exist
-    //     $token = $this->request->getCookie();
-    //     $token = $token['Token'];
-    //     $cookie_check = $this->check_cookie($token);
+    public function stock_get()
+    {
+        $token = $this->request->getCookie();
+        if (empty($token['Token'])) {
+            return redirect()->to('/login');
+        }
 
-    //     // get id from params
-    //     $get = $this->request->getGet();
-    //     if (empty($get['id'])) {
-    //         $id = $id;
-    //     } else {
-    //         $id = $get['id'];
-    //     }
 
-    //     // check token + get detail product, category, type, value
-    //     if ($cookie_check == 200) {
+        if (!empty($token['Token'])) {
+            $result = $this->check_cookie($token['Token']);
+            $token = $token['Token'];
+            if ($result == 200) { {
+                    $page = $this->request->getGet('page') ?? 1;
+                    $limit = $this->request->getGet('limit') ?? 10;
+                    $search = $this->request->getGet('search') ?? '';
 
-    //         // get detail product
-    //         $product['url'] = [BASEURL];
-    //         $product['endpoint'] = ['admin/stock/detail-stock'];
-    //         $product['params'] = ['id' => $id];
-    //         $product['http_header'] = ['Token' => $token];
-    //         $product_detail = curlSetOptGet($product);
-    //         $product_detail = json_decode($product_detail, true);
+                    $curl['url'] = [BASEURL];
+                    $curl['endpoint'] = ['admin/stock/list-stock'];
+                    $curl['http_header'] = ['Token' => $token];
+                    $curl['pagination'] = ['true'];
+                    $curl['params'] = [
+                        'page' => $page,
+                        'limit' => $limit,
+                        'search' => $search
+                    ];
+                    $data = curlSetOptGet($curl);
+                    $data = json_decode($data, true);
+                    // print_r($data);
+                    // die;
 
-    //         // get list category
-    //         $category['url'] = [BASEURL];
-    //         $category['endpoint'] = ['admin/selected/category-selected?id=' . $id . ''];
-    //         // $category['pagination'] = ['false'];
-    //         $category['http_header'] = ['Token' => $token];
-    //         $category = curlSetOptGet($category);
-    //         $category = json_decode($category, true);
-    //         // print_r($category); die;
+                    return $this->response->setJSON($data);
+                }
+            }
+        }
+    }
 
-    //         // get list type
-    //         $variant['url'] = [BASEURL];
-    //         $variant['endpoint'] = ['admin/selected/variant-selected?id=' . $id . ''];
-    //         // $variant['pagination'] = ['false'];
-    //         $variant['http_header'] = ['Token' => $token];
-    //         $variant = curlSetOptGet($variant);
-    //         $variant = json_decode($variant, true);
+    public function add_product_stock()
+    {
+        $token = $this->request->getCookie();
+        if (empty($token['Token'])) {
+            return redirect()->to('/login');
+        }
 
-    //         // get list value
-    //         $box['url'] = [BASEURL];
-    //         $box['endpoint'] = ['admin/selected/box-selected?id=' . $id . ''];
-    //         // $box['pagination'] = ['false'];
-    //         $box['http_header'] = ['Token' => $token];
-    //         $box = curlSetOptGet($box);
-    //         $box = json_decode($box, true);
-    //     } else {
-    //         echo "token salah"; // invalid token
-    //     }
+        if (!empty($token['Token'])) {
+            $result = $this->check_cookie($token['Token']);
+            $token = $token['Token'];
 
-    //     $data = [
-    //         'product_detail' => $product_detail,
-    //         // 'category' => $category,
-    //         // 'variant' => $variant,
-    //         // 'box' => $box,
-    //         'message' => $message
-    //     ];
-    //     return view('admin_page/stok/edit_data_stok', $data);
-    // }
+            if ($result == 200) {
+                $id = $this->request->getPost('id');
+                $value = $this->request->getPost('value');
+
+                $endpoint = 'admin/stock/add';
+                $header = 'Token: ' . $token;
+                $data = [
+                    'id' => $id,
+                    'value' => $value
+                ];
+
+                $response = curlSetOptPost($endpoint, $header, '', $data);
+
+                return $this->response->setJSON($response);
+            }
+        }
+    }
+
+    public function reduce_product_stock()
+    {
+        $token = $this->request->getCookie();
+        if (empty($token['Token'])) {
+            return redirect()->to('/login');
+        }
+
+        if (!empty($token['Token'])) {
+            $result = $this->check_cookie($token['Token']);
+            $token = $token['Token'];
+
+            if ($result == 200) {
+                $id = $this->request->getPost('id');
+                $value = $this->request->getPost('value');
+
+                $endpoint = 'admin/stock/reduce';
+                $header = 'Token: ' . $token;
+                $data = [
+                    'id' => $id,
+                    'value' => $value
+                ];
+
+                $response = curlSetOptPost($endpoint, $header, '', $data);
+
+                return $this->response->setJSON($response);
+            }
+        }
+    }
 
     public function update_product_stock()
     {
-        //check token/cookie exist
         $token = $this->request->getCookie();
-        $token = $token['Token'];
-        $cookie_check = $this->check_cookie($token);
+        if (empty($token['Token'])) {
+            return redirect()->to('/login');
+        }
 
-        // get data from view (POST)
-        $post = $this->request->getPost();
+        if (!empty($token['Token'])) {
+            $result = $this->check_cookie($token['Token']);
+            $token = $token['Token'];
 
-        $id = $post['id'];
-        $stock = $post['stock'];
-        // print_r($token); die;
-        // if cookie true & data post inputed
-        if ($cookie_check == 200) {
+            if ($result == 200) {
+                $id = $this->request->getPost('id');
+                $stock = $this->request->getPost('stock');
 
-            $endpoint = 'admin/stock/update?id=' . $id . '';
-            $header = 'Token: ' . $token . '';
-            $post_field = [
-                'stock' => $stock
-            ];
-            $result =  curlSetOptPost($endpoint, $header, '', $post_field);
-            // print_r($result); die;
-            $pesan = $result['message'];
-            return $this->stock($pesan);
-        } else {
-            echo "token not registered";
+                $endpoint = 'admin/stock/update';
+                $header = 'Token: ' . $token;
+                $data = [
+                    'id' => $id,
+                    'stock' => $stock
+                ];
+
+                $response = curlSetOptPost($endpoint, $header, '', $data);
+
+                return $this->response->setJSON($response);
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ class transaction extends BaseController
     public function check_cookie($token)
     {
         $curl['url'] = [BASEURL];
-        $curl['endpoint'] = ['admin/product/list-product'];
+        $curl['endpoint'] = ['admin/product/list-product-sesuai'];
         $curl['pagination'] = ['false'];
         $curl['max_redirect'] = 10;
         $curl['timeout'] = [1];
@@ -44,36 +44,137 @@ class transaction extends BaseController
             return redirect()->to('/login');
         }
 
+        if (!empty($token['Token'])) {
+            $result = $this->check_cookie($token['Token']);
+            $token = $token['Token'];
+
+            if ($result == 200) {
+                return view(
+                    'admin_page/transaction/transaction_page',
+                    [
+                        'title' => 'Transaction'
+                    ]
+
+                );
+            } else {
+                echo "<script type='text/javascript'>alert('Data tidak di temukan');</script>";
+            }
+        }
+    }
+    public function transaction_get()
+    {
+        $token = $this->request->getCookie();
+        if (empty($token['Token'])) {
+            return redirect()->to('/login');
+        }
 
         if (!empty($token['Token'])) {
             $result = $this->check_cookie($token['Token']);
             $token = $token['Token'];
 
-            // $get = $this->request->getGet();
-            // if (empty($get['id'])) {
-            //     $id = $id;
-            // } else {
-            //     $id = $get['id'];
-            // }
-
             if ($result == 200) {
+                $page = $this->request->getGet('page') ?? 1;
+                $limit = $this->request->getGet('limit') ?? 10;
+                $search = $this->request->getGet('search') ?? '';
+
                 $curl['url'] = [BASEURL];
-                $curl['endpoint'] = ['admin/confirmation/detail'];
+                $curl['endpoint'] = ['admin/confirmation/list-transaction'];
                 $curl['http_header'] = ['Token' => $token];
+                $curl['pagination'] = ['true'];
+                $curl['params'] = [
+                    'page' => $page,
+                    'limit' => $limit,
+                    'search' => $search
+                ];
                 $data = curlSetOptGet($curl);
                 $data = json_decode($data, true);
                 // print_r($data);
                 // die;
 
-                return view(
-                    'admin_page/transaction/transaction',
-                    [
-                        'title' => 'transaction',
-                        'data_get' => $data
-                    ]
-
-                );
+                return $this->response->setJSON($data);
             }
+        }
+    }
+
+    public function detil_transaksi()
+    {
+        $token = $this->request->getCookie();
+        if (empty($token['Token'])) {
+            return redirect()->to('/login');
+        }
+
+        if (!empty($token['Token'])) {
+            $result = $this->check_cookie($token['Token']);
+            $token = $token['Token'];
+
+            if ($result == 200) {
+                $id = $this->request->getGet('id');
+
+                $curl['url'] = [BASEURL];
+                $curl['endpoint'] = ['admin/confirmation/list-order-product'];
+                $curl['http_header'] = ['Token' => $token];
+                $curl['params'] = [
+                    'id' => $id
+                ];
+                $data = curlSetOptGet($curl);
+                $data = json_decode($data, true);
+                // print_r($data);
+                // die;
+
+                return $this->response->setJSON($data);
+            }
+        }
+    }
+
+    public function accept_product_transaction()
+    {
+        $id = $this->request->getPost();
+        $id = $id['id'];
+        
+        $token = $this->request->getCookie();
+        $token = $token['Token'];
+        $cookie_check = $this->check_cookie($token);
+        // print_r($id);
+        // die;    
+        if ($cookie_check == 200) {
+
+            $endpoint = 'admin/confirmation/confirm';
+            $header = 'Token: ' . $token;
+            $data = [
+                'id' => $id
+            ];
+
+            $response = curlSetOptPost($endpoint, $header, '', $data);
+            // print_r($response);
+            // die;
+            return $this->response->setJSON($response);
+        }
+    }
+
+    public function product_delete_transaction()
+    {
+        $id = $this->request->getPost();
+        $id = $id['id'];
+        $reason = 'null';
+
+        $token = $this->request->getCookie();
+        $token = $token['Token'];
+        $cookie_check = $this->check_cookie($token);
+        // print_r($id);
+        // die;    
+        if ($cookie_check == 200) {
+
+            $endpoint = 'admin/confirmation/cancel';
+            $header = 'Token: ' . $token;
+            $data = [
+                'id' => $id,
+                'reason' => $reason
+            ];
+
+            $response = curlSetOptPost($endpoint, $header, '', $data);
+            // print_r($response);
+            // die;
+            return $this->response->setJSON($response);
         }
     }
 
@@ -114,58 +215,6 @@ class transaction extends BaseController
 
                 );
             }
-        }
-    }
-
-
-    public function accept_product_transaction()
-    {
-        //check token/cookie exist
-        $token = $this->request->getCookie();
-        $token = $token['Token'];
-        $cookie_check = $this->check_cookie($token);
-
-        // get data from view (POST)
-        $post = $this->request->getPost();
-
-        $id = $post['id'];
-        // print_r($token); die;
-        // if cookie true & data post inputed
-        if ($cookie_check == 200) {
-
-            $endpoint = 'admin/confirmation/confirm?id=' . $id . '';
-            $header = 'Token: ' . $token . '';
-            $data = [];
-
-            curlSetOptPost($endpoint, $header, '', $data);
-        } else {
-            echo "token not registered";
-        }
-
-        return redirect()->to('/transaction');
-    }
-
-    public function product_delete_transaction()
-    {
-
-        $id = $this->request->getPost();
-        $id = $id['id'];
-
-        $token = $this->request->getCookie();
-        $token = $token['Token'];
-        $cookie_check = $this->check_cookie($token);
-        // print_r($id);
-        // die;    
-
-        if ($cookie_check == 200) {
-
-            $endpoint = 'admin/confirmation/cancel?id=' . $id . '';
-            $header = 'Token: ' . $token . '';
-
-            curlSetOptPost($endpoint, $header, '', []);
-            // return $this->admin();
-
-            return redirect()->to('/transaction');
         }
     }
 }

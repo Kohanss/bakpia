@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use CURLFile;
+use Exception;
 
 
 class admin extends BaseController
@@ -13,7 +14,7 @@ class admin extends BaseController
         $token = (string) $token;
         // print_r($token); die;
         $curl['url'] = [BASEURL];
-        $curl['endpoint'] = ['admin/product/list-product'];
+        $curl['endpoint'] = ['admin/product/list-product-sesuai'];
         $curl['pagination'] = ['false'];
         $curl['max_redirect'] = 10;
         $curl['timeout'] = [1];
@@ -33,300 +34,6 @@ class admin extends BaseController
             } else {
                 return 401;
             }
-        }
-    }
-
-    public function admin($error_add_product = null, $error_update_product = null, $success_add = null, $success_update = null)
-    {
-        // print_r($error_add_product); die;
-        // check token/cookie exist
-        $token = $this->request->getCookie();
-        if (empty($token['Token'])) {
-            return redirect()->to('/login');
-        }
-        if (!empty($token['Token'])) {
-            $result = $this->check_cookie($token['Token']);
-            $token = $token['Token'];
-            if ($result == 200) {
-                $curl['url'] = [BASEURL];
-                $curl['endpoint'] = ['admin/product/list-product'];
-                $curl['pagination'] = ['false'];
-                $curl['http_header'] = ['Token' => $token];
-                $curl['max_redirect'] = 10;
-                $curl['timeout'] = [1];
-                $data = curlSetOptGet($curl);
-                $data = json_decode($data, true);
-
-
-                $category['url'] = [BASEURL];
-                $category['endpoint'] = ['listpublic/category'];
-                $category['pagination'] = ['false'];
-                $category = curlSetOptGet($category);
-                $category = json_decode($category, true);
-                // print_r($data); die;
-
-                if (empty($error_add_product)) {
-                    return view(
-                        'admin_page/admin/admin',
-                        [
-                            'title' => 'Product',
-                            'data_get' => $data,
-                            'category' => $category,
-                            'success_add' => $success_add,
-                            'success_update' => $success_update,
-                        ]
-
-                    );
-                }
-                if (!empty($error_add_product)) {
-                    return view(
-                        'admin_page/admin/admin',
-                        [
-                            'title' => 'Product',
-                            'data_get' => $data,
-                            'category' => $category,
-                            'error' => $error_add_product
-                        ]
-                    );
-                } else {
-                    return view(
-                        'admin_page/admin/edit_admin',
-                        [
-                            'title' => 'Edit Akun',
-                            'data_get' => $curl,
-                            'error_update' => $error_update_product
-                        ]
-                    );
-                }
-            }
-        }
-    }
-
-    public function add_product()
-    {
-        //check token/cookie exist
-        $token = $this->request->getCookie();
-        $token = $token['Token'];
-        $cookie_check = $this->check_cookie($token);
-
-        // get data from view (POST)
-        $post = $this->request->getPost();
-
-        $product = $post['namaProduk'];
-        $variant = $post['variant'];
-        $category = $post['category'];
-        $description = $post['description'];
-        $stock = $post['stock'];
-        $harga = $post['harga'];
-
-        // Handle file upload
-        $image = $_FILES['image'];
-        $filePath = $image["tmp_name"];
-        $fileName = $image["name"];
-        $fileType = $image["type"];
-        $cfile = new CURLFile($filePath, $fileType, $fileName);
-        // print_r($image);
-        // die;
-
-        // print_r($cfile); die;
-        // if cookie true & data post inputed
-        if ($cookie_check == 200) {
-            if (!empty($cfile->name)) {
-                $curl = curl_init();
-
-                curl_setopt_array($curl, array(
-                    CURLOPT_URL => BASEURL . 'admin/product/insert',
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'POST',
-                    CURLOPT_POSTFIELDS => array(
-                        'name' => $product,
-                        'variant' => $variant,
-                        'category' => $category,
-                        'price' => $harga,
-                        'stock' => $stock,
-                        'description' => $description,
-                        'upload' => $cfile
-                    ),
-                    CURLOPT_HTTPHEADER => array(
-                        "Token: {$token}"
-                    ),
-                ));
-
-                $result = curl_exec($curl);
-                print_r($result);
-                die;
-                $result = (array) json_decode($result);
-                curl_close($curl);
-            } else {
-                $curl = curl_init();
-
-                curl_setopt_array($curl, array(
-                    CURLOPT_URL => BASEURL . 'admin/product/insert',
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'POST',
-                    CURLOPT_POSTFIELDS => array(
-                        'name' => $product,
-                        'variant' => $variant,
-                        'category' => $category,
-                        'price' => $harga,
-                        'stock' => $stock,
-                        'description' => $description,
-                        'upload' => ''
-                    ),
-                    CURLOPT_HTTPHEADER => array(
-                        "Token: {$token}"
-                    ),
-                ));
-
-                $result = curl_exec($curl);
-                $result = (array) json_decode($result);
-                curl_close($curl);
-            }
-            // print_r($result); die;
-
-            // print_r($result); die;
-            if (!empty($result['error'])) {
-                $error_add_product = $result['data'];
-                return $this->admin($error_add_product);
-            } else {
-                // $this->session->set_flashdata('message', 'Product Added Successfully');
-                return $this->admin(null, null, $result);
-                // return redirect()->to('/admin');
-            }
-        }
-    }
-
-    public function update_product()
-    {
-        //check token/cookie exist
-        $token = $this->request->getCookie();
-        $token = $token['Token'];
-        $cookie_check = $this->check_cookie($token);
-
-        // get data from view (POST)
-        $post = $this->request->getPost();
-
-        $id = $post['id'];
-        $product = $post['namaProduk'];
-        $variant = $post['variant'];
-        $category = $post['category'];
-        $description = $post['description'];
-        $stock = $post['stock'];
-        $harga = $post['harga'];
-
-        // Handle file upload
-        $image = $_FILES['image'];
-        $filePath = $image["tmp_name"];
-        $fileName = $image["name"];
-        $fileType = $image["type"];
-        $cfile = new CURLFile($filePath, $fileType, $fileName);
-        // print_r($image);
-        // die;
-
-        // print_r($cfile); die;
-        // if cookie true & data post inputed
-        if ($cookie_check == 200) {
-            if (!empty($cfile->name)) {
-                $curl = curl_init();
-
-                curl_setopt_array($curl, array(
-                    CURLOPT_URL => BASEURL . 'admin/product/update?id=' . $id,
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'POST',
-                    CURLOPT_POSTFIELDS => array(
-                        'name' => $product,
-                        'variant' => $variant,
-                        'category' => $category,
-                        'price' => $harga,
-                        'stock' => $stock,
-                        'description' => $description,
-                        'upload' => $cfile
-                    ),
-                    CURLOPT_HTTPHEADER => array(
-                        "Token: {$token}"
-                    ),
-                ));
-
-                $result = curl_exec($curl);
-                // print_r($result); die;
-                $result = (array) json_decode($result);
-                curl_close($curl);
-            } else {
-                $curl = curl_init();
-
-                curl_setopt_array($curl, array(
-                    CURLOPT_URL => BASEURL . 'admin/product/update?id=' . $id,
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'POST',
-                    CURLOPT_POSTFIELDS => array(
-                        'name' => $product,
-                        'variant' => $variant,
-                        'category' => $category,
-                        'price' => $harga,
-                        'stock' => $stock,
-                        'description' => $description,
-                        'upload' => ''
-                    ),
-                    CURLOPT_HTTPHEADER => array(
-                        "Token: {$token}"
-                    ),
-                ));
-
-                $result = curl_exec($curl);
-                $result = (array) json_decode($result);
-                curl_close($curl);
-            }
-
-            // print_r($result); die;
-            if (!empty($result['error'])) {
-                $error_update_product = $result['data'];
-                return $this->admin(null, $error_update_product);
-            } else {
-                return $this->admin(null, null, null, $result);
-                return redirect()->to('/admin');
-            }
-        }
-    }
-
-    public function product_delete()
-    {
-
-        $id = $this->request->getPost();
-        $id = $id['id'];
-
-        $token = $this->request->getCookie();
-        $token = $token['Token'];
-        $cookie_check = $this->check_cookie($token);
-        // print_r($id);
-        // die;    
-        if ($cookie_check == 200) {
-
-            $endpoint = 'admin/product/delete?id=' . $id . '';
-            $header = 'Token: ' . $token . '';
-
-            curlSetOptPost($endpoint, $header, '', []);
-            // return $this->admin();
-            return redirect()->to('/login');
         }
     }
 
@@ -414,38 +121,6 @@ class admin extends BaseController
         }
     }
 
-    public function search()
-    {
-        //check token/cookie exist
-        $token = $this->request->getCookie();
-        $token = $token['Token'];
-        $cookie_check = $this->check_cookie($token);
-
-        if ($cookie_check == 200) {
-            $post = $this->request->getPost();
-            $input = $post['search'];
-
-            // get list category
-            $search['url'] = [BASEURL];
-            $search['endpoint'] = ['admin/product/list-product'];
-            $search['params'] = [
-                'search' => $input
-            ];
-            $search['pagination'] = ['false'];
-            $search = curlSetOptGet($search);
-            $search = json_decode($search, true);
-
-            return view(
-                'admin_page/admin/admin',
-                [
-                    'title' => 'Griya Bakpia | Produk',
-                    'data_get' => $search
-                ]
-
-            );
-        }
-    }
-
     public function logout()
     {
         $token = $this->request->getCookie();
@@ -530,7 +205,7 @@ class admin extends BaseController
             session()->set('otp', $result['data']['otp']);
             session()->set('id_otp', $result['data']['id']);
             return redirect()->to('/login/lupa-password/otp/reset-pass');
-        } elseif(!empty($_COOKIE['expired'])) {
+        } elseif (!empty($_COOKIE['expired'])) {
             return view(
                 'admin_page/forget_pass/otp',
                 [
@@ -606,6 +281,248 @@ class admin extends BaseController
         //     return redirect()->to('/login');
         // }
         // print_r($result); die;
+    }
+
+
+    public function admin()
+    {
+        // print_r($error_add_product); die;
+        // check token/cookie exist
+        $token = $this->request->getCookie();
+        if (empty($token['Token'])) {
+            return redirect()->to('/login');
+        }
+        if (!empty($token['Token'])) {
+            $result = $this->check_cookie($token['Token']);
+            $token = $token['Token'];
+            if ($result == 200) {
+
+                $category['url'] = [BASEURL];
+                $category['endpoint'] = ['listpublic/category'];
+                $category['pagination'] = ['false'];
+                $category = curlSetOptGet($category);
+                $category = json_decode($category, true);
+
+                $variant['url'] = [BASEURL];
+                $variant['endpoint'] = ['listpublic/variant'];
+                $variant['pagination'] = ['false'];
+                $variant = curlSetOptGet($variant);
+                $variant = json_decode($variant, true);
+
+
+                return view('admin_page/admin/admin', [
+                    'title' => 'Produk',
+                    'category' => $category['result'],
+                    'variant' => $variant['result']
+                ]);
+            } else {
+                echo "<script type='text/javascript'>alert('Data tidak di temukan');</script>";
+            }
+        }
+    }
+
+    public function admin_get()
+    {
+        // Check if token/cookie exists
+        $token = $this->request->getCookie();
+        if (empty($token['Token'])) {
+            return redirect()->to('/login');
+        }
+
+        if (!empty($token['Token'])) {
+            $result = $this->check_cookie($token['Token']);
+            $token = $token['Token'];
+
+            if ($result == 200) {
+                $page = $this->request->getGet('page') ?? 1;
+                $limit = $this->request->getGet('limit') ?? 10;
+                $search = $this->request->getGet('search') ?? '';
+
+                // Configure Curl request for product data
+                $curl['url'] = [BASEURL];
+                $curl['endpoint'] = ['admin/product/list-product-sesuai'];
+                $curl['http_header'] = ['Token' => $token];
+                $curl['max_redirect'] = 10;
+                $curl['timeout'] = [1];
+                $curl['pagination'] = ['true'];
+                $curl['params'] = [
+                    'page' => $page,
+                    'limit' => $limit,
+                    'search' => $search
+                ];
+                $data = curlSetOptGet($curl);
+                $data = json_decode($data, true);
+
+                $category['url'] = [BASEURL];
+                $category['endpoint'] = ['listpublic/category'];
+                $category['pagination'] = ['false'];
+                $category = curlSetOptGet($category);
+                $category = json_decode($category, true);
+
+                $variant['url'] = [BASEURL];
+                $variant['endpoint'] = ['listpublic/variant'];
+                $variant['pagination'] = ['false'];
+                $variant = curlSetOptGet($variant);
+                $variant = json_decode($variant, true);
+
+                $return = [
+                    'title' => 'Produk',
+                    'data' => $data['result']['data'],
+                    'variant' => $variant['result']['data'],
+                    'category' => $category['result']['data'],
+                    'pagination' => [
+                        'total_pages' => $data['result']['pagination']['total_page'] ?? 1,
+                        'current_page' => $data['result']['pagination']['page'] ?? $page,
+                        'total_items' => $data['result']['pagination']['total_data'] ?? 0,
+                        'detail' => $data['result']['pagination']['detail'] ?? [], // Ambil angka halaman
+                        'prev' => $data['result']['pagination']['prev'] ?? null,
+                        'next' => $data['result']['pagination']['next'] ?? null
+                    ]
+                ];
+                return $this->response->setJSON($return);
+            }
+        }
+    }
+
+
+    public function add_product()
+    {
+        try {
+            $token = $this->request->getCookie('Token');
+            if (!$token) {
+                return $this->response->setStatusCode(401)->setJSON(['error' => true, 'message' => 'Unauthorized']);
+            }
+
+            $cookie_check = $this->check_cookie($token);
+            if ($cookie_check !== 200) {
+                return $this->response->setStatusCode(401)->setJSON(['error' => true, 'message' => 'Unauthorized']);
+            }
+
+            $product = $this->request->getPost('namaProduk');
+            $variant = $this->request->getPost('variant');
+            $category = $this->request->getPost('category');
+            $description = $this->request->getPost('description');
+            $stock = $this->request->getPost('stock');
+            $harga = $this->request->getPost('harga');
+
+            // Handle file upload
+            $image = $this->request->getFile('image');
+            $cfile = null;
+            if ($image && $image->isValid() && !$image->hasMoved()) {
+                $filePath = $image->getTempName();
+                $fileName = $image->getName();
+                $fileType = $image->getClientMimeType();
+                $cfile = new CURLFile($filePath, $fileType, $fileName);
+            }
+
+            $endpoint = 'admin/product/insert';
+            $header = 'Token: ' . $token;
+            $data = [
+                'name' => $product,
+                'variant_id' => $variant,
+                'category_id' => $category,
+                'price' => $harga,
+                'stock' => $stock,
+                'description' => $description,
+            ];
+
+            // Add the file to the data array if it exists
+            if ($cfile) {
+                $data['upload'] = $cfile;
+            }
+
+            // Make the API call
+            $response = curlSetOptPost($endpoint, $header, '', $data);
+
+            return $this->response->setJSON([
+                'success' => true,
+                'data' => $response['data'] ?? [],
+                'message' => $response['message'] ?? 'Product added successfully'
+            ]);
+        } catch (Exception $e) {
+            return $this->response->setStatusCode(500)->setJSON(['error' => true, 'message' => $e->getMessage()]);
+        }
+    }
+
+    public function update_product()
+    {
+        try {
+            $token = $this->request->getCookie('Token');
+            if (!$token) {
+                return $this->response->setStatusCode(401)->setJSON(['error' => true, 'message' => 'Unauthorized']);
+            }
+
+            $cookie_check = $this->check_cookie($token);
+            if ($cookie_check !== 200) {
+                return $this->response->setStatusCode(401)->setJSON(['error' => true, 'message' => 'Unauthorized']);
+            }
+
+            $id = $this->request->getPost('id');
+            $product = $this->request->getPost('namaProduk');
+            $variant = $this->request->getPost('variant');
+            $category = $this->request->getPost('category');
+            $description = $this->request->getPost('description');
+            $harga = $this->request->getPost('harga');
+
+            // Handle file upload
+            $image = $this->request->getFile('image');
+            $cfile = null;
+            if ($image && $image->isValid() && !$image->hasMoved()) {
+                $cfile = new CURLFile($image->getTempName(), $image->getClientMimeType(), $image->getName());
+            }
+
+            $endpoint = 'admin/product/update';
+            $header = 'Token: ' . $token;
+            $data = [
+                'id' => $id,
+                'name' => $product,
+                'variant_id' => $variant,
+                'category_id' => $category,
+                'price' => $harga,
+                'description' => $description,
+            ];
+
+            // Include the file only if it's valid
+            if ($cfile) {
+                $data['upload'] = $cfile;
+            }
+
+            $response = curlSetOptPost($endpoint, $header, '', $data);
+
+            return $this->response->setJSON([
+                'success' => true,
+                'data' => $response['data'] ?? [],
+                'message' => $response['message'] ?? 'Product updated successfully'
+            ]);
+        } catch (Exception $e) {
+            return $this->response->setStatusCode(500)->setJSON(['error' => true, 'message' => $e->getMessage()]);
+        }
+    }
+
+    public function product_delete()
+    {
+        $id = $this->request->getPost();
+        $id = $id['id'];
+
+        $token = $this->request->getCookie();
+        $token = $token['Token'];
+        $cookie_check = $this->check_cookie($token);
+        // print_r($id);
+        // die;    
+        if ($cookie_check == 200) {
+
+            // Set up the delete request
+            $endpoint = 'admin/product/delete';
+            $header = 'Token: ' . $token;
+            $data = [
+                'id' => $id
+            ];
+
+            $response = curlSetOptPost($endpoint, $header, '', $data);
+            // print_r($response);
+            // die;
+            return $this->response->setJSON($response);
+        }
     }
 
     public function account()
@@ -757,9 +674,10 @@ class admin extends BaseController
         // if cookie true & data post inputed
         // print_r($cookie_check); die;
         if ($cookie_check == 200) {
-            $endpoint = 'admin/user/update-admin?id=' . $id . '';
+            $endpoint = 'admin/user/update-admin';
             $header = 'Token: ' . "$token" . '';
             $post_field = [
+                'id' => $id,
                 'username' => $username,
                 'password' => $password,
                 'name' => $name,
@@ -837,10 +755,13 @@ class admin extends BaseController
         $token = $token['Token'];
 
 
-        $endpoint = 'admin/user/delete?id=' . $id . '';
+        $endpoint = 'admin/user/delete';
         $header = 'Token: ' . $token . '';
+        $post_field = [
+            'id' => $id
+        ];
 
-        curlSetOptPost($endpoint, $header, '', []);
+        curlSetOptPost($endpoint, $header, '', $post_field);
 
         return redirect()->to('/edit-account');
     }

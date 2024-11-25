@@ -202,11 +202,13 @@
 }
 
 .card_toko_img {
-  height: 200px;
+  height: 250px;
+  overflow: hidden;
 }
 
 .card_toko_img img {
   width: 500px;
+  height: 250px;
   border-radius: 6px 0px 0px 6px;
 }
 

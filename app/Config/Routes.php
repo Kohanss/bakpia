@@ -5,26 +5,37 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+// HALAMAN UTAMA
 $routes->get('/', 'Pages::index');
+$routes->post('/filter', 'Pages::index_filter');
+
+// HALAMAN PRODUK
 $routes->get('/produk', 'Pages::produk');
-$routes->get('/pages/search', 'Pages::search');
+$routes->post('/produk/filter', 'Pages::produk_filter');
+
+// HALAMAN TENTANG
 $routes->get('/tentang', 'Pages::tentang');
+
+// HALAMAN TOKO
 $routes->get('/toko', 'Pages::toko');
+$routes->post('/toko/filter', 'Pages::toko_filter');
+
+// HALAMAN KERANJANG
+$routes->get('/keranjang', 'Pages::pembelian');
+$routes->post('/keranjang/beli', 'Pages::pembelian_post');
+$routes->post('/keranjang/beli/transaksi', 'Pages::pembayaran_post');
+
+//HALAMAN HISTORI PEMBELI
+$routes->get('/histori', 'Pages::pembelian_history');
+$routes->post('/histori-nomer', 'Pages::pembelian_history_post');
 
 
-
-
-$routes->get('/admin', 'Admin\admin::admin');
-// $routes->post('/admin/produk/update-data', 'Admin\admin::posteditdata');
-// $routes->get('/admin/produk/add-data', 'Admin\admin::addData');
-// $routes->post('/admin/login/success', 'Admin\admin::login_post');
-// $routes->post('/eror', 'Admin\admin::login_post');
 
 // LOGIN
 $routes->get('/login', 'Admin\admin::login_page');
 $routes->post('/login_post', 'Admin\admin::login_post');
 
-// LOGOUT
+// LOGOUTF
 $routes->post('/logout', 'Admin\admin::logout');
 
 // LUPA PASS
@@ -35,54 +46,46 @@ $routes->post('/otp', 'Admin\admin::otp_post');
 $routes->get('/login/lupa-password/otp/reset-pass', 'Admin\admin::reset_pass_get');
 $routes->post('/reset-pass', 'Admin\admin::reset_pass_post'); 
 
-// SEARCH DATA
-$routes->post('/admin/search', 'Admin\admin::search');
-
-// ADD DATA
+// ADMIN PRODUCT
+$routes->get('/admin', 'Admin\admin::admin');
+$routes->get('/admin_get', 'Admin\admin::admin_get');
+// ADD DATA PRODUCT
 // $routes->get('/admin/produk/add-data', 'Admin\admin::get_detail_add');
 $routes->post('/admin/produk/add-data', 'Admin\admin::add_product');
-
 // DELETE PRODUCT
 // $routes->get('/admin/product/delete(:any)', 'Admin\admin::product_delete/$1');
 $routes->post('/admin/product/delete', 'Admin\admin::product_delete');
-
 // UPDATE PRODUCT
 // $routes->get('/admin/product/update(:any)', 'Admin\admin::get_detail_update/$1');
-$routes->post('/admin/product/update(:any)', 'Admin\admin::update_product/$1');
+$routes->post('/admin/product/update', 'Admin\admin::update_product');
 
 // STOCK
 $routes->get('/stock', 'stok\stok::stock');
+$routes->get('/stock-get', 'stok\stok::stock_get');
+//STOCK ADD
+$routes->post('/admin/stock/add', 'stok\stok::add_product_stock');
+//STOCK REDUCE
+$routes->post('/admin/stock/reduce', 'stok\stok::reduce_product_stock');
 // UPDATE PRODUCT STOCK
-// $routes->get('/admin/stock/update(:any)', 'stok\stok::get_detail_update_stock/$1');
-$routes->post('/admin/stock/update(:any)', 'stok\stok::update_product_stock/$1');
+$routes->post('/admin/stock/update', 'stok\stok::update_product_stock');
 
 // CATEGORY
 $routes->get('/category', 'category\category::category');
-// UPDATE PRODUCT CATEGORY
-$routes->get('/admin/category/update(:any)', 'category\category::get_detail_update_category/$1');
-$routes->post('/admin/category/update(:any)', 'category\category::update_product_category/$1');
+$routes->get('/category-get', 'category\category::category_get');
 // ADD DATA CATEGORY
-$routes->get('/admin/category/add_data', 'category\category::get_detail_add_category');
 $routes->post('/admin/category/add_data', 'category\category::add_product_category');
+// UPDATE PRODUCT CATEGORY
+$routes->post('/admin/category/update', 'category\category::update_product_category');
 // DELETE CATEGORY
 $routes->post('/admin/category/delete', 'category\category::product_delete_category');
 
-// TYPE
-$routes->get('/type', 'type\type::type');
-// ADD DATA TYPE
-$routes->get('/admin/type/add_data', 'type\type::get_detail_add_type');
-$routes->post('/admin/type/add_data', 'type\type::add_product_type');
-// UPDATE PRODUCT TYPE
-$routes->get('/admin/type/update(:any)', 'type\type::get_detail_update_type/$1');
-$routes->post('/admin/type/update(:any)', 'type\type::update_product_type/$1');
-// DELETE TYPE
-$routes->post('/admin/type/delete', 'type\type::product_delete_type');
-
 // TRANSACTION
 $routes->get('/transaction', 'transaction\transaction::transaction');
-$routes->get('/transaction_history', 'transaction\transaction::transaction_history');
-$routes->post('/admin/transaction/accept(:any)', 'transaction\transaction::accept_product_transaction/$1');
+$routes->get('/transaction-get', 'transaction\transaction::transaction_get');
+$routes->get('/transaction-detil', 'transaction\transaction::detil_transaksi');
+$routes->post('/admin/transaction/accept', 'transaction\transaction::accept_product_transaction');
 $routes->post('/admin/transaction/delete', 'transaction\transaction::product_delete_transaction');
+$routes->get('/transaction_history', 'transaction\transaction::transaction_history');
 
 // ACCOUNT
 $routes->get('/account', 'Admin\admin::account');

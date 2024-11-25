@@ -9,11 +9,15 @@
 <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 
+<?php
+// print_r($product);
+?>
 <style>
     .swiper-slide {
         width: fit-content;
     }
 </style>
+
 <!-- hero -->
 <section class="hero">
     <!-- <div class="hero-overlay"></div> -->
@@ -411,417 +415,24 @@
         </div>
         <div class="product_scroll_btn">
             <ul>
-                <li><button class="scroll_btn scroll_btn_active">Griya Bakpia</button></li>
-                <li><button class="scroll_btn">Bakpia 465</button></li>
-                <li><button class="scroll_btn">Bakpia 465 Kering</button></li>
+                <li><button class="scroll_btn scroll_btn_active">Griya Bakpia<input type="hidden" id="griyabakpia" value="griya%20bakpia"></button></li>
+                <li><button class="scroll_btn">Bakpia 465<input type="hidden" id="bakpia465" value="Bakpia%20465"></button></li>
+                <li><button class="scroll_btn">Bakpia 465 Kering<input type="hidden" id="bakpia465kering" value="Bakpia%20465%20Kering"></button></li>
             </ul>
         </div>
         <div class="scroll_griya scroll_griya_active">
-            <div class="product_scroll_wrapper">
-                <div class="sub_product_scroll_card">
-                    <div class="sub_product_scroll_img">
-                        <img src="https://via.placeholder.com/200x200" alt="">
-                    </div>
-                    <div class="sub_product_scroll_title_wrapper">
-                        <div class="sub_product_scroll_title">
-                            <p>Bakpia 4651 Isi 20</p>
-                        </div>
-                        <div class="sub_product_scroll_name">
-                            <p>Mix Keju Coklat</p>
-                        </div>
-                        <div class="sub_product_scroll_category">
-                            <p>Kering</p>
-                        </div>
-                        <div class="sub_product_scroll_price">
-                            <p>Rp 50.000</p>
-                        </div>
-                        <div class="sub_product_scroll_btn">
-                            <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="sub_product_scroll_card">
-                    <div class="sub_product_scroll_img">
-                        <img src="https://via.placeholder.com/200x200" alt="">
-                    </div>
-                    <div class="sub_product_scroll_title_wrapper">
-                        <div class="sub_product_scroll_title">
-                            <p>Bakpia 465 Isi 20</p>
-                        </div>
-                        <div class="sub_product_scroll_name">
-                            <p>Mix Keju Coklat</p>
-                        </div>
-                        <div class="sub_product_scroll_category">
-                            <p>Kering</p>
-                        </div>
-                        <div class="sub_product_scroll_price">
-                            <p>Rp 50.000</p>
-                        </div>
-                        <div class="sub_product_scroll_btn">
-                            <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="sub_product_scroll_card">
-                    <div class="sub_product_scroll_img">
-                        <img src="https://via.placeholder.com/200x200" alt="">
-                    </div>
-                    <div class="sub_product_scroll_title_wrapper">
-                        <div class="sub_product_scroll_title">
-                            <p>Bakpia 465 Isi 20</p>
-                        </div>
-                        <div class="sub_product_scroll_name">
-                            <p>Mix Keju Coklat</p>
-                        </div>
-                        <div class="sub_product_scroll_category">
-                            <p>Kering</p>
-                        </div>
-                        <div class="sub_product_scroll_price">
-                            <p>Rp 50.000</p>
-                        </div>
-                        <div class="sub_product_scroll_btn">
-                            <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="sub_product_scroll_card">
-                    <div class="sub_product_scroll_img">
-                        <img src="https://via.placeholder.com/200x200" alt="">
-                    </div>
-                    <div class="sub_product_scroll_title_wrapper">
-                        <div class="sub_product_scroll_title">
-                            <p>Bakpia 465 Isi 20</p>
-                        </div>
-                        <div class="sub_product_scroll_name">
-                            <p>Mix Keju Coklat</p>
-                        </div>
-                        <div class="sub_product_scroll_category">
-                            <p>Kering</p>
-                        </div>
-                        <div class="sub_product_scroll_price">
-                            <p>Rp 50.000</p>
-                        </div>
-                        <div class="sub_product_scroll_btn">
-                            <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="sub_product_scroll_card">
-                    <div class="sub_product_scroll_img">
-                        <img src="https://via.placeholder.com/200x200" alt="">
-                    </div>
-                    <div class="sub_product_scroll_title_wrapper">
-                        <div class="sub_product_scroll_title">
-                            <p>Bakpia 465 Isi 20</p>
-                        </div>
-                        <div class="sub_product_scroll_name">
-                            <p>Mix Keju Coklat</p>
-                        </div>
-                        <div class="sub_product_scroll_category">
-                            <p>Kering</p>
-                        </div>
-                        <div class="sub_product_scroll_price">
-                            <p>Rp 50.000</p>
-                        </div>
-                        <div class="sub_product_scroll_btn">
-                            <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="sub_product_scroll_card">
-                    <div class="sub_product_scroll_img">
-                        <img src="https://via.placeholder.com/200x200" alt="">
-                    </div>
-                    <div class="sub_product_scroll_title_wrapper">
-                        <div class="sub_product_scroll_title">
-                            <p>Bakpia 465 Isi 20</p>
-                        </div>
-                        <div class="sub_product_scroll_name">
-                            <p>Mix Keju Coklat</p>
-                        </div>
-                        <div class="sub_product_scroll_category">
-                            <p>Kering</p>
-                        </div>
-                        <div class="sub_product_scroll_price">
-                            <p>Rp 50.000</p>
-                        </div>
-                        <div class="sub_product_scroll_btn">
-                            <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
-                        </div>
-                    </div>
-                </div>
+            <div id="productContainer1" class="product_scroll_wrapper">
+
             </div>
         </div>
-        <div class="scroll_griya">
-            <div class="product_scroll_wrapper">
-                <div class="sub_product_scroll_card">
-                    <div class="sub_product_scroll_img">
-                        <img src="https://via.placeholder.com/200x200" alt="">
-                    </div>
-                    <div class="sub_product_scroll_title_wrapper">
-                        <div class="sub_product_scroll_title">
-                            <p>Bakpia 4652 Isi 20</p>
-                        </div>
-                        <div class="sub_product_scroll_name">
-                            <p>Mix Keju Coklat</p>
-                        </div>
-                        <div class="sub_product_scroll_category">
-                            <p>Kering</p>
-                        </div>
-                        <div class="sub_product_scroll_price">
-                            <p>Rp 50.000</p>
-                        </div>
-                        <div class="sub_product_scroll_btn">
-                            <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="sub_product_scroll_card">
-                    <div class="sub_product_scroll_img">
-                        <img src="https://via.placeholder.com/200x200" alt="">
-                    </div>
-                    <div class="sub_product_scroll_title_wrapper">
-                        <div class="sub_product_scroll_title">
-                            <p>Bakpia 465 Isi 20</p>
-                        </div>
-                        <div class="sub_product_scroll_name">
-                            <p>Mix Keju Coklat</p>
-                        </div>
-                        <div class="sub_product_scroll_category">
-                            <p>Kering</p>
-                        </div>
-                        <div class="sub_product_scroll_price">
-                            <p>Rp 50.000</p>
-                        </div>
-                        <div class="sub_product_scroll_btn">
-                            <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="sub_product_scroll_card">
-                    <div class="sub_product_scroll_img">
-                        <img src="https://via.placeholder.com/200x200" alt="">
-                    </div>
-                    <div class="sub_product_scroll_title_wrapper">
-                        <div class="sub_product_scroll_title">
-                            <p>Bakpia 465 Isi 20</p>
-                        </div>
-                        <div class="sub_product_scroll_name">
-                            <p>Mix Keju Coklat</p>
-                        </div>
-                        <div class="sub_product_scroll_category">
-                            <p>Kering</p>
-                        </div>
-                        <div class="sub_product_scroll_price">
-                            <p>Rp 50.000</p>
-                        </div>
-                        <div class="sub_product_scroll_btn">
-                            <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="sub_product_scroll_card">
-                    <div class="sub_product_scroll_img">
-                        <img src="https://via.placeholder.com/200x200" alt="">
-                    </div>
-                    <div class="sub_product_scroll_title_wrapper">
-                        <div class="sub_product_scroll_title">
-                            <p>Bakpia 465 Isi 20</p>
-                        </div>
-                        <div class="sub_product_scroll_name">
-                            <p>Mix Keju Coklat</p>
-                        </div>
-                        <div class="sub_product_scroll_category">
-                            <p>Kering</p>
-                        </div>
-                        <div class="sub_product_scroll_price">
-                            <p>Rp 50.000</p>
-                        </div>
-                        <div class="sub_product_scroll_btn">
-                            <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="sub_product_scroll_card">
-                    <div class="sub_product_scroll_img">
-                        <img src="https://via.placeholder.com/200x200" alt="">
-                    </div>
-                    <div class="sub_product_scroll_title_wrapper">
-                        <div class="sub_product_scroll_title">
-                            <p>Bakpia 465 Isi 20</p>
-                        </div>
-                        <div class="sub_product_scroll_name">
-                            <p>Mix Keju Coklat</p>
-                        </div>
-                        <div class="sub_product_scroll_category">
-                            <p>Kering</p>
-                        </div>
-                        <div class="sub_product_scroll_price">
-                            <p>Rp 50.000</p>
-                        </div>
-                        <div class="sub_product_scroll_btn">
-                            <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="sub_product_scroll_card">
-                    <div class="sub_product_scroll_img">
-                        <img src="https://via.placeholder.com/200x200" alt="">
-                    </div>
-                    <div class="sub_product_scroll_title_wrapper">
-                        <div class="sub_product_scroll_title">
-                            <p>Bakpia 465 Isi 20</p>
-                        </div>
-                        <div class="sub_product_scroll_name">
-                            <p>Mix Keju Coklat</p>
-                        </div>
-                        <div class="sub_product_scroll_category">
-                            <p>Kering</p>
-                        </div>
-                        <div class="sub_product_scroll_price">
-                            <p>Rp 50.000</p>
-                        </div>
-                        <div class="sub_product_scroll_btn">
-                            <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
-                        </div>
-                    </div>
-                </div>
+        <div class="scroll_griya scroll_griya_active">
+            <div id="productContainer2" class="product_scroll_wrapper">
+
             </div>
         </div>
-        <div class="scroll_griya">
-            <div class="product_scroll_wrapper">
-                <div class="sub_product_scroll_card">
-                    <div class="sub_product_scroll_img">
-                        <img src="https://via.placeholder.com/200x200" alt="">
-                    </div>
-                    <div class="sub_product_scroll_title_wrapper">
-                        <div class="sub_product_scroll_title">
-                            <p>Bakpia 4653 Isi 20</p>
-                        </div>
-                        <div class="sub_product_scroll_name">
-                            <p>Mix Keju Coklat</p>
-                        </div>
-                        <div class="sub_product_scroll_category">
-                            <p>Kering</p>
-                        </div>
-                        <div class="sub_product_scroll_price">
-                            <p>Rp 50.000</p>
-                        </div>
-                        <div class="sub_product_scroll_btn">
-                            <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="sub_product_scroll_card">
-                    <div class="sub_product_scroll_img">
-                        <img src="https://via.placeholder.com/200x200" alt="">
-                    </div>
-                    <div class="sub_product_scroll_title_wrapper">
-                        <div class="sub_product_scroll_title">
-                            <p>Bakpia 465 Isi 20</p>
-                        </div>
-                        <div class="sub_product_scroll_name">
-                            <p>Mix Keju Coklat</p>
-                        </div>
-                        <div class="sub_product_scroll_category">
-                            <p>Kering</p>
-                        </div>
-                        <div class="sub_product_scroll_price">
-                            <p>Rp 50.000</p>
-                        </div>
-                        <div class="sub_product_scroll_btn">
-                            <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="sub_product_scroll_card">
-                    <div class="sub_product_scroll_img">
-                        <img src="https://via.placeholder.com/200x200" alt="">
-                    </div>
-                    <div class="sub_product_scroll_title_wrapper">
-                        <div class="sub_product_scroll_title">
-                            <p>Bakpia 465 Isi 20</p>
-                        </div>
-                        <div class="sub_product_scroll_name">
-                            <p>Mix Keju Coklat</p>
-                        </div>
-                        <div class="sub_product_scroll_category">
-                            <p>Kering</p>
-                        </div>
-                        <div class="sub_product_scroll_price">
-                            <p>Rp 50.000</p>
-                        </div>
-                        <div class="sub_product_scroll_btn">
-                            <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="sub_product_scroll_card">
-                    <div class="sub_product_scroll_img">
-                        <img src="https://via.placeholder.com/200x200" alt="">
-                    </div>
-                    <div class="sub_product_scroll_title_wrapper">
-                        <div class="sub_product_scroll_title">
-                            <p>Bakpia 465 Isi 20</p>
-                        </div>
-                        <div class="sub_product_scroll_name">
-                            <p>Mix Keju Coklat</p>
-                        </div>
-                        <div class="sub_product_scroll_category">
-                            <p>Kering</p>
-                        </div>
-                        <div class="sub_product_scroll_price">
-                            <p>Rp 50.000</p>
-                        </div>
-                        <div class="sub_product_scroll_btn">
-                            <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="sub_product_scroll_card">
-                    <div class="sub_product_scroll_img">
-                        <img src="https://via.placeholder.com/200x200" alt="">
-                    </div>
-                    <div class="sub_product_scroll_title_wrapper">
-                        <div class="sub_product_scroll_title">
-                            <p>Bakpia 465 Isi 20</p>
-                        </div>
-                        <div class="sub_product_scroll_name">
-                            <p>Mix Keju Coklat</p>
-                        </div>
-                        <div class="sub_product_scroll_category">
-                            <p>Kering</p>
-                        </div>
-                        <div class="sub_product_scroll_price">
-                            <p>Rp 50.000</p>
-                        </div>
-                        <div class="sub_product_scroll_btn">
-                            <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="sub_product_scroll_card">
-                    <div class="sub_product_scroll_img">
-                        <img src="https://via.placeholder.com/200x200" alt="">
-                    </div>
-                    <div class="sub_product_scroll_title_wrapper">
-                        <div class="sub_product_scroll_title">
-                            <p>Bakpia 465 Isi 20</p>
-                        </div>
-                        <div class="sub_product_scroll_name">
-                            <p>Mix Keju Coklat</p>
-                        </div>
-                        <div class="sub_product_scroll_category">
-                            <p>Kering</p>
-                        </div>
-                        <div class="sub_product_scroll_price">
-                            <p>Rp 50.000</p>
-                        </div>
-                        <div class="sub_product_scroll_btn">
-                            <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
-                        </div>
-                    </div>
-                </div>
+        <div class="scroll_griya scroll_griya_active">
+            <div id="productContainer3" class="product_scroll_wrapper">
+
             </div>
         </div>
     </div>
@@ -844,124 +455,124 @@
         <div class="swiper produkKamiSwiper">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
-                   <div class="sub_product_scroll_card">
-                    <div class="sub_product_scroll_img">
-                        <img src="https://via.placeholder.com/200x200" alt="">
+                    <div class="sub_product_scroll_card">
+                        <div class="sub_product_scroll_img">
+                            <img src="https://via.placeholder.com/200x200" alt="">
+                        </div>
+                        <div class="sub_product_scroll_title_wrapper">
+                            <div class="sub_product_scroll_title">
+                                <p>Bakpia 465 Isi 20</p>
+                            </div>
+                            <div class="sub_product_scroll_name">
+                                <p>Mix Keju Coklat</p>
+                            </div>
+                            <div class="sub_product_scroll_category">
+                                <p>Kering</p>
+                            </div>
+                            <div class="sub_product_scroll_price">
+                                <p>Rp 50.000</p>
+                            </div>
+                            <div class="sub_product_scroll_btn">
+                                <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="sub_product_scroll_title_wrapper">
-                        <div class="sub_product_scroll_title">
-                            <p>Bakpia 465 Isi 20</p>
-                        </div>
-                        <div class="sub_product_scroll_name">
-                            <p>Mix Keju Coklat</p>
-                        </div>
-                        <div class="sub_product_scroll_category">
-                            <p>Kering</p>
-                        </div>
-                        <div class="sub_product_scroll_price">
-                            <p>Rp 50.000</p>
-                        </div>
-                        <div class="sub_product_scroll_btn">
-                            <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
-                        </div>
-                    </div>
-                </div>  
                 </div>
                 <div class="swiper-slide">
-                   <div class="sub_product_scroll_card">
-                    <div class="sub_product_scroll_img">
-                        <img src="https://via.placeholder.com/200x200" alt="">
+                    <div class="sub_product_scroll_card">
+                        <div class="sub_product_scroll_img">
+                            <img src="https://via.placeholder.com/200x200" alt="">
+                        </div>
+                        <div class="sub_product_scroll_title_wrapper">
+                            <div class="sub_product_scroll_title">
+                                <p>Bakpia 465 Isi 20</p>
+                            </div>
+                            <div class="sub_product_scroll_name">
+                                <p>Mix Keju Coklat</p>
+                            </div>
+                            <div class="sub_product_scroll_category">
+                                <p>Kering</p>
+                            </div>
+                            <div class="sub_product_scroll_price">
+                                <p>Rp 50.000</p>
+                            </div>
+                            <div class="sub_product_scroll_btn">
+                                <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="sub_product_scroll_title_wrapper">
-                        <div class="sub_product_scroll_title">
-                            <p>Bakpia 465 Isi 20</p>
-                        </div>
-                        <div class="sub_product_scroll_name">
-                            <p>Mix Keju Coklat</p>
-                        </div>
-                        <div class="sub_product_scroll_category">
-                            <p>Kering</p>
-                        </div>
-                        <div class="sub_product_scroll_price">
-                            <p>Rp 50.000</p>
-                        </div>
-                        <div class="sub_product_scroll_btn">
-                            <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
-                        </div>
-                    </div>
-                </div>  
                 </div>
                 <div class="swiper-slide">
-                   <div class="sub_product_scroll_card">
-                    <div class="sub_product_scroll_img">
-                        <img src="https://via.placeholder.com/200x200" alt="">
+                    <div class="sub_product_scroll_card">
+                        <div class="sub_product_scroll_img">
+                            <img src="https://via.placeholder.com/200x200" alt="">
+                        </div>
+                        <div class="sub_product_scroll_title_wrapper">
+                            <div class="sub_product_scroll_title">
+                                <p>Bakpia 465 Isi 20</p>
+                            </div>
+                            <div class="sub_product_scroll_name">
+                                <p>Mix Keju Coklat</p>
+                            </div>
+                            <div class="sub_product_scroll_category">
+                                <p>Kering</p>
+                            </div>
+                            <div class="sub_product_scroll_price">
+                                <p>Rp 50.000</p>
+                            </div>
+                            <div class="sub_product_scroll_btn">
+                                <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="sub_product_scroll_title_wrapper">
-                        <div class="sub_product_scroll_title">
-                            <p>Bakpia 465 Isi 20</p>
-                        </div>
-                        <div class="sub_product_scroll_name">
-                            <p>Mix Keju Coklat</p>
-                        </div>
-                        <div class="sub_product_scroll_category">
-                            <p>Kering</p>
-                        </div>
-                        <div class="sub_product_scroll_price">
-                            <p>Rp 50.000</p>
-                        </div>
-                        <div class="sub_product_scroll_btn">
-                            <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
-                        </div>
-                    </div>
-                </div>  
                 </div>
                 <div class="swiper-slide">
-                   <div class="sub_product_scroll_card">
-                    <div class="sub_product_scroll_img">
-                        <img src="https://via.placeholder.com/200x200" alt="">
+                    <div class="sub_product_scroll_card">
+                        <div class="sub_product_scroll_img">
+                            <img src="https://via.placeholder.com/200x200" alt="">
+                        </div>
+                        <div class="sub_product_scroll_title_wrapper">
+                            <div class="sub_product_scroll_title">
+                                <p>Bakpia 465 Isi 20</p>
+                            </div>
+                            <div class="sub_product_scroll_name">
+                                <p>Mix Keju Coklat</p>
+                            </div>
+                            <div class="sub_product_scroll_category">
+                                <p>Kering</p>
+                            </div>
+                            <div class="sub_product_scroll_price">
+                                <p>Rp 50.000</p>
+                            </div>
+                            <div class="sub_product_scroll_btn">
+                                <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="sub_product_scroll_title_wrapper">
-                        <div class="sub_product_scroll_title">
-                            <p>Bakpia 465 Isi 20</p>
-                        </div>
-                        <div class="sub_product_scroll_name">
-                            <p>Mix Keju Coklat</p>
-                        </div>
-                        <div class="sub_product_scroll_category">
-                            <p>Kering</p>
-                        </div>
-                        <div class="sub_product_scroll_price">
-                            <p>Rp 50.000</p>
-                        </div>
-                        <div class="sub_product_scroll_btn">
-                            <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
-                        </div>
-                    </div>
-                </div>  
                 </div>
                 <div class="swiper-slide">
-                   <div class="sub_product_scroll_card">
-                    <div class="sub_product_scroll_img">
-                        <img src="https://via.placeholder.com/200x200" alt="">
+                    <div class="sub_product_scroll_card">
+                        <div class="sub_product_scroll_img">
+                            <img src="https://via.placeholder.com/200x200" alt="">
+                        </div>
+                        <div class="sub_product_scroll_title_wrapper">
+                            <div class="sub_product_scroll_title">
+                                <p>Bakpia 465 Isi 20</p>
+                            </div>
+                            <div class="sub_product_scroll_name">
+                                <p>Mix Keju Coklat</p>
+                            </div>
+                            <div class="sub_product_scroll_category">
+                                <p>Kering</p>
+                            </div>
+                            <div class="sub_product_scroll_price">
+                                <p>Rp 50.000</p>
+                            </div>
+                            <div class="sub_product_scroll_btn">
+                                <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="sub_product_scroll_title_wrapper">
-                        <div class="sub_product_scroll_title">
-                            <p>Bakpia 465 Isi 20</p>
-                        </div>
-                        <div class="sub_product_scroll_name">
-                            <p>Mix Keju Coklat</p>
-                        </div>
-                        <div class="sub_product_scroll_category">
-                            <p>Kering</p>
-                        </div>
-                        <div class="sub_product_scroll_price">
-                            <p>Rp 50.000</p>
-                        </div>
-                        <div class="sub_product_scroll_btn">
-                            <a href=""><button class="btn btn-primary">Beli Sekarang</button></a>
-                        </div>
-                    </div>
-                </div>  
                 </div>
                 <div class="swiper-slide">
                     <div class="sub_product_scroll_card">
@@ -989,6 +600,8 @@
         </div>
     </div>
 </div>
+<input type="hidden" name="" id="baseurl" value="<?php echo base_url() ?>">
+<input type="hidden" name="" id="BASEURL" value="<?php  echo BASEURL ?>">
 <!-- produk kami -->
 
 

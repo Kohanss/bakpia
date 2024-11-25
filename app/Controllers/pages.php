@@ -2,270 +2,195 @@
 
 namespace App\Controllers;
 
+use CodeIgniter\Cookie\Cookie;
+use CURLFile;
+
+
 class Pages extends BaseController
 {
+
     public function index()
     {
-        // $curl['url'] = ['http://10.10.0.53/crud-structured/public/'];
-        // $curl['endpoint'] = ['listpublic/listproduct'];
-        // $curl['method'] = ['GET'];
-        // $curl['return_transfer'] = true;
-        // $curl['max_redirect'] = 10;
-        // $curl['timeout'] = 0;
-        // $curl['follow_location'] = true;
-        // $curl['http_header'] = ['ceritane token'];
-        // $curl['pagination'] = ['false'];
-        // $dd = curlSetOptGet($curl);
-        // $decode = json_decode($dd, true);
-        // // print_r($decode);
-        // // die;
-        // return view(
-        //     'pages/main',
-        //     [
-        //         'title' => 'Griya Bakpia',
-        //         'data_get' => $decode
-        //     ]
+        $search = $this->request->getPost('category');
+        $product['url'] = [BASEURL];
+        $product['endpoint'] = ['listpublic/product'];
+        $product['pagination'] = ['false'];
+        $product['params'] = ['search' => $search];
+        $product = curlSetOptGet($product);
+        // $product = json_decode($product, true);
 
-        // );
-        return view('pages/main');
+        return view('pages/main', [
+            'product' => $product,
+            'title' => 'Beranda'
+        ]);
     }
+    public function index_filter()
+    {
+        $search = $this->request->getPost('category');
+        // return $this->response->setJSON($search);
+
+        $product['url'] = [BASEURL];
+        $product['endpoint'] = ['listpublic/product'];
+        $product['pagination'] = ['false'];
+        $product['params'] = ['search' => $search];
+        $product = curlSetOptGet($product);
+
+        return $this->response->setJSON($product);
+    }
+
 
     public function produk()
     {
-        //     $curl['url'] = ['http://10.10.0.53/crud-structured/public/'];        
-        //     $curl['endpoint'] = ['listpublic/listproduct'];
-        //     $curl['method'] = ['GET'];
-        //     $curl['pagination'] = ['false'];
-        //     $curl['max_redirect'] = [10];
-        //     $curl['timeout'] = [1];
-        //     $curl['follow_location'] = true;
-        //     $curl['return_transfer'] = true;
-        //     $data = curlSetOptGet($curl);
-        //     $data = json_decode($data, true);
-        //     // print_r($data);
-        //     // die;
-        //     return view(
-        //         'pages/produk',
-        //         [
-        //             'title' => 'Griya Bakpia | Produk',
-        //             'data_get' => $data
-        //         ]
-
-        //     );
         return view(
             'pages/produk',
             [
-                'title' => 'Griya Bakpia | Produk'
+                'title' => 'Produk'
             ]
 
         );
     }
+    public function produk_filter()
+    {
+        $search = $this->request->getPost('search');
+        $filter = $this->request->getPost('filter');
+        $start = $this->request->getPost('start');
+        $end = $this->request->getPost('end');
+        $page = $this->request->getPost('page') ?: 1;
+
+        $perPage = 9;
+        $offset = ($page - 1) * $perPage;
+
+        $product['url'] = [BASEURL];
+        $product['endpoint'] = ['listpublic/product'];
+        $product['pagination'] = ['true'];
+        $product['params'] = [
+            'search' => $search,
+            'filter' => $filter,
+            'start_price' => $start,
+            'end_price' => $end,
+            'offset' => $offset,
+            'limit' => $perPage,
+            'page' => $page
+        ];
+
+
+        $product = curlSetOptGet($product);
+
+        return $this->response->setJSON($product);
+    }
+
+
     public function tentang()
     {
         $data = [
-            'title' => 'Griya Bakpia | About'
+            'title' => 'Tentang'
         ];
         return view('pages/tentang', $data);
     }
 
+
     public function toko()
     {
         $data = [
-            'title' => 'Griya Bakpia | Toko'
+            'title' => 'Toko'
         ];
         return view('pages/toko', $data);
     }
+    public function toko_filter()
+    {
+        $search = $this->request->getPost('search');
 
-    // public function loginUser()
-    // {
-    //     return view('pages/login');
-    // }
+        $toko['url'] = [BASEURL];
+        $toko['endpoint'] = ['listpublic/outlet'];
+        $toko['pagination'] = ['false'];
+        $toko['params'] = [
+            'search' => $search,
+        ];
 
-    // public function produk()
-    // {
-    //     $curl['url'] = ['http://10.10.0.53/crud-structured/public/'];
-    //     $curl['endpoint'] = ['listpublic/listproduct'];
-    //     $curl['method'] = ['GET'];
-    //     $curl['pagination'] = ['false'];
-    //     $curl['max_redirect'] = 10;
-    //     $curl['timeout'] = 1;
-    //     $curl['follow_location'] = true;
-    //     $curl['return_transfer'] = true;
-    //     $data = curlSetOptGet($curl);
-    //     $data = json_decode($data, true);
-    //     // print_r($data);
-    //     // die;
-    //     $pagi = $this->request->getGet();
+        $toko = curlSetOptGet($toko);
 
-    //     if (!empty($pagi['page'])) {
-    //         $pagi = $pagi['page'];
-    //         $curl_pagi['url'] = ['http://10.10.0.53/crud-structured/public/'];
-    //         $curl_pagi['endpoint'] = ['listpublic/listproduct'];
-    //         $curl_pagi['method'] = ['GET'];
-    //         $curl_pagi['params'] = [
-    //             'page' => $pagi,
-    //         ];
-    //         $curl_pagi['pagination'] = ['true'];
-    //         $curl_pagi['max_redirect'] = 10;
-    //         $curl_pagi['timeout'] = 1;
-    //         $curl_pagi['follow_location'] = true;
-    //         $curl_pagi['return_transfer'] = true;
-    //         // $curl_pagi['http_header'] = [
-    //         //     'Token' => 'dmlub0BnbWFpbC5jb20xMjM0NTY=',
-    //         // ]; 
-    //         $data_pagi = curlSetOptGet($curl_pagi);
-    //         $data_pagi = json_decode($data_pagi, true);
-    //     } else {
-    //         $data_pagi = [];
-    //     }
-    //     $default = [
-    //         "status" => 200,
-    //         "message" => "List Product",
-    //         "error" => "",
-    //         "result" => [
-    //             [
-    //                 "id" => "279",
-    //                 "product" => "Mie Aceh",
-    //                 "category" => "Makanan",
-    //                 "unit" => "Piring",
-    //                 "price_sell" => "350",
-    //                 "stock" => "56"
-    //             ],
-    //             [
-    //                 "id" => "280",
-    //                 "product" => "Ayam Geprek",
-    //                 "category" => "Makanan",
-    //                 "unit" => "Piring",
-    //                 "price_sell" => "700",
-    //                 "stock" => "258"
-    //             ],
-    //             [
-    //                 "id" => "282",
-    //                 "product" => "Ayam Goreng",
-    //                 "category" => "Makanan",
-    //                 "unit" => "Piring",
-    //                 "price_sell" => "700",
-    //                 "stock" => "98"
-    //             ],
-    //             [
-    //                 "id" => "283",
-    //                 "product" => "Mie Rendang",
-    //                 "category" => "Makanan",
-    //                 "unit" => "Piring",
-    //                 "price_sell" => "300",
-    //                 "stock" => "498"
-    //             ],
-    //             [
-    //                 "id" => "284",
-    //                 "product" => "Mie Soto",
-    //                 "category" => "Makanan",
-    //                 "unit" => "Piring",
-    //                 "price_sell" => "300",
-    //                 "stock" => "498"
-    //             ],
-    //             [
-    //                 "id" => "285",
-    //                 "product" => "Ayam Rendang",
-    //                 "category" => "Makanan",
-    //                 "unit" => "Piring",
-    //                 "price_sell" => "1000",
-    //                 "stock" => "999"
-    //             ],
-    //             [
-    //                 "id" => "289",
-    //                 "product" => "Es Teh",
-    //                 "category" => "Minuman",
-    //                 "unit" => "Gelas",
-    //                 "price_sell" => "800",
-    //                 "stock" => "100"
-    //             ],
-    //             [
-    //                 "id" => "290",
-    //                 "product" => "Es Jeruk",
-    //                 "category" => "Minuman",
-    //                 "unit" => "Gelas",
-    //                 "price_sell" => "800",
-    //                 "stock" => "100"
-    //             ],
-    //             [
-    //                 "id" => "291",
-    //                 "product" => "Teh anget",
-    //                 "category" => "Minuman",
-    //                 "unit" => "Gelas",
-    //                 "price_sell" => "800",
-    //                 "stock" => "100"
-    //             ],
-    //             [
-    //                 "id" => "292",
-    //                 "product" => "Kelapa",
-    //                 "category" => "Minuman",
-    //                 "unit" => "Gelas",
-    //                 "price_sell" => "800",
-    //                 "stock" => "100"
-    //             ]
-    //         ]
-    //     ];
+        return $this->response->setJSON($toko);
+    }
 
-    //     $default_pagination = [
-    //         "status" => 200,
-    //         "message" => "List Product",
-    //         "error" => "",
-    //         "result" => [
-    //             "data" => [
-    //                 [
-    //                     "id" => "291",
-    //                     "product" => "Teh anget",
-    //                     "category" => "Minuman",
-    //                     "unit" => "Gelas",
-    //                     "price_sell" => "800",
-    //                     "stock" => "100"
-    //                 ],
-    //                 [
-    //                     "id" => "292",
-    //                     "product" => "Kelapa",
-    //                     "category" => "Minuman",
-    //                     "unit" => "Gelas",
-    //                     "price_sell" => "800",
-    //                     "stock" => "100"
-    //                 ]
-    //             ],
-    //             "pagination" => [
-    //                 "jumlah_data" => 10,
-    //                 "jumlah_page" => 5,
-    //                 "prev" => null,
-    //                 "page" => "1",
-    //                 "next" => "2",
-    //                 "detail" => [
-    //                     1,
-    //                     2,
-    //                     3
-    //                 ],
-    //                 "start" => 1,
-    //                 "end" => 2
-    //             ]
-    //         ]
-    //     ];
 
-    //     if (empty($data && $data_pagi)) {
-    //         return view(
-    //             'pages/produk',
-    //             [
-    //                 'title' => 'Griya Bakpia | Produk',
-    //                 'data_page' => $default_pagination,
-    //                 'data_get' => $data
-    //             ]
+    public function pembelian()
+    {
+        $data = [
+            'title' => 'Keranjang'
+        ];
+        return view('pages/pembelian', $data);
+    }
+    public function pembelian_post()
+    {
+        $data = $this->request->getJSON(true);
 
-    //         );
-    //     } else {
-    //         return view(
-    //             'pages/produk',
-    //             [
-    //                 'title' => 'Griya Bakpia | Produk',
-    //                 'data_page' => $data_pagi,
-    //                 'data_get' => $data
-    //             ]
+        $curl = curl_init();
+        curl_setopt_array($curl, [
+            CURLOPT_URL => BASEURL . 'transaction/select',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => json_encode($data),
+            CURLOPT_HTTPHEADER => [
+                'Content-Type: application/json'
+            ],
+        ]);
 
-    //         );
-    //     }
-    // }
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+
+        return $this->response->setJSON(json_decode($response));
+    }
+    public function pembayaran_post()
+    {
+        $id = $this->request->getPost('transactionId');
+
+        $image = $this->request->getFile('proofOfPayment');
+        $cfile = null;
+        if ($image && $image->isValid() && !$image->hasMoved()) {
+            $filePath = $image->getTempName();
+            $fileName = $image->getName();
+            $fileType = $image->getClientMimeType();
+            $cfile = new CURLFile($filePath, $fileType, $fileName);
+        }
+        $endpoint = 'transaction/payment';
+        $data = [
+            'id' => $id
+        ];
+
+        if ($cfile) {
+            $data['upload'] = $cfile;
+        }
+        $response = curlSetOptPost($endpoint, '', '', $data);
+
+        return $this->pembelian();
+    }
+
+    public function pembelian_history()
+    {
+        $data = [
+            'title' => 'Keranjang'
+        ];
+        return view('pages/history_pembeli', $data);
+    }
+    public function pembelian_history_post()
+    {
+        $nomer = $this->request->getPost('nomer');
+
+        $history['url'] = [BASEURL];
+        $history['endpoint'] = ['transaction/history-customer'];
+        $history['params'] = [
+            'no_handphone' => $nomer,
+            'pagination' => 'false',
+        ];
+
+        $history = curlSetOptGet($history);
+
+        return $this->response->setJSON($history);
+    }
 }

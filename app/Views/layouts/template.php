@@ -30,8 +30,7 @@
     <!-- font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <title><? //echo $title; 
-            ?></title>
+    <title><?php echo $title; ?></title>
 </head>
 
 <body>
@@ -59,7 +58,8 @@
                 <div class="navbar_kecil">
                     <div class="navbar_link_icon">
                         <ul>
-                            <li><span class="material-symbols-outlined">local_mall</span></li>
+                            <li><a href="/histori"><span class="material-symbols-outlined">history</span></a></li>
+                            <li><a href="/keranjang"><span class="material-symbols-outlined">local_mall</span></a></li>
                         </ul>
                     </div>
                 </div>

@@ -3,15 +3,17 @@
 // OPT POST
 function curlSetOptPost($endpoint, $header, $params, $post_field)
 {
-    $base_url = BASEURL . $endpoint . '';
+    $base_url = BASEURL . $endpoint;
 
     if (!empty($params)) {
-        $base_url = BASEURL . $endpoint . '?' . params($params) . '';
+        $base_url .= '?' . http_build_query($params); // Use http_build_query to handle any array params safely
     }
-    // print_r($post_field); die;
 
     $curl = curl_init();
-    curl_setopt_array($curl, array(
+
+    // Debug the post fields before sending
+    // Set CURL options
+    curl_setopt_array($curl, [
         CURLOPT_URL => $base_url,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
@@ -20,127 +22,42 @@ function curlSetOptPost($endpoint, $header, $params, $post_field)
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_POSTFIELDS => postField($post_field),
         CURLOPT_SSL_VERIFYPEER => false,
         CURLOPT_SSL_VERIFYHOST => false,
-        CURLOPT_HTTPHEADER => array(
-            "$header"
-        ),
-    ));
+        CURLOPT_HTTPHEADER => [$header],
+    ]);
 
+    // If there is a file in the $post_field, use it directly in CURLOPT_POSTFIELDS
+    if (isset($post_field['upload']) && $post_field['upload'] instanceof CURLFile) {
+        // Use CURLFile in the post fields directly
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $post_field);
+    } else {
+        // Otherwise, encode the fields as a URL-encoded string
+        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($post_field)); // Use http_build_query for non-file fields
+    }
+
+    // Execute the CURL request
     $response = curl_exec($curl);
-    $decode = json_decode($response, true);
+    if (curl_errno($curl)) {
+        throw new Exception("cURL error: " . curl_error($curl));
+    }
     curl_close($curl);
 
-    // print_r($decode); die;   
-    
-    $data = $decode['result']['data'];
-    $message = $decode['message'];
-    $error = $decode['error'];
-
-    if ($decode['status'] === 200) {
-        $data = $decode['result']['data'];
-        $message = $decode['message'];
+    // Decode the JSON response
+    $decode = json_decode($response, true);
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        throw new Exception("Invalid JSON response from server: " . $response);
     }
 
-    if ($decode['status'] === 412) {
-        $data = $decode['result']['data'];
-        $message = $decode['message'];
-        $error = $decode['error'];
-    }
-    if (empty($error)) {
-        return [
-            'data' => $data,
-            'message' => $message
-        ];
-    } else {
-        return [
-            'data' => $data,
-            'message' => $message,
-            'error' => $error
-        ];
-    }
+    // Process the response
+    return [
+        'data' => $decode['result']['data'] ?? null,
+        'message' => $decode['message'] ?? null,
+        'error' => $decode['error'] ?? null,
+    ];
 }
 
 
-
-// function curlSetOptPost($curl)
-// {
-//     $url = isset($curl['url']) ?  $curl['url'] : '';
-//     $method = isset($curl['method']) ?  $curl['method'] : '';
-//     $endpoint = isset($curl['endpoint']) ?  $curl['endpoint'] : '';
-//     $return_transfer = isset($curl['return_transfer']) ?  $curl['return_transfer'] : '';
-//     $max_redirect = isset($curl['max_redirect']) ?  $curl['max_redirect'] : '';
-//     $timeout = isset($curl['timeout']) ?  $curl['timeout'] : '';
-//     $follow_location = isset($curl['follow_location']) ?  $curl['follow_location'] : '';
-//     $http_header = isset($curl['http_header']) ?  $curl['http_header'] : '';
-//     $post_field = isset($curl['post_field']) ?  $curl['post_field'] : '';
-//     $params = isset($curl['params']) ? $curl['params'] : '';
-
-
-//     if (!empty($url)) {
-//         $url = BaseUrlCurl($url);
-//     }
-
-//     if (!empty($method)) {
-//         $method = customRequest($method);
-//     }
-
-//     if (!empty($endpoint)) {
-//         $endpoint = endPoint($endpoint);
-//     }
-
-//     if (!empty($params)) {
-//         $params = params($params);
-//         $paramStatus = true;
-//     } else {
-//         $paramStatus = false;
-//     }
-
-//     if (!empty($return_transfer)) {
-//         $return_transfer = returnTransfer($return_transfer);
-//     }
-
-//     if (!empty($timeout)) {
-//         $timeout = timeOut($timeout);
-//     }
-
-//     if (!empty($follow_location)) {
-//         $follow_location = followLocation($follow_location);
-//     }
-
-//     if (!empty($http_header)) {
-//         $http_header = httpHeader($http_header);
-//     }
-
-//     if (!empty($post_field)) {
-//         $post_field = postField($post_field);
-//     }
-
-//     $curl = curl_init();
-//     curl_setopt_array($curl, array(
-//         CURLOPT_URL => "{$url}/{$endpoint}{$params}",
-//         CURLOPT_RETURNTRANSFER => true,
-//         CURLOPT_ENCODING => '',
-//         CURLOPT_MAXREDIRS => 10,
-//         CURLOPT_TIMEOUT => 0,
-//         CURLOPT_FOLLOWLOCATION => true,
-//         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-//         CURLOPT_CUSTOMREQUEST => 'POST',
-//         CURLOPT_HTTPHEADER => array(
-//             "{$http_header}"
-//         ),
-//         CURLOPT_POSTFIELDS => array(
-//             $post_field
-//         ),
-//     ));
-
-//     $response = curl_exec($curl);
-
-//     curl_close($curl);
-
-//     return $response;
-// }
 
 
 // OPT GET
@@ -213,7 +130,6 @@ function curlSetOptGet($curl)
 
     $response = curl_exec($curl);
     curl_close($curl);
-    // print_r($response); die;
     return $response;
 }
 
